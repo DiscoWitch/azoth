@@ -1,0 +1,179 @@
+<Materials>
+
+    <CellData name="mercury"
+        ui_name="mercury"
+        tags="[liquid],[corrodible]"
+        burnable="0"
+        density="5"
+        cell_type="liquid"
+        wang_color="80ff024F"
+        generates_smoke="0"
+        liquid_gravity="0.8"
+        liquid_sand="0"
+        gfx_glow="150"
+        on_fire="0"
+        requires_oxygen="0"
+        lifetime="300">
+        <Graphics color="ff404041">
+        </Graphics>
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="RADIOACTIVE" />
+            </Stains>
+            <Ingestion>
+                <StatusEffect type="POISONED"
+                    amount="100" />
+            </Ingestion>
+        </StatusEffects>
+    </CellData>
+
+    <CellData name="amalgam_gold"
+        ui_name="amalgamated gold"
+        tags="[liquid],[corrodible]"
+        burnable="0"
+        density="5"
+        cell_type="liquid"
+        wang_color="80ff025e"
+        generates_smoke="0"
+        liquid_gravity="0.8"
+        liquid_sand="0"
+        gfx_glow="150"
+        on_fire="0"
+        requires_oxygen="0"
+        lifetime="300">
+        <Graphics color="ff4AAF42">
+        </Graphics>
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="RADIOACTIVE" />
+            </Stains>
+            <Ingestion>
+                <StatusEffect type="POISONED"
+                    amount="100" />
+            </Ingestion>
+        </StatusEffects>
+    </CellData>
+
+    <CellDataChild _parent="aluminium"
+        _inherit_reactions="1"
+        tags="[box2d]"
+        name="lodestone_box2d"
+        ui_name="lodestone"
+        platform_type="0"
+        hp="30000"
+        durability="12"
+        gfx_glow="188"
+        electrical_conductivity="0"
+        gfx_glow_color="0xFF9999AA"
+        wang_color="ffaaaacc"
+        stainable="0"
+        audio_physics_material_wall="gravel"
+        audio_physics_material_solid="gold">
+        <Graphics normal_mapped="1"
+            texture_file="mods/azoth/files/items/lodestone/lodestone_mat.png"
+            color="FF9999AA">
+        </Graphics>
+    </CellDataChild>
+
+    <CellDataChild _parent="steel_static"
+        _inherit_reactions="1"
+        name="cobalt"
+        ui_name="cobalt"
+        wang_color="ff4565ff"
+        solid_friction="0.9"
+        electrical_conductivity="1"
+        show_in_creative_mode="1">
+        <Graphics texture_file="data/materials_gfx/steel.png"
+            color="ff4040FF">
+        </Graphics>
+    </CellDataChild>
+
+    <CellDataChild _parent="gold_molten"
+        name="cobalt_molten"
+        ui_name="molten cobalt"
+        gfx_glow="200"
+        on_fire="1"
+        requires_oxygen="1"
+        temperature_of_fire="100"
+        danger_fire="1"
+        wang_color="ff8565ff"
+        status_effects="ON_FIRE"
+        show_in_creative_mode="1">
+        <Graphics texture_file="data/materials_gfx/steel.png"
+            color="ff4040FF">
+        </Graphics>
+        <StatusEffects>
+            <Ingestion>
+                <StatusEffect type="INGESTION_ON_FIRE"
+                    amount="0.1" />
+            </Ingestion>
+        </StatusEffects>
+    </CellDataChild>
+
+    <CellData name="fire_cold"
+        ui_name="cold fire"
+        tags="[gas]"
+        burnable="0"
+        density="1"
+        lifetime="50"
+        cell_type="fire"
+        wang_color="FFAAAAFF"
+        generates_smoke="0"
+        liquid_gravity="0.5"
+        liquid_sand="0"
+        liquid_stains="1"
+        on_fire="0"
+        requires_oxygen="1"
+        temperature_of_fire="0"
+        show_in_creative_mode="1">
+        <Graphics color="7f82DCFF"
+            fire_colors_index="1">
+        </Graphics>
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="WET" />
+            </Stains>
+        </StatusEffects>
+    </CellData>
+
+    <CellData name="fire_cold_emitter"
+        ui_name="cold fire emitter"
+        tags="[box2d]"
+        burnable="0"
+        density="8"
+        platform_type="1"
+        cell_type="solid"
+        wang_color="FFBBFFBB"
+        generates_smoke="0"
+        liquid_gravity="0.5"
+        liquid_sand="0"
+        on_fire="0"
+        requires_oxygen="0"
+        temperature_of_fire="60"
+        show_in_creative_mode="1">
+    </CellData>
+
+    <!-- Reaction plans:
+        - burn cinnabar -> mercury
+        - mercury + gold -> amalgamated gold
+        - electrified cobalt -> lodestone?
+        - gunpowder (niter) + acid -> aqua regia
+        - aqua regia + air -> noxious fumes
+        - aqua regia dissolves metals for advanced alchemy
+        - bismuth...
+        - new sources of gold for pauper mode
+        - sodium in coal pits?
+    -->
+
+    <!-- <Reaction probability="90" input_cell1="mercury" input_cell2="[gold]" output_cell1="mercury" output_cell2="amalgam_gold">
+    </Reaction>
+
+    <Reaction probability="90" input_cell1="mercury" input_cell2="[gold]" output_cell1="mercury" output_cell2="amalgam_gold">
+    </Reaction>
+
+    <Reaction probability="100" input_cell1="[rust_box2d]" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
+    </Reaction>
+    <Reaction probability="100" input_cell1="fire_cold_emitter" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
+    </Reaction> -->
+
+</Materials>
