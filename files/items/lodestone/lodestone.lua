@@ -41,12 +41,44 @@ elseif airtime < 300 then
 
 elseif airtime < 301 then
     local treasure = EntityGetClosestWithTag(x, y, "chest")
-    if treasure ~= 0 then
-        local launch_speed = 1000
+    local heart_candidates = EntityGetWithTag("drillable")
+    local heart_dist = math.huge
+    local heart = 0
+    for k, v in ipairs(heart_candidates) do
+        local uicomp = EntityGetFirstComponent(v, "UIInfoComponent")
+        if uicomp and string.match(ComponentGetValue2(uicomp, "name"), "heart") then
+            local hx, hy = EntityGetTransform(v)
+            local dist = math.sqrt((hx - x) ^ 2 + (hy - y) ^ 2)
+            if dist < heart_dist then
+                heart_dist = dist
+                heart = v
+            end
+        end
+    end
+    local target = 0
+    if treasure == 0 then
+        -- No treasure: get heart
+        target = heart
+    elseif heart == 0 then
+        -- No heart: get treasure
+        target = treasure
+    else
+        -- Treasure and heart coexist: get closest
         local tx, ty = EntityGetTransform(treasure)
+        local treasure_dist = math.sqrt((tx - x) ^ 2 + (ty - y) ^ 2)
+        if treasure_dist < heart_dist then
+            target = treasure
+        else
+            target = heart
+        end
+    end
+    if target ~= 0 then
+        local launch_speed = 1000
+        local tx, ty = EntityGetTransform(target)
         local dx = tx - x
         local dy = ty - y
         local dist = math.sqrt(dx ^ 2 + dy ^ 2)
+
         EntitySetComponentsWithTagEnabled(self, "disabled_in_flight", false)
         EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", true)
         ComponentSetValue2(vc, "mVelocity", launch_speed * dx / dist, launch_speed * dy / dist)
@@ -54,7 +86,6 @@ elseif airtime < 301 then
 
     local my_wallet = EntityGetFirstComponentIncludingDisabled(self, "WalletComponent")
     local my_money = ComponentGetValue2(my_wallet, "money")
-    print("I have $" .. my_money)
     GameCreateParticle("gold", x, y, my_money, 0, 50, false, false)
     ComponentSetValue2(my_wallet, "money", 0)
 elseif airtime < 310 then

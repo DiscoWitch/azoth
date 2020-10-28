@@ -1,0 +1,11 @@
+<Entity>
+    <InheritTransformComponent _enabled="1" />
+
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="ICHOR" />
+
+    <LuaComponent execute_every_n_frame="10"
+        execute_on_removed="1"
+        script_source_file="mods/azoth/files/status/ichor_apply.lua" />
+
+</Entity>

@@ -1,55 +1,193 @@
 <Materials>
-
-    <CellData name="mercury"
-        ui_name="mercury"
-        tags="[liquid],[corrodible]"
-        burnable="0"
-        density="5"
-        cell_type="liquid"
-        wang_color="80ff024F"
-        generates_smoke="0"
-        liquid_gravity="0.8"
-        liquid_sand="0"
-        gfx_glow="150"
+    <CellDataChild _parent="gold_molten"
+        name="mercury"
+        ui_name="Mercury"
+        tags="[liquid],[molten]"
+        gfx_glow="100"
+        density="6"
         on_fire="0"
         requires_oxygen="0"
-        lifetime="300">
-        <Graphics color="ff404041">
+        temperature_of_fire="0"
+        danger_fire="0"
+        wang_color="ff504050">
+        <Graphics color="ff504050"
+            texture_file="mods/azoth/files/materials_gfx/mercury.png">
         </Graphics>
-        <StatusEffects>
+        <!-- <StatusEffects>
             <Stains>
                 <StatusEffect type="RADIOACTIVE" />
             </Stains>
             <Ingestion>
-                <StatusEffect type="POISONED"
-                    amount="100" />
+                <StatusEffect type="POISONED" amount="100" />
+            </Ingestion>
+        </StatusEffects> -->
+    </CellDataChild>
+
+    <CellDataChild _parent="gold_molten"
+        name="amalgam_gold"
+        ui_name="Gold Amalgam"
+        gfx_glow="100"
+        density="5"
+        on_fire="0"
+        requires_oxygen="0"
+        temperature_of_fire="0"
+        danger_fire="0"
+        wang_color="80ae947b">
+        <Graphics color="80ae947b"
+            texture_file="mods/azoth/files/materials_gfx/gold_amalgam.png">
+        </Graphics>
+
+        <!-- <StatusEffects>
+            <Ingestion>
+                <StatusEffect type="INGESTION_ON_FIRE" amount="0.1" />
+            </Ingestion>
+        </StatusEffects> -->
+    </CellDataChild>
+
+    <CellDataChild _parent="coal"
+        name="cinnabar"
+        ui_name="Cinnabar"
+        fire_hp="100000"
+        wang_color="80FF947B">
+        <Graphics color="80FF947B"
+            texture_file="mods/azoth/files/materials_gfx/cinnabar.png">
+        </Graphics>
+    </CellDataChild>
+
+    <CellDataChild _parent="steel_static"
+        _inherit_reactions="1"
+        name="cobalt"
+        ui_name="Cobalt"
+        tags="[static],[alchemy],[solid]"
+        wang_color="ff6033ff"
+        hp="200000"
+        audio_physics_material_event="metalhollow"
+        audio_physics_material_wall="metalwall"
+        audio_physics_material_solid="metalhollow">
+        <Graphics texture_file="mods/azoth/files/materials_gfx/cobalt.png"
+            color="ff6033ff">
+        </Graphics>
+    </CellDataChild>
+
+    <CellDataChild _parent="steel_static"
+        _inherit_reactions="1"
+        name="cobalt_lodestone"
+        ui_name="Lodestone"
+        tags="[static],[alchemy],[solid]"
+        wang_color="ff6033fe"
+        hp="200000"
+        fire_hp="200000"
+        on_fire="1"
+        requires_oxygen="1"
+        temperature_of_fire="100"
+        danger_fire="1">
+        <ExplosionConfig damage="0.001"
+            cell_explosion_power="1"
+            cell_explosion_damage_required="10"
+            cell_explosion_radius_min="0"
+            load_this_entity="mods/azoth/files/materials/cobalt_lodestone.xml"
+            ray_energy="400000">
+        </ExplosionConfig>
+    </CellDataChild>
+
+    <CellDataChild _parent="copper"
+        _inherit_reactions="1"
+        name="verdigris"
+        ui_name="Verdigris"
+        wang_color="ff4f5265">
+        <Graphics texture_file="mods/azoth/files/materials_gfx/verdigris.png"
+            color="ff6033ff">
+        </Graphics>
+    </CellDataChild>
+
+    <!-- Potions -->
+
+    <CellData name="magic_liquid_critical"
+        ui_name="Aqua Irae"
+        tags="[liquid],[water],[magic_liquid]"
+        burnable="0"
+        density="1"
+        cell_type="liquid"
+        wang_color="de2d2c5a"
+        generates_smoke="0"
+        liquid_gravity="0.5"
+        liquid_sand="0"
+        gfx_glow="150"
+        on_fire="0"
+        requires_oxygen="0"
+        liquid_stains="1"
+        liquid_sprite_stain_shaken_drop_chance="0"
+        audio_materialaudio_type="MAGICAL"
+        show_in_creative_mode="1">
+        <ParticleEffect vel.y="-2.857"
+            vel_random.min_x="-6"
+            vel_random.max_x="6"
+            vel_random.min_y="-17.18"
+            vel_random.max_y="8.914"
+            lifetime.min="5"
+            lifetime.max="10"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="3.143"
+            probability="0.0857"
+            count.min="0"
+            count.max="1" />
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="WET" />
+            </Stains>
+
+            <Ingestion>
+                <StatusEffect type="BLOODY"
+                    amount="1" />
             </Ingestion>
         </StatusEffects>
     </CellData>
 
-    <CellData name="amalgam_gold"
-        ui_name="amalgamated gold"
-        tags="[liquid],[corrodible]"
+    <CellData name="magic_liquid_ichor"
+        ui_name="Ichor"
+        tags="[liquid],[water],[magic_liquid]"
         burnable="0"
-        density="5"
+        density="3"
         cell_type="liquid"
-        wang_color="80ff025e"
+        wang_color="dd2d2c5a"
         generates_smoke="0"
-        liquid_gravity="0.8"
+        liquid_gravity="0.5"
         liquid_sand="0"
         gfx_glow="150"
         on_fire="0"
         requires_oxygen="0"
-        lifetime="300">
-        <Graphics color="ff4AAF42">
-        </Graphics>
+        liquid_stains="1"
+        liquid_sprite_stain_shaken_drop_chance="10"
+        audio_materialaudio_type="MAGICAL"
+        show_in_creative_mode="1">
+        <ParticleEffect vel.y="-2.857"
+            vel_random.min_x="-6"
+            vel_random.max_x="6"
+            vel_random.min_y="-17.18"
+            vel_random.max_y="8.914"
+            lifetime.min="5"
+            lifetime.max="10"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="3.143"
+            probability="0.0857"
+            count.min="0"
+            count.max="1" />
         <StatusEffects>
             <Stains>
-                <StatusEffect type="RADIOACTIVE" />
+                <StatusEffect type="ICHOR" />
             </Stains>
+
             <Ingestion>
-                <StatusEffect type="POISONED"
-                    amount="100" />
+                <StatusEffect type="BLOODY"
+                    amount="1" />
             </Ingestion>
         </StatusEffects>
     </CellData>
@@ -75,103 +213,80 @@
         </Graphics>
     </CellDataChild>
 
-    <CellDataChild _parent="steel_static"
-        _inherit_reactions="1"
-        name="cobalt"
-        ui_name="cobalt"
-        wang_color="ff4565ff"
-        solid_friction="0.9"
-        electrical_conductivity="1"
-        show_in_creative_mode="1">
-        <Graphics texture_file="data/materials_gfx/steel.png"
-            color="ff4040FF">
-        </Graphics>
-    </CellDataChild>
-
-    <CellDataChild _parent="gold_molten"
-        name="cobalt_molten"
-        ui_name="molten cobalt"
-        gfx_glow="200"
-        on_fire="1"
-        requires_oxygen="1"
-        temperature_of_fire="100"
-        danger_fire="1"
-        wang_color="ff8565ff"
-        status_effects="ON_FIRE"
-        show_in_creative_mode="1">
-        <Graphics texture_file="data/materials_gfx/steel.png"
-            color="ff4040FF">
-        </Graphics>
-        <StatusEffects>
-            <Ingestion>
-                <StatusEffect type="INGESTION_ON_FIRE"
-                    amount="0.1" />
-            </Ingestion>
-        </StatusEffects>
-    </CellDataChild>
-
-    <CellData name="fire_cold"
-        ui_name="cold fire"
-        tags="[gas]"
-        burnable="0"
-        density="1"
-        lifetime="50"
-        cell_type="fire"
-        wang_color="FFAAAAFF"
-        generates_smoke="0"
-        liquid_gravity="0.5"
-        liquid_sand="0"
-        liquid_stains="1"
-        on_fire="0"
-        requires_oxygen="1"
-        temperature_of_fire="0"
-        show_in_creative_mode="1">
-        <Graphics color="7f82DCFF"
-            fire_colors_index="1">
+    <!-- <CellData name="fire_cold" ui_name="cold fire" tags="[gas]" burnable="0" density="1" lifetime="50" cell_type="fire" wang_color="FFAAAAFF" generates_smoke="0" liquid_gravity="0.5" liquid_sand="0" liquid_stains="1" on_fire="0" requires_oxygen="1" temperature_of_fire="0" show_in_creative_mode="1">
+        <Graphics color="7f82DCFF" fire_colors_index="1">
         </Graphics>
         <StatusEffects>
             <Stains>
                 <StatusEffect type="WET" />
             </Stains>
         </StatusEffects>
-    </CellData>
+    </CellData> -->
 
-    <CellData name="fire_cold_emitter"
-        ui_name="cold fire emitter"
-        tags="[box2d]"
-        burnable="0"
-        density="8"
-        platform_type="1"
-        cell_type="solid"
-        wang_color="FFBBFFBB"
-        generates_smoke="0"
-        liquid_gravity="0.5"
-        liquid_sand="0"
-        on_fire="0"
-        requires_oxygen="0"
-        temperature_of_fire="60"
-        show_in_creative_mode="1">
-    </CellData>
+    <!-- <CellData name="fire_cold_emitter" ui_name="cold fire emitter" tags="[box2d]" burnable="0" density="8" platform_type="1" cell_type="solid" wang_color="FFBBFFBB" generates_smoke="0" liquid_gravity="0.5" liquid_sand="0" on_fire="0" requires_oxygen="0" temperature_of_fire="60" show_in_creative_mode="1">
+    </CellData> -->
 
-    <!-- Reaction plans:
-        - burn cinnabar -> mercury
-        - mercury + gold -> amalgamated gold
-        - electrified cobalt -> lodestone?
-        - gunpowder (niter) + acid -> aqua regia
-        - aqua regia + air -> noxious fumes
-        - aqua regia dissolves metals for advanced alchemy
-        - bismuth...
-        - new sources of gold for pauper mode
-        - sodium in coal pits?
-    -->
+    <!-- <CellData name="aqua_regia"></CellData> -->
+    <!-- Aqua regia releases fumes -->
+    <!-- <CellData name="vapor_regia"></CellData> -->
 
-    <!-- <Reaction probability="90" input_cell1="mercury" input_cell2="[gold]" output_cell1="mercury" output_cell2="amalgam_gold">
-    </Reaction>
+    <!-- Mercury potions -->
+    <!-- chaotic polymorphine -> polymorphine + spirit of chaos -->
+    <!-- <CellData name="spirit_chaos"></CellData> -->
+    <!-- Magnum Opus -->
+    <!-- Blood + fire -> steam + ash -->
+    <!-- ash + water -> ash water -->
+    <!-- ash water + copper ->  -->
 
-    <Reaction probability="90" input_cell1="mercury" input_cell2="[gold]" output_cell1="mercury" output_cell2="amalgam_gold">
-    </Reaction>
+    <Reaction probability="100"
+        input_cell1="cinnabar"
+        input_cell2="[fire]"
+        output_cell1="mercury"
+        output_cell2="[fire]" />
 
-    <Reaction probability="100" input_cell1="[rust_box2d]" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
+    <Reaction probability="5"
+        input_cell1="copper"
+        input_cell2="[water]"
+        output_cell1="verdigris"
+        output_cell2="[water]" />
+    <Reaction probability="1"
+        input_cell1="copper"
+        input_cell2="air"
+        output_cell1="verdigris"
+        output_cell2="air" />
+
+    <Reaction probability="100"
+        input_cell1="mercury"
+        input_cell2="[gold]"
+        output_cell1="mercury"
+        output_cell2="amalgam_gold" />
+
+    <Reaction probability="50"
+        input_cell1="mercury"
+        input_cell2="magic_liquid_berserk"
+        output_cell1="mercury"
+        output_cell2="magic_liquid_critical" />
+    <Reaction probability="50"
+        input_cell1="mercury"
+        input_cell2="magic_liquid_berserk"
+        output_cell1="mercury"
+        output_cell2="alcohol" />
+
+
+    <Reaction probability="50"
+        input_cell1="mercury"
+        input_cell2="magic_liquid_protection_all"
+        output_cell1="mercury"
+        output_cell2="magic_liquid_ichor" />
+    <Reaction probability="50"
+        input_cell1="mercury"
+        input_cell2="magic_liquid_protection_all"
+        output_cell1="mercury"
+        output_cell2="honey" />
+
+
+
+    <!-- <Reaction probability="100" input_cell1="[rust_box2d]" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
     </Reaction>
     <Reaction probability="100" input_cell1="fire_cold_emitter" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
     </Reaction> -->

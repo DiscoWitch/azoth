@@ -9,15 +9,15 @@ local ability_comp = EntityGetFirstComponent(entity_id, "AbilityComponent")
 
 local gun = {}
 gun.name = "Test wand"
-gun.deck_capacity = 3
+gun.deck_capacity = 25
 gun.actions_per_round = 1
 gun.reload_time = 0
 gun.shuffle_deck_when_empty = false
 gun.fire_rate_wait = 15
 gun.spread_degrees = 0
 gun.speed_multiplier = 1
-gun.mana_charge_speed = 100
-gun.mana_max = 100
+gun.mana_charge_speed = 1000
+gun.mana_max = 1000
 
 ComponentSetValue2(ability_comp, "ui_name", gun.name)
 ComponentObjectSetValue2(ability_comp, "gun_config", "reload_time", gun.reload_time)
@@ -33,4 +33,5 @@ ComponentSetValue2(ability_comp, "mana_max", gun.mana_max)
 ComponentSetValue2(ability_comp, "mana", gun.mana_max)
 
 -- AddGunActionPermanent( entity_id, gun_action )
-AddGunAction(entity_id, "LEASH")
+AddGunAction(entity_id, "ELECTRIC_CHARGE")
+AddGunAction(entity_id, "LIGHT_BULLET")

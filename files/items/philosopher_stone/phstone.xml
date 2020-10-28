@@ -30,12 +30,6 @@
         ground_penetration_coeff="2" />
 
     <VelocityComponent _tags="enabled_in_world" />
-
-    <CellEaterComponent _enabled="0"
-        _tags="enabled_in_flight"
-        radius="5"
-        eat_dynamic_physics_bodies="1" />
-
     <!-- item -->
 
     <SpriteComponent _tags="enabled_in_hand,enabled_in_flight"
@@ -54,20 +48,6 @@
         is_pickable="1"
         is_equipable_forced="1"
         preferred_inventory="QUICK" />
-
-    <LuaComponent _tags="enabled_in_world"
-        script_source_file="mods/azoth/files/items/lodestone/lodestone.lua"
-        execute_on_added="1"
-        call_init_function="1"
-        execute_every_n_frame="1" />
-
-    <LuaComponent _tags="enabled_in_world"
-        script_source_file="mods/azoth/files/items/lodestone/emp.lua"
-        execute_every_n_frame="60" />
-
-    <LuaComponent _tags="enabled_in_world"
-        script_throw_item="mods/azoth/files/items/lodestone/lodestone_throw.lua"
-        execute_every_n_frame="-1" />
 
     <UIInfoComponent _tags="enabled_in_world"
         name="lodestone" />
@@ -115,7 +95,5 @@
         throw_as_item="1">
         <gun_config deck_capacity="0"></gun_config>
     </AbilityComponent>
-
-    <!-- <SpriteParticleEmitterComponent _tags="enabled_in_world,enabled_in_hand" sprite_file="data/particles/spark_electric.xml" delay="0" lifetime="0" color.r="1" color.g="1" color.b="1" color.a="1" color_change.r="0" color_change.g="0" color_change.b="0" color_change.a="0" velocity.x="0" velocity.y="0" gravity.x="0" gravity.y="10" velocity_slowdown="0" rotation="0" angular_velocity="0" use_velocity_as_rotation="0" scale.x="1" scale.y="1" scale_velocity.x="0" scale_velocity.y="0" emission_interval_min_frames="1" emission_interval_max_frames="3" count_min="1" count_max="1" randomize_rotation.min="-3.1415" randomize_rotation.max="3.1415" randomize_position.min_x="-2" randomize_position.max_x="2" randomize_position.min_y="-2" randomize_position.max_y="2" /> -->
 
 </Entity>

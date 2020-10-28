@@ -1,0 +1,7 @@
+<Entity >
+    <ElectricityComponent probability_to_heat="0.1" />
+
+    <LuaComponent execute_on_added="1"
+        remove_after_executed="1"
+        script_source_file="data/scripts/electrolysis.lua"></LuaComponent>
+</Entity>
