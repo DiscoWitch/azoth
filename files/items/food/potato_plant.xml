@@ -1,0 +1,27 @@
+<Entity name="potato_plant"
+    tags="vegetation">
+
+    <SimplePhysicsComponent can_go_up="0">
+    </SimplePhysicsComponent >
+    <VelocityComponent />
+
+    <PixelSpriteComponent _enabled="1"
+        image_file="data/vegetation/lush_bush_small_01.png"
+        anchor_x="16"
+        anchor_y="30"
+        clean_overlapping_pixels="0">
+    </PixelSpriteComponent>
+
+    <InteractableComponent _enabled="1"
+        ui_text="Pick potato!"
+        name="mods/azoth/files/items/food/potato.xml" />
+
+    <UIInfoComponent _enabled="1"
+        name="Potato" />
+
+    <LuaComponent _enabled="1"
+        execute_every_n_frame="-1"
+        script_interacting="mods/azoth/files/items/food/pick_plant.lua">
+    </LuaComponent>
+
+</Entity>

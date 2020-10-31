@@ -1,45 +1,85 @@
 dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("mods/azoth/files/lib/goki_variables.lua")
 
-function init(self)
-    local x, y = EntityGetTransform(self)
-    SetRandomSeed(x, y)
+local self = GetUpdatedEntityID()
+local now = GameGetFrameNum()
+local phase = EntityGetVariableNumber(self, "phase", -1)
+if phase == -1 then
+    return
+elseif phase == 0 then
+    EntitySetVariableNumber(self, "phase_change_frame", now + 60 - (now % 30))
 end
 
-local self = GetUpdatedEntityID()
 local x, y = EntityGetTransform(self)
-local throw_frame = EntityGetVariableNumber(self, "throw_frame", -1)
-if throw_frame == -1 then
-    return
-end
 local vc = EntityGetFirstComponent(self, "VelocityComponent")
 local mass = ComponentGetValue2(vc, "mass")
-local cur_frame = GameGetFrameNum()
-local airtime = cur_frame - throw_frame
-local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
 
 local g = 9.8 * 5
 local antigrav = -g * mass
--- We want a very large drag to make it float in place
 local drag = 10 * mass
 
-if airtime < 60 then
+function phaseStop()
+    -- Come to rest in midair shortly after throwing
+    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
     local vx, vy = PhysicsGetComponentVelocity(self, pbc)
     PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
     local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
     PhysicsApplyTorque(self, -angvel)
-elseif airtime < 300 then
+    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
+        EntitySetVariableNumber(self, "phase", 2)
+        EntitySetVariableNumber(self, "phase_change_frame", now + 4 * 60)
+    end
+end
+
+function phaseSpin()
+    -- spend 4 seconds spinning
+    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
     local vx, vy = PhysicsGetComponentVelocity(self, pbc)
     PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
     local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
     PhysicsApplyTorque(self, mass * 2)
 
-    local angle = 2 * math.pi * Random()
-    local vx = math.cos(angle)
-    local vy = math.sin(angle)
-    shoot_projectile(self, "mods/azoth/files/items/lodestone/lodestone_vacuum.xml", x, y, vx * 800, vy * 800, true)
+    if now % 60 == 0 then
+        for i = 1, 360 do
+            local a = i * math.pi / 180
+            local tx = math.cos(a)
+            local ty = math.sin(a)
+            local vac_speed = 400
+            shoot_projectile(self, "mods/azoth/files/items/lodestone/lodestone_vacuum.xml", x, y, tx * vac_speed,
+                ty * vac_speed, true)
+        end
+    end
+    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
+        EntitySetVariableNumber(self, "phase", 3)
+    end
+end
 
-elseif airtime < 301 then
+function phaseReleaseGold()
+    -- Keep spinning while spraying gold
+    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
+    local vx, vy = PhysicsGetComponentVelocity(self, pbc)
+    PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
+    local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
+    PhysicsApplyTorque(self, mass * 2)
+
+    local my_wallet = EntityGetFirstComponentIncludingDisabled(self, "WalletComponent")
+    local my_money = ComponentGetValue2(my_wallet, "money")
+    if my_money > 0 then
+        local spray_amt = math.min(my_money, 10)
+        local angle = 24 * now * (math.pi / 180)
+        local gold_speed = 300
+        local gold_offset = 7
+        GameCreateParticle("gold", x + gold_offset * math.cos(angle), y + gold_offset * math.sin(angle), spray_amt,
+            gold_speed * math.cos(angle), gold_speed * math.sin(angle), false, false)
+        ComponentSetValue2(my_wallet, "money", my_money - spray_amt)
+    else
+        EntitySetVariableNumber(self, "phase", 4)
+        EntitySetVariableNumber(self, "phase_change_frame", now + 1 * 60)
+    end
+end
+
+function phaseLaunch()
+    -- Find the nearest treasure and launch at it
     local treasure = EntityGetClosestWithTag(x, y, "chest")
     local heart_candidates = EntityGetWithTag("drillable")
     local heart_dist = math.huge
@@ -83,17 +123,19 @@ elseif airtime < 301 then
         EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", true)
         ComponentSetValue2(vc, "mVelocity", launch_speed * dx / dist, launch_speed * dy / dist)
     end
-
-    local my_wallet = EntityGetFirstComponentIncludingDisabled(self, "WalletComponent")
-    local my_money = ComponentGetValue2(my_wallet, "money")
-    GameCreateParticle("gold", x, y, my_money, 0, 50, false, false)
-    ComponentSetValue2(my_wallet, "money", 0)
-elseif airtime < 310 then
-    -- Just a gap to allow for flight time
-else
-    EntitySetVariableNumber(self, "throw_frame", -1)
-    EntitySetComponentsWithTagEnabled(self, "disabled_in_flight", true)
-    EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", false)
-    local vx, vy = GameGetVelocityCompVelocity(self)
-    PhysicsApplyForce(self, -vx, -vy)
+    EntitySetVariableNumber(self, "phase", 5)
+    EntitySetVariableNumber(self, "phase_change_frame", now + 10)
 end
+
+function phaseFinal()
+    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
+        EntitySetVariableNumber(self, "phase", -1)
+        EntitySetComponentsWithTagEnabled(self, "disabled_in_flight", true)
+        EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", false)
+        local vx, vy = GameGetVelocityCompVelocity(self)
+        PhysicsApplyForce(self, -vx, -vy)
+    end
+end
+
+local phases = {phaseStop, phaseSpin, phaseReleaseGold, phaseLaunch, phaseFinal}
+phases[phase]()

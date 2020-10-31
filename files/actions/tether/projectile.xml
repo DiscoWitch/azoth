@@ -13,8 +13,6 @@
         on_collision_die="0"
         damage="0" />
 
-    <LifetimeComponent lifetime="1800" />
-
     <ParticleEmitterComponent _tags="in_flight"
         _enabled="1"
         emitted_material_name="spark_white_bright"

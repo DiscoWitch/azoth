@@ -1,0 +1,67 @@
+<Entity tags="hittable,teleportable_NOT,item_physics">
+
+    <!-- physical presence -->
+
+    <PhysicsBodyComponent _tags="enabled_in_world"
+        uid="1"
+        allow_sleep="1"
+        angular_damping="0"
+        fixed_rotation="0"
+        is_bullet="1"
+        linear_damping="0"
+        auto_clean="0"
+        on_death_leave_physics_body="1"
+        hax_fix_going_through_ground="1"></PhysicsBodyComponent>
+
+    <PhysicsImageShapeComponent body_id="1"
+        centered="1"
+        image_file="data/items_gfx/smallgem_03.png"
+        material="gem_box2d"></PhysicsImageShapeComponent>
+
+    <PhysicsThrowableComponent max_throw_speed="200"
+        throw_force_coeff="1.5"></PhysicsThrowableComponent>
+
+    <ProjectileComponent _tags="enabled_in_world"
+        lifetime="-1"
+        penetrate_entities="1"
+        never_hit_player="1"></ProjectileComponent>
+
+    <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
+
+    <HitboxComponent _tags="enabled_in_world"
+        aabb_min_x="-3"
+        aabb_max_x="3"
+        aabb_min_y="-3"
+        aabb_max_y="3">
+    </HitboxComponent>
+
+    <!-- item -->
+
+    <SpriteComponent _tags="enabled_in_hand"
+        _enabled="0"
+        offset_x="4"
+        offset_y="4"
+        image_file="data/items_gfx/thunderstone.png"></SpriteComponent>
+
+    <ItemComponent _tags="enabled_in_world"
+        item_name="potato"
+        ui_description="$item_description_thunderstone"
+        ui_sprite="data/ui_gfx/items/ingredient_1.png"
+        uses_remaining="2"
+        is_pickable="1"
+        is_equipable_forced="1"
+        is_stackable="0"
+        is_consumable="1"
+        preferred_inventory="QUICK"></ItemComponent>
+
+    <UIInfoComponent _tags="enabled_in_world"
+        name="$item_thunderstone">
+    </UIInfoComponent>
+
+    <AbilityComponent ui_name="Potato"
+        cooldown_frames="30"
+        shooting_reduces_amount_in_inventory="1">
+        <gun_config deck_capacity="0" />
+    </AbilityComponent>
+
+</Entity>

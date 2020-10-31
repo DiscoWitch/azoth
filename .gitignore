@@ -1,3 +1,8 @@
-lib
+# lib is for lua name completion, not mod functionality
+/lib
+/docs
+# testing files that shouldn't be included
+/files/test
+# The mod does not overwrite data files
+/data
 *.code-workspace
-docs

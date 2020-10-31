@@ -12,10 +12,12 @@ More features will likely be added to this list as the mod develops.
     - [x] Vacuum flask
 - [x] Lodestone
 - [ ] Philosopher's stone
-- [ ] Crafting
+    - [x] Albedo: Pale Stone
+    - [ ] Citrinitas: ???
+    - [ ] Rubedo: ???
 - Materials:
-    - [ ] Mercury
-    - [ ] Cinnabar
-    - [ ] Cobalt
+    - [x] Mercury
+    - [x] Cinnabar
+    - [x] Cobalt
     - [ ] Aqua Regia
     - [ ] Bismuth
