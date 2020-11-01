@@ -1,5 +1,15 @@
 dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
+dofile_once("mods/azoth/files/lib/goki_variables.lua")
+
+function throw_item(from_x, from_y, to_x, to_y)
+    local self = GetUpdatedEntityID()
+    local owner = EntityGetVariableNumber(self, "owner", 0)
+    if owner ~= 0 then
+        EntityKill(owner)
+    end
+    EntityKill(self)
+end
 
 local entity_id = GetUpdatedEntityID()
 local x, y = EntityGetTransform(entity_id)
@@ -8,7 +18,7 @@ SetRandomSeed(x, y - 11)
 local ability_comp = EntityGetFirstComponent(entity_id, "AbilityComponent")
 
 local gun = {}
-gun.name = "Test wand"
+gun.name = "Turret wand"
 gun.deck_capacity = 25
 gun.actions_per_round = 1
 gun.reload_time = 0
@@ -32,6 +42,3 @@ ComponentObjectSetValue2(ability_comp, "gunaction_config", "speed_multiplier", g
 ComponentSetValue2(ability_comp, "mana_max", gun.mana_max)
 ComponentSetValue2(ability_comp, "mana", gun.mana_max)
 
--- AddGunActionPermanent( entity_id, gun_action )
-AddGunAction(entity_id, "ELECTRIC_CHARGE")
-AddGunAction(entity_id, "LIGHT_BULLET")

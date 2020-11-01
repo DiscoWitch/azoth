@@ -6,12 +6,14 @@ table.insert(actions, {
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {"data/entities/projectiles/deck/light_bullet.xml"},
     type = ACTION_TYPE_PROJECTILE,
-    spawn_level = "0,1,2,3,4,5,6",
-    spawn_probability = "1,1,1,1,1,1,1",
-    price = 0,
-    mana = 10,
+    spawn_level = "0,1,2,3,4,5,6,10",
+    spawn_probability = "0,0,0,0.1,0.1,0.1,0.2,0.3",
+    price = 300,
+    mana = 50,
     max_uses = -1,
+    ai_never_uses = true,
     action = function()
         add_projectile("mods/azoth/files/actions/tether/projectile.xml");
+        c.fire_rate_wait = c.fire_rate_wait + 15
     end
 })

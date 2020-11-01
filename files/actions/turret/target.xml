@@ -1,0 +1,14 @@
+<Entity tags="mortal,human,hittable,teleportable_NOT">
+    <LuaComponent execute_every_n_frame="1"
+        script_source_file="mods/azoth/files/actions/turret/target.lua" />
+
+    <GenomeDataComponent herd_id="healer"
+        food_chain_rank="20"
+        is_predator="0" />
+
+    <GameStatsComponent />
+
+    <!-- Turn these on to mark the target location for debugging -->
+    <!-- <SpriteAnimatorComponent />
+    <SpriteComponent _tags="character" alpha="1" image_file="data/enemies_gfx/player.xml" next_rect_animation="" offset_x="6" offset_y="13" rect_animation="walk" /> -->
+</Entity>

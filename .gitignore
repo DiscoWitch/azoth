@@ -4,5 +4,4 @@
 # testing files that shouldn't be included
 /files/test
 # The mod does not overwrite data files
-/data
 *.code-workspace

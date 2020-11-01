@@ -1,19 +1,15 @@
-dofile_once("data/scripts/lib/utilities.lua")
+local self = GetUpdatedEntityID()
 
--- TODO: Make it teleport to mouse cursor
-
-local entity_id = GetUpdatedEntityID()
-local pos_x, pos_y = EntityGetTransform(entity_id)
-
-local targets = EntityGetInRadiusWithTag(pos_x, pos_y, 96, "homing_target")
-
-SetRandomSeed(pos_x + pos_y, GameGetFrameNum())
-
-if (#targets > 0) then
-    local rnd = Random(1, #targets)
-    local target_id = targets[rnd]
-
-    local tx, ty = EntityGetTransform(target_id)
-
-    EntitySetTransform(entity_id, tx, ty)
+-- Find the player who shot this and teleport to their cursor
+local my_pc = EntityGetFirstComponent(self, "ProjectileComponent");
+local shooter = ComponentGetValue2(my_pc, "mWhoShot")
+if shooter == nil or shooter == 0 then
+    return
 end
+local controls = EntityGetFirstComponent(shooter, "ControlsComponent")
+if controls == 0 then
+    return
+end
+local mousex, mousey = ComponentGetValue2(controls, "mMousePosition")
+
+EntitySetTransform(self, mousex, mousey)
