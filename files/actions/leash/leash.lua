@@ -1,184 +1,167 @@
 dofile_once("data/scripts/lib/utilities.lua")
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
 
 function TetherConnect(self)
     -- For connecting two ends of tether to each other for pulling
-    local rope_last = tonumber(GlobalsGetValue("rope_last", 0));
-    if rope_last == self then
-        -- A rope can't connect to itself
-        return
-    end
+    local shooter = Entity(self.ProjectileComponent.mWhoShot)
 
-    if EntityGetVariableNumber(self, "rope_connected", 0) ~= 0 then
-        -- Don't connect ropes that are already connected
-        return
-    end
+    if shooter and shooter:alive() then
+        -- Connect to the last rope that's waiting for a connection
+        self.var_int.rope_other = shooter:id()
 
-    if rope_last ~= 0 and EntityGetIsAlive(rope_last) then
-        EntityKill(rope_last)
+        -- Create the tether cable
+        local pos_x, pos_y = self:transform()
+        local trail = Entity(EntityLoad("mods/azoth/files/actions/tether/tether_trail.xml", pos_x, pos_y))
+        trail.var_int.knot1 = self:id()
+        trail.var_int.knot2 = shooter:id()
     end
-    local my_pc = EntityGetFirstComponentIncludingDisabled(self, "ProjectileComponent");
-    local shooter = ComponentGetValue2(my_pc, "mWhoShot")
-    -- Connect to the last rope that's waiting for a connection
-    EntitySetVariableNumber(self, "rope_connected", shooter)
-    local pos_x, pos_y = EntityGetTransform(self)
-    local trail = EntityLoad("mods/azoth/files/actions/tether/tether_trail.xml", pos_x, pos_y)
-    EntitySetVariableNumber(trail, "knot1", self)
-    EntitySetVariableNumber(trail, "knot2", shooter)
-    EntitySetComponentsWithTagEnabled(self, "connect", true)
-    GlobalsSetValue("rope_last", self);
 end
 
-function TetherPull(self)
-    local parent = EntityGetVariableNumber(self, "rope_parent", 0);
-    if not EntityGetIsAlive(parent) then
-        EntityKill(self)
-        return
-    end
-    local rope_other = EntityGetVariableNumber(self, "rope_connected", 0);
-    if rope_other == 0 then
-        -- Just follow the parent
-        local pos_x, pos_y = EntityGetTransform(parent)
-        EntitySetTransform(self, pos_x, pos_y, 0, 1, 1)
-        return
-    end
-    if not EntityGetIsAlive(rope_other) then
-        EntityKill(self)
-        return
-    end
-
-    local pos_x, pos_y = EntityGetTransform(parent)
-    local conn_x, conn_y = EntityGetTransform(rope_other)
+function TetherPull(self, rope_other, parent)
+    local pos_x, pos_y = parent:transform()
+    local conn_x, conn_y = rope_other:transform()
     local dist_x = pos_x - conn_x
     local dist_y = pos_y - conn_y
     local dist = math.sqrt(dist_x ^ 2 + dist_y ^ 2)
-    local dist_max = EntityGetVariableNumber(self, "rope_length", 50);
-    local dist_snap = 500;
-    local drag = 0.05;
-
+    local dist_max = self.var_float.dist_max or 50
+    local dist_snap = 500
+    local pull_force = 0.5
+    local drag = 0.05
     if dist > dist_snap then
         -- Beyond the maximum allowed distance, just snap the tether
-        EntityKill(self)
+        print("Killing leash: snap distance")
+        self:kill()
         return
     end
     if dist > dist_max then
         -- Different objects use different versions of the PBC so get whichever exists
-        local pbc = EntityGetFirstComponent(parent, "PhysicsBodyComponent") or
-                        EntityGetFirstComponent(parent, "PhysicsBody2Component");
-        local cdc = EntityGetFirstComponent(parent, "CharacterDataComponent")
-        if pbc ~= nil then
+        local pbc = parent.PhysicsBodyComponent or parent.PhysicsBody2Component
+        local cdc = parent.CharacterDataComponent
+        if pbc then
+            local prev_x = self.var_float.prev_x or pos_x
+            local prev_y = self.var_float.prev_y or pos_y
             -- For physics bodies: apply a force to pull them
-            PhysicsApplyForce(parent, -dist_x / 2, -dist_y / 2)
-        elseif cdc ~= nil then
+            local vx = (pos_x - prev_x) * 60
+            local vy = (pos_y - prev_y) * 60
+            parent:applyForce(-pull_force * dist_x - drag * vx, -pull_force * dist_y - drag * vy)
+        elseif cdc then
             -- For creatures: modify velocity each frame to pull them to the rope
-            local vx, vy = ComponentGetValue2(cdc, "mVelocity")
-            vx = vx * (1 - drag) - dist_x
-            vy = vy * (1 - drag) - dist_y
-            ComponentSetValue2(cdc, "mVelocity", vx, vy)
-            ComponentSetValue2(cdc, "mCollidedHorizontally", true)
-
+            local vel = cdc.mVelocity
+            cdc.mVelocity = {
+                x = vel.x * (1 - drag) - dist_x,
+                y = vel.y * (1 - drag) - dist_y
+            }
+            cdc.mCollidedHorizontally = true
         else
             -- Teleport the parent to the end of the rope if all other options fail
             local new_x = conn_x + dist_x * dist_max / dist
             local new_y = conn_y + dist_y * dist_max / dist
-            EntitySetTransform(parent, new_x, new_y)
+            parent:setTransform(new_x, new_y)
         end
     end
-    -- Follow the parent and face the other end of the rope
-    pos_x, pos_y = EntityGetTransform(parent)
-    local drctn = -get_direction(conn_x, conn_y, pos_x, pos_y)
-    EntitySetTransform(self, pos_x, pos_y, drctn, 1, 1)
 end
 
 function CanAttach(target)
     if not EntityGetIsAlive(target) then
-        return false;
+        return false
     elseif IsPlayer(target) then
-        return false;
+        return false
     elseif EntityHasTag(target, "rope") then
-        return false;
+        return false
     elseif EntityHasTag(target, "mortal") then
-        return true;
+        return true
     elseif EntityHasTag(target, "hittable") then
-        return true;
+        return true
     elseif EntityHasTag(target, "tablet") then
-        return true;
+        return true
     elseif EntityHasTag(target, "item_physics") then
-        return true;
+        return true
     end
-    return false;
+    return false
 end
 
 function collision_trigger(colliding_entity_id)
-    local entity = GetUpdatedEntityID();
-    local parent = EntityGetVariableNumber(entity, "rope_parent", 0)
-    if parent ~= 0 then
+    print("trigger")
+    local self = Entity(GetUpdatedEntityID())
+    if self.var_bool.attached then
+        -- Don't attach if we're already attached to something
         return
     end
     colliding_entity_id = EntityGetRootEntity(colliding_entity_id)
     if CanAttach(colliding_entity_id) then
-        EntitySetVariableNumber(entity, "rope_parent", colliding_entity_id)
-        local vc = EntityGetFirstComponent(entity, "VelocityComponent")
-        ComponentSetValue2(vc, "gravity_y", 0)
-        ComponentSetValue2(vc, "mVelocity", 0, 0)
-        EntitySetComponentsWithTagEnabled(entity, "in_flight", false)
-        TetherConnect(entity)
-    end
-end
-
-function AttachNearby(self, pos_x, pos_y, attach_world, new_home)
-    attach_world = attach_world or false
-    new_home = new_home or false
-    local ents = EntityGetInRadius(pos_x, pos_y, 10)
-    local parent = 0
-    for key, value in ipairs(ents) do
-        if CanAttach(EntityGetRootEntity(value)) then
-            parent = EntityGetRootEntity(value)
-            break
-        end
-    end
-    if parent == 0 and attach_world then
-        parent = -1
-        EntitySetTransform(self, pos_x, pos_y)
-    end
-    EntitySetVariableNumber(self, "rope_parent", parent)
-    local vc = EntityGetFirstComponent(self, "VelocityComponent")
-    ComponentSetValue2(vc, "gravity_y", 0)
-    ComponentSetValue2(vc, "mVelocity", 0, 0)
-    EntitySetComponentsWithTagEnabled(self, "in_flight", false)
-    if new_home then
+        self.var_bool.attached = true
+        self:setParent(colliding_entity_id)
+        self.VelocityComponent.gravity_y = 0
+        self.VelocityComponent.mVelocity = {
+            x = 0,
+            y = 0
+        }
+        self:setEnabledWithTag("in_flight", false)
+        self:setEnabledWithTag("connect", true)
         TetherConnect(self)
     end
 end
 
-local self = GetUpdatedEntityID();
-local parent = EntityGetVariableNumber(self, "rope_parent", 0);
-if parent == -1 then
-    -- Handle attachment to terrain
-    local vc = EntityGetFirstComponent(self, "VelocityComponent")
-    ComponentSetValue2(vc, "gravity_y", 0)
-    ComponentSetValue2(vc, "mVelocity", 0, 0)
-    local rope_other = EntityGetVariableNumber(self, "rope_connected", 0);
-
-    if rope_other ~= 0 then
-        if EntityGetIsAlive(rope_other) then
-            local pos_x, pos_y = EntityGetTransform(self)
-            local conn_x, conn_y = EntityGetTransform(rope_other)
-            local drctn = -get_direction(conn_x, conn_y, pos_x, pos_y)
-            EntitySetTransform(self, pos_x, pos_y, drctn)
-        else
-            EntityKill(self)
+function AttachNearby(self, pos_x, pos_y, attach_world, try_connect)
+    attach_world = attach_world or false
+    try_connect = try_connect or false
+    local attach_radius = 10
+    for _, value in ipairs(EntityGetInRadius(pos_x, pos_y, attach_radius)) do
+        if CanAttach(EntityGetRootEntity(value)) then
+            self:setParent(EntityGetRootEntity(value))
+            self.var_bool.attached = true
+            break
         end
     end
-elseif parent ~= 0 then
-    -- Handle attachment to entities
-    TetherPull(self)
+    if not self.var_bool.attached and attach_world then
+        self.var_bool.attached = true
+        self:setTransform(pos_x, pos_y, 0, 1, 1)
+    end
+    if self.var_bool.attached then
+        self.VelocityComponent.gravity_y = 0
+        self:setEnabledWithTag("in_flight", false)
+        self:setEnabledWithTag("connect", true)
+    else
+        print("Killing leash: failed to connect")
+        self:kill()
+    end
+    if try_connect then
+        TetherConnect(self)
+    end
+end
+
+local self = Entity(GetUpdatedEntityID())
+self.var_int.fired_frame = self.var_int.fired_frame or GameGetFrameNum()
+local attached = self.var_bool.attached or false
+if attached then
+    local rope_other = self.var_int.rope_other
+    if rope_other then
+        if EntityGetIsAlive(rope_other) then
+            rope_other = Entity(rope_other)
+            -- Face the other end of the rope for particle alignment
+            local x, y = rope_other:transform()
+            self:setFacing(x, y)
+            local parent = self:parent()
+            if parent then
+                -- If there's a parent entity, pull on it
+                TetherPull(self, rope_other, parent)
+            end
+        else
+            -- The rope has broken
+            print("Killing leash: rope_other not alive")
+            self:kill()
+            return
+        end
+    end
 else
     -- Check for collisions to see if we need to attach to terrain
-    local pos_x, pos_y = EntityGetTransform(self)
-    local vx, vy = GameGetVelocityCompVelocity(self)
-    local hit, hx, hy = RaytraceSurfaces(pos_x, pos_y, pos_x + vx / 60, pos_y + vy / 60)
+    local pos_x, pos_y = self:transform()
+    local vel = self.VelocityComponent.mVelocity
+    if GameGetFrameNum() > self.var_int.fired_frame and vel.x == 0 and vel.y == 0 then
+        AttachNearby(self, pos_x, pos_y, false, true)
+    end
+    local hit, hx, hy = RaytraceSurfaces(pos_x, pos_y, pos_x + vel.x / 60, pos_y + vel.y / 60)
     if hit then
-        AttachNearby(self, hx, hy, true, true)
+        AttachNearby(self, hx, hy, false, true)
     end
 end

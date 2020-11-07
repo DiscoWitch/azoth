@@ -1,0 +1,10 @@
+<Entity name="azoth_ichor_reapply">
+    <InheritTransformComponent _enabled="1" />
+
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_ICHOR_REAPPLY" />
+
+    <LuaComponent execute_every_n_frame="15"
+        script_source_file="mods/azoth/files/status/ichor/effect_reapply.lua" />
+
+</Entity>

@@ -1,0 +1,47 @@
+<Entity tags="teleportable_NOT,rope">
+
+    <Base file="data/entities/base_projectile.xml">
+        <VelocityComponent gravity_y="0"
+            air_friction="1.7"
+            mass="0.04" />
+    </Base>
+
+
+    <ProjectileComponent _tags="enabled_in_world"
+        _enabled="1"
+        speed_min="100"
+        speed_max="100"
+        on_collision_die="0"
+        damage="0"
+        penetrate_world="1"
+        penetrate_world_velocity_coeff="1"
+        penetrate_entities="1" />
+
+    <ParticleEmitterComponent _tags="enabled_in_world"
+        _enabled="1"
+        delay_frames="0"
+        is_emitting="1"
+        emitted_material_name="steel_static_fading"
+        create_real_particles="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1"
+        image_animation_file="mods/azoth/files/actions/test/test.png"
+        image_animation_speed="64"
+        image_animation_loop="1" />
+
+    <!-- <ParticleEmitterComponent _tags="enabled_in_world" _enabled="1" delay_frames="0" is_emitting="1" emitted_material_name="steel_static_fading" create_real_particles="true" emission_interval_min_frames="1" emission_interval_max_frames="1" image_animation_file="mods/azoth/files/actions/test/test.png" image_animation_speed="4" image_animation_loop="1" image_animation_phase="0.5" /> -->
+
+    <AudioLoopComponent _tags="enabled_in_world"
+        file="data/audio/Desktop/misc.bank"
+        event_name="misc/moon/movement_loop_world"
+        set_speed_parameter="1"
+        auto_play="1"
+        play_on_component_enable="1" />
+
+    <AudioLoopComponent _tags="enabled_in_hand"
+        file="data/audio/Desktop/misc.bank"
+        event_name="misc/moon/movement_loop_hand"
+        set_speed_parameter="1"
+        auto_play="1"
+        play_on_component_enable="1" />
+</Entity>

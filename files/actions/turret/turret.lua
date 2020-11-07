@@ -1,84 +1,56 @@
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
+
+-- Used to split the entity lists that were sent through storage
+function str2table(input)
+    local output = {}
+    for i in string.gmatch(input, "([^,]+),") do
+        table.insert(output, tonumber(i))
+    end
+    return output
+end
 
 -- Init code, called once at turret creation
-local self = GetUpdatedEntityID()
-local storage = EntityGetWithName("turret_storage")
--- Populate our data table immediately
+local self = Entity(GetUpdatedEntityID())
+local storage = Entity(EntityGetWithName("turret_storage"))
+-- Populate our data table from storage
 local src = {
-    wand = EntityGetVariableNumber(storage, "wand", 0),
-    deck = EntityGetVariableString(storage, "deck", "")
+    wand = Entity(tonumber(storage.variables.wand)),
+    deck = str2table(storage.variables.deck),
+    inventoryitem_id = str2table(storage.variables.inventoryitem_id)
 }
 -- kill storage now that we're done with it
-EntityKill(storage)
-EntitySetVariableNumber(self, "wand", src.wand)
-EntitySetVariableString(self, "deck", src.deck)
+storage:kill()
 
-if src.wand == 0 then
-    print("No wand found for turret")
-    EntityKill(self)
+if src.wand == nil then
+    print("No original wand found for turret")
+    self:kill()
     return
 end
-
-local temp_deck = {}
-for i in string.gmatch(src.deck, "([^,]+),") do
-    table.insert(temp_deck, tonumber(i))
-end
-src.deck = temp_deck
-
--- Fill in the stats of our wand
-local inv = nil
-for k, v in ipairs(EntityGetAllChildren(self)) do
-    if EntityGetName(v) == "inventory_quick" then
-        inv = v
-        break
-    end
-end
-local my_wand = nil
-for k, v in ipairs(EntityGetAllChildren(inv)) do
-    if EntityHasTag(v, "wand") then
-        my_wand = v
-        break
-    end
-end
-if my_wand == nil or my_wand == 0 then
-    EntityKill(self)
+local inv = self:findChildren(function(ent)
+    return ent:name() == "inventory_quick"
+end)[1]
+local my_wand = inv:findChildren(function(ent)
+    return ent:hasTag("wand")
+end)[1]
+if my_wand == nil then
+    print_error("Turret couldn't find its own wand!")
+    self:kill()
     return
-end
-for k, v in pairs(src.deck) do
-    local iac = EntityGetFirstComponentIncludingDisabled(v, "ItemActionComponent")
-    local action = ComponentGetValue2(iac, "action_id")
-    local action_entity_id = CreateItemActionEntity(action)
-    if action_entity_id ~= 0 then
-        EntityAddChild(my_wand, action_entity_id)
-        local new_ic = EntityGetFirstComponentIncludingDisabled(action_entity_id, "ItemComponent")
-        local ic = EntityGetFirstComponentIncludingDisabled(v, "ItemComponent")
-        local orig_uses = ComponentGetValue2(ic, "uses_remaining")
-        ComponentSetValue2(new_ic, "uses_remaining", orig_uses)
-        EntitySetComponentsWithTagEnabled(action_entity_id, "enabled_in_world", false)
-        EntitySetVariableNumber(action_entity_id, "original", v)
-    end
 end
 
 -- Set my wand stats based on the wand that created me
-local names_ac = {"ui_name", "mana_max", "mana", "mana_charge_speed"}
-local src_ac = EntityGetFirstComponentIncludingDisabled(src.wand, "AbilityComponent")
-local my_ac = EntityGetFirstComponent(my_wand, "AbilityComponent")
-for index, name in ipairs(names_ac) do
-    local val = ComponentGetValue2(src_ac, name)
-    ComponentSetValue2(my_ac, name, val)
+WandCopy(src.wand, my_wand)
+-- Populate the turret wand with copies of the spells recorded by the cast
+for k, v in pairs(src.deck) do
+    v = Entity(v)
+    local action_entity = Entity(CreateItemActionEntity(v.ItemActionComponent.action_id))
+    if action_entity ~= 0 then
+        action_entity:setParent(my_wand)
+        -- Set the turret copy to have the same number of uses as the original
+        action_entity.ItemComponent.uses_remaining = v.ItemComponent.uses_remaining
+        -- Link the turret to the same spell entry as the original
+        action_entity.ItemComponent.mItemUid = src.inventoryitem_id[k]
+        action_entity:setEnabledWithTag("enabled_in_world", false)
+    end
 end
-local names_gunconfig = {"reload_time", "actions_per_round", "deck_capacity", "shuffle_deck_when_empty"}
-for index, name in ipairs(names_gunconfig) do
-    local val = ComponentObjectGetValue2(src_ac, "gun_config", name)
-    ComponentObjectSetValue2(my_ac, "gun_config", name, val)
-end
-local names_gunactionconfig = {"fire_rate_wait", "spread_degrees", "speed_multiplier"}
-for index, name in ipairs(names_gunactionconfig) do
-    local val = ComponentObjectGetValue2(src_ac, "gunaction_config", name)
-    ComponentObjectSetValue2(my_ac, "gunaction_config", name, val)
-end
-
--- Set a target in front of the wand for firing purposes
-local x, y = EntityGetTransform(self)
-EntityAddChild(self, EntityLoad("mods/azoth/files/actions/turret/target.xml", x, y))

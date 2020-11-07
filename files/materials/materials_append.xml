@@ -1,57 +1,104 @@
 <Materials>
-    <CellDataChild name="mercury"
-        _parent="gold_molten"
+    <CellData name="mercury"
         ui_name="Mercury"
-        tags="[liquid],[molten]"
+        tags="[liquid],[mercury]"
         gfx_glow="100"
         density="6"
+        liquid_gravity="2"
+        liquid_stains_self="0"
+        liquid_stains="1"
+        liquid_sprite_stain_shaken_drop_chance="0.1"
         on_fire="0"
         requires_oxygen="0"
         temperature_of_fire="0"
-        danger_fire="0"
         wang_color="ff504050">
         <Graphics color="ff504050"
             texture_file="mods/azoth/files/materials_gfx/mercury.png">
         </Graphics>
-        <!-- <StatusEffects>
+        <StatusEffects>
             <Stains>
-                <StatusEffect type="RADIOACTIVE" />
+                <StatusEffect type="POISONED" />
             </Stains>
             <Ingestion>
-                <StatusEffect type="POISONED" amount="100" />
+                <StatusEffect type="POISONED"
+                    amount="0.5" />
             </Ingestion>
-        </StatusEffects> -->
-    </CellDataChild>
+        </StatusEffects>
+    </CellData>
 
     <CellDataChild name="amalgam_gold"
-        _parent="gold_molten"
+        _parent="mercury"
         ui_name="Gold Amalgam"
         gfx_glow="100"
         density="5"
-        on_fire="0"
-        requires_oxygen="0"
-        temperature_of_fire="0"
-        danger_fire="0"
         wang_color="80ae947b">
         <Graphics color="80ae947b"
             texture_file="mods/azoth/files/materials_gfx/gold_amalgam.png">
         </Graphics>
-
-        <!-- <StatusEffects>
-            <Ingestion>
-                <StatusEffect type="INGESTION_ON_FIRE" amount="0.1" />
-            </Ingestion>
-        </StatusEffects> -->
     </CellDataChild>
+    <Reaction probability="100"
+        input_cell1="mercury"
+        input_cell2="[gold]"
+        output_cell1="mercury"
+        output_cell2="amalgam_gold" />
+
+    <CellData name="sulphur"
+        ui_name="$mat_sulphur"
+        tags="[sand_other],[corrodible],[alchemy]"
+        burnable="1"
+        density="6"
+        durability="10"
+        cell_type="liquid"
+        wang_color="ff141415"
+        generates_smoke="0"
+        liquid_gravity="2"
+        liquid_sand="1"
+        on_fire="0"
+        requires_oxygen="1"
+        autoignition_temperature="94"
+        temperature_of_fire="95"
+        hp="1000"
+        fire_hp="10000"
+        on_fire_flame_material="fire_blue"
+        audio_physics_material_event="sand"
+        audio_physics_material_wall="sand"
+        audio_physics_material_solid="sand"
+        show_in_creative_mode="1">
+        <Graphics texture_file="data/materials_gfx/sulphur.png"
+            color="ffb89e57"
+            fire_colors_index="1" />
+    </CellData>
 
     <CellDataChild name="cinnabar"
-        _parent="coal"
+        _parent="sulphur"
         ui_name="Cinnabar"
         density="5"
-        fire_hp="100000"
-        wang_color="80FF947B">
-        <Graphics color="80FF947B"
-            texture_file="mods/azoth/files/materials_gfx/cinnabar.png" />
+        liquid_static="1"
+        fire_hp="10000"
+        on_fire_flame_material="fire_blue"
+        wang_color="ffFF947B">
+        <Graphics texture_file="mods/azoth/files/materials_gfx/cinnabar.png"
+            color="ffFF947B"
+            fire_colors_index="0" />
+        <ExplosionConfig cell_explosion_probability="100"
+            damage="0.0"
+            audio_enabled="0"
+            pixel_sprites_enabled="0"
+            explosion_sprite=""
+            cell_explosion_power="100"
+            cell_explosion_damage_required="10"
+            cell_explosion_radius_min="1"
+            cell_explosion_radius_max="1"
+            create_cell_material="mercury"
+            create_cell_probability="1"
+            camera_shake="0"
+            sparks_enabled="0"
+            particle_effect="0"
+            hole_enabled="1"
+            hole_destroy_liquid="0"
+            hole_destroy_physics_dynamic="0"
+            max_durability_to_destroy="0"
+            ray_energy="100" />
     </CellDataChild>
 
     <CellDataChild name="ash"
@@ -92,7 +139,7 @@
     <CellDataChild _parent="steel_static"
         _inherit_reactions="1"
         name="cobalt"
-        ui_name="Cobalt"
+        ui_name="Cobaltite"
         tags="[static],[alchemy],[solid]"
         wang_color="ff6033ff"
         hp="200000"
@@ -105,168 +152,273 @@
     </CellDataChild>
 
 
+    <!-- Mercury Potions -->
 
-    <!-- This is purely visual, the water-based verdigris is used for alchemy -->
-    <CellDataChild name="patina"
-        _parent="copper"
-        _inherit_reactions="1"
-        ui_name="Verdigris"
-        wang_color="ff4f5265">
-        <Graphics texture_file="mods/azoth/files/materials_gfx/verdigris.png"
-            color="ff6033ff">
-        </Graphics>
-    </CellDataChild>
+    <!-- Mercury + Flummoxium = ? -->
+    <!-- Mercury + Acceleratium = ? -->
+    <!-- Mercury + Levitatium = ? -->
+    <!-- Mercury + Worm attractor = ? -->
 
-    <CellDataChild name="verdigris"
-        _parent="water"
-        ui_name="Verdigris"
-        density="5"
-        wang_color="BB03273c">
-        <Graphics color="BB03273c" />
+    <!-- Mercury + Ambrosia -> Ichor + Honey -->
+    <!-- Stains stick and anger the gods if you enter a holy mountain -->
+    <!--  -->
+    <CellDataChild name="magic_liquid_ichor"
+        _parent="magic_liquid"
+        ui_name="Ichor"
+        wang_color="ff1d1c4a"
+        liquid_stains_self="0"
+        liquid_stains="1"
+        liquid_sprite_stains_check_offset="-1"
+        lifetime="0">
+        <Graphics color="ff1d1c4a" />
+        <ParticleEffect vel.y="-2.857"
+            vel_random.min_x="-6"
+            vel_random.max_x="6"
+            vel_random.min_y="-17.18"
+            vel_random.max_y="8.914"
+            lifetime.min="5"
+            lifetime.max="10"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="3.143"
+            probability="0.0857"
+            count.min="0"
+            count.max="1" />
         <StatusEffects>
+            <Stains>
+                <StatusEffect type="AZOTH_ICHOR" />
+            </Stains>
             <Ingestion>
-                <StatusEffect type="POISONED"
+                <StatusEffect type="AZOTH_ICHOR_INGEST"
+                    amount="0.1" />
+            </Ingestion>
+        </StatusEffects>
+    </CellDataChild>
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_protection_all"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_ichor" />
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_protection_all"
+        output_cell1="[mercury]"
+        output_cell2="honey" />
+
+
+    <!-- Mercury + concentrated mana = ? -->
+
+    <!-- Mercury + Teleportatium -> Oil of Elsewhere -->
+    <!-- Teleports things toward you -->
+    <CellDataChild name="magic_liquid_elsewhere"
+        _parent="magic_liquid"
+        ui_name="Oil of Elsewhere"
+        wang_color="dd9BE3E7"
+        density="0.5"
+        gfx_glow="50"
+        liquid_stains_self="0"
+        liquid_stains="1"
+        liquid_sprite_stains_check_offset="-1"
+        lifetime="0">
+        <Graphics color="dd9BE3E7" />
+        <ParticleEffect vel.y="-3"
+            vel_random.min_x="0"
+            vel_random.max_x="0"
+            vel_random.min_y="-17.18"
+            vel_random.max_y="0"
+            lifetime.min="5"
+            lifetime.max="10"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="3.143"
+            probability="0.0857"
+            count.min="0"
+            count.max="1" />
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="AZOTH_ELSEWHERE" />
+            </Stains>
+            <Ingestion>
+                <StatusEffect type="AZOTH_ELSEWHERE"
                     amount="0.2" />
             </Ingestion>
         </StatusEffects>
     </CellDataChild>
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_teleportation"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_elsewhere" />
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_teleportation"
+        output_cell1="[mercury]"
+        output_cell2="glass_broken" />
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_unstable_teleportation"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_elsewhere" />
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_unstable_teleportation"
+        output_cell1="[mercury]"
+        output_cell2="glass_broken" />
 
-    <!-- Mercury Potions -->
 
-    <CellData name="magic_liquid_critical"
-        ui_name="Aqua Irae"
-        tags="[liquid],[water],[magic_liquid]"
-        burnable="0"
-        density="1"
-        cell_type="liquid"
-        wang_color="de2d2c5a"
-        generates_smoke="0"
-        liquid_gravity="0.5"
-        liquid_sand="0"
-        gfx_glow="150"
-        on_fire="0"
-        requires_oxygen="0"
-        liquid_stains="1"
-        liquid_sprite_stain_shaken_drop_chance="0"
-        audio_materialaudio_type="MAGICAL"
-        show_in_creative_mode="1">
-        <ParticleEffect vel.y="-2.857"
-            vel_random.min_x="-6"
-            vel_random.max_x="6"
-            vel_random.min_y="-17.18"
-            vel_random.max_y="8.914"
-            lifetime.min="5"
-            lifetime.max="10"
-            gravity.y="0"
-            render_on_grid="1"
-            draw_as_long="1"
-            airflow_force="0.8314"
-            airflow_scale="0.1371"
-            friction="3.143"
-            probability="0.0857"
-            count.min="0"
-            count.max="1" />
-        <StatusEffects>
-            <Stains>
-                <StatusEffect type="WET" />
-            </Stains>
 
-            <Ingestion>
-                <StatusEffect type="BLOODY"
-                    amount="1" />
-            </Ingestion>
-        </StatusEffects>
-    </CellData>
+    <!-- Mercury + Healthium = ? -->
 
-    <CellData name="magic_liquid_chaos"
-        ui_name="Oil of Chaos"
-        tags="[liquid],[water],[magic_liquid]"
-        burnable="0"
-        density="1"
-        cell_type="liquid"
-        wang_color="de2d2c5b"
-        generates_smoke="0"
-        liquid_gravity="0.5"
-        liquid_sand="0"
-        gfx_glow="150"
-        on_fire="0"
-        requires_oxygen="0"
-        liquid_stains="1"
-        liquid_sprite_stain_shaken_drop_chance="0"
-        audio_materialaudio_type="MAGICAL"
-        show_in_creative_mode="1">
-        <ParticleEffect vel.y="-2.857"
-            vel_random.min_x="-6"
-            vel_random.max_x="6"
-            vel_random.min_y="-17.18"
-            vel_random.max_y="8.914"
-            lifetime.min="5"
-            lifetime.max="10"
-            gravity.y="0"
-            render_on_grid="1"
-            draw_as_long="1"
-            airflow_force="0.8314"
-            airflow_scale="0.1371"
-            friction="3.143"
-            probability="0.0857"
-            count.min="0"
-            count.max="1" />
-        <StatusEffects>
-            <Stains>
-                <StatusEffect type="WET" />
-            </Stains>
-
-            <Ingestion>
-                <StatusEffect type="BLOODY"
-                    amount="1" />
-            </Ingestion>
-        </StatusEffects>
-    </CellData>
-
-    <CellData name="magic_liquid_ichor"
-        ui_name="Ichor"
-        tags="[liquid],[water],[magic_liquid]"
-        burnable="0"
+    <!-- Mercury + Polymorphine -->
+    <CellDataChild name="magic_liquid_chaos"
+        _parent="magic_liquid"
+        ui_name="Spirit of Chaos"
+        wang_color="dddfafef"
+        gfx_glow="100"
         density="3"
-        cell_type="liquid"
-        wang_color="dd2d2c5a"
-        generates_smoke="0"
-        liquid_gravity="0.5"
-        liquid_sand="0"
-        gfx_glow="150"
-        on_fire="0"
-        requires_oxygen="0"
+        lifetime="0"
+        liquid_stains_self="0"
         liquid_stains="1"
-        liquid_sprite_stain_shaken_drop_chance="10"
-        audio_materialaudio_type="MAGICAL"
-        show_in_creative_mode="1">
-        <ParticleEffect vel.y="-2.857"
-            vel_random.min_x="-6"
-            vel_random.max_x="6"
-            vel_random.min_y="-17.18"
-            vel_random.max_y="8.914"
-            lifetime.min="5"
-            lifetime.max="10"
+        liquid_sprite_stains_check_offset="-1">
+        <Graphics color="dddfafef" />
+        <ParticleEffect vel.y="0"
+            vel_random.min_x="-100"
+            vel_random.max_x="100"
+            vel_random.min_y="-15"
+            vel_random.max_y="0"
+            lifetime.min="0.1"
+            lifetime.max="0.25"
             gravity.y="0"
             render_on_grid="1"
             draw_as_long="1"
             airflow_force="0.8314"
             airflow_scale="0.1371"
-            friction="3.143"
-            probability="0.0857"
-            count.min="0"
-            count.max="1" />
-        <StatusEffects>
+            friction="-10"
+            probability="0.857"
+            count.min="1"
+            count.max="2" />
+        <!-- <StatusEffects>
             <Stains>
                 <StatusEffect type="ICHOR" />
             </Stains>
-
             <Ingestion>
-                <StatusEffect type="BLOODY"
+                <StatusEffect type="BLOODY" amount="1" />
+            </Ingestion>
+        </StatusEffects> -->
+    </CellDataChild>
+    <Reaction probability="90"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_polymorph"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_chaos" />
+    <Reaction probability="10"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_polymorph"
+        output_cell1="silver"
+        output_cell2="magic_liquid_chaos" />
+    <Reaction probability="90"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_random_polymorph"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_chaos"
+        req_lifetime="300" />
+    <Reaction probability="10"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_random_polymorph"
+        output_cell1="[sand_metal]"
+        output_cell2="magic_liquid_chaos"
+        blob_radius2="5"
+        blob_radius1="5"
+        req_lifetime="300" />
+
+    <Reaction probability="1"
+        input_cell1="magic_liquid_chaos"
+        input_cell2="air"
+        output_cell1="magic_liquid_chaos"
+        output_cell2="air">
+        <ExplosionConfig cell_explosion_probability="100"
+            damage="0.0"
+            audio_enabled="0"
+            pixel_sprites_enabled="0"
+            explosion_sprite=""
+            cell_explosion_power="10"
+            cell_explosion_damage_required="1"
+            cell_explosion_radius_min="3"
+            cell_explosion_radius_max="3"
+            create_cell_material="magic_liquid_chaos"
+            create_cell_probability="0"
+            camera_shake="0"
+            hole_enabled="1"
+            hole_destroy_liquid="0"
+            hole_destroy_physics_dynamic="0"
+            max_durability_to_destroy="0"
+            electricity_count="1"
+            sparks_enabled="0"
+            load_this_entity=""
+            particle_effect="0"
+            material_sparks_enabled="1"
+            material_sparks_real="1"
+            ray_energy="100" />
+    </Reaction>
+
+    <!-- Mercury + Berserkium -> Aqua Irae + Whiskey -->
+    <!-- Causes incoming and outgoing critical hits -->
+    <CellDataChild name="magic_liquid_critical"
+        _parent="magic_liquid"
+        ui_name="Aqua Ira"
+        wang_color="dddf0000"
+        gfx_glow="100"
+        density="3"
+        lifetime="0"
+        liquid_stains_self="0"
+        liquid_stains="1"
+        liquid_sprite_stains_check_offset="-1">
+        <Graphics color="dddf0000" />
+        <ParticleEffect vel.y="0"
+            vel_random.min_x="-5"
+            vel_random.max_x="5"
+            vel_random.min_y="-100"
+            vel_random.max_y="0"
+            lifetime.min="0.1"
+            lifetime.max="0.2"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="-10"
+            count.min="1"
+            count.max="5" />
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="AZOTH_IRE" />
+            </Stains>
+            <Ingestion>
+                <StatusEffect type="AZOTH_IRE"
                     amount="1" />
             </Ingestion>
         </StatusEffects>
-    </CellData>
+    </CellDataChild>
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_berserk"
+        output_cell1="[mercury]"
+        output_cell2="magic_liquid_critical" />
+    <Reaction probability="50"
+        input_cell1="[mercury]"
+        input_cell2="magic_liquid_berserk"
+        output_cell1="[mercury]"
+        output_cell2="alcohol" />
+
+
+    <!-- Mercury + Charm = ? -->
+    <!-- Mercury + Invisiblium = ? -->
 
     <CellDataChild _parent="aluminium"
         _inherit_reactions="1"
@@ -289,26 +441,106 @@
         </Graphics>
     </CellDataChild>
 
-    <!-- Alternate fire test -->
-
-    <!-- <CellData name="fire_cold" ui_name="cold fire" tags="[gas]" burnable="0" density="1" lifetime="50" cell_type="fire" wang_color="FFAAAAFF" generates_smoke="0" liquid_gravity="0.5" liquid_sand="0" liquid_stains="1" on_fire="0" requires_oxygen="1" temperature_of_fire="0" show_in_creative_mode="1">
-        <Graphics color="7f82DCFF" fire_colors_index="1">
+    <CellDataChild name="aqua_regia"
+        _parent="acid"
+        ui_name="Aqua Regia"
+        tags="[liquid]"
+        density="5"
+        gfx_glow="64"
+        wang_color="90881500">
+        <Graphics color="90881500">
         </Graphics>
-        <StatusEffects>
-            <Stains>
-                <StatusEffect type="WET" />
-            </Stains>
-        </StatusEffects>
-    </CellData> -->
-
-    <!-- <CellData name="fire_cold_emitter" ui_name="cold fire emitter" tags="[box2d]" burnable="0" density="8" platform_type="1" cell_type="solid" wang_color="FFBBFFBB" generates_smoke="0" liquid_gravity="0.5" liquid_sand="0" on_fire="0" requires_oxygen="0" temperature_of_fire="60" show_in_creative_mode="1">
-    </CellData> -->
-
-    <!-- <CellData name="aqua_regia"></CellData> -->
+    </CellDataChild>
     <!-- Aqua regia releases fumes -->
-    <!-- <CellData name="vapor_regia"></CellData> -->
+    <CellDataChild name="vapor_regia"
+        _parent="acid_gas"
+        ui_name="Fumes"
+        tags="[gas]"
+        lifetime="120"
+        gfx_glow="1"
+        wang_color="a0c25500">
+        <Graphics color="a0c25500">
+        </Graphics>
+    </CellDataChild>
+
+    <CellDataChild name="aqua_fortis"
+        _parent="aqua_regia"
+        ui_name="Aqua Fortis"
+        density="4"
+        gfx_glow="1"
+        wang_color="70ad7d04">
+        <Graphics color="70ad7d04">
+        </Graphics>
+    </CellDataChild>
+
+    <Reaction probability="100"
+        input_cell1="magic_liquid_berserk"
+        input_cell2="gunpowder_tnt"
+        output_cell1="aqua_regia"
+        output_cell2="aqua_regia"
+        blob_radius2="3" />
+
+    <Reaction probability="100"
+        input_cell1="aqua_regia"
+        input_cell2="gunpowder_tnt"
+        output_cell1="aqua_regia"
+        output_cell2="aqua_fortis" />
+
+    <Reaction probability="100"
+        input_cell1="magic_liquid_berserk"
+        input_cell2="aqua_fortis"
+        output_cell1="aqua_regia"
+        output_cell2="aqua_regia" />
+
+    <Reaction probability="20"
+        fast_reaction="1"
+        input_cell1="aqua_regia"
+        input_cell2="[meat]"
+        output_cell1="aqua_regia"
+        output_cell2="vapor_regia" />
+
+    <Reaction probability="20"
+        fast_reaction="1"
+        input_cell1="aqua_regia"
+        input_cell2="[burnable]"
+        output_cell1="aqua_regia"
+        output_cell2="vapor_regia" />
+
+    <Reaction probability="10"
+        fast_reaction="1"
+        input_cell1="aqua_regia"
+        input_cell2="air"
+        output_cell1="aqua_regia"
+        output_cell2="vapor_regia" />
 
     <!-- Magnum Opus -->
+    <!-- Copper forms visual rust when exposed to water -->
+    <CellDataChild name="patina"
+        _parent="copper"
+        wang_color="ff4f5265">
+        <Graphics texture_file="mods/azoth/files/materials_gfx/verdigris.png"
+            color="ff6033ff">
+        </Graphics>
+    </CellDataChild>
+    <Reaction probability="1"
+        input_cell1="copper"
+        input_cell2="[water]"
+        output_cell1="patina"
+        output_cell2="[water]" />
+
+    <CellDataChild name="verdigris"
+        _parent="water"
+        ui_name="Verdigris"
+        density="5"
+        wang_color="BB03273c">
+        <Graphics color="BB03273c" />
+        <StatusEffects>
+            <Ingestion>
+                <StatusEffect type="POISONED"
+                    amount="0.2" />
+            </Ingestion>
+        </StatusEffects>
+    </CellDataChild>
 
     <CellDataChild name="murky_elixir"
         _parent="water"
@@ -318,74 +550,12 @@
         <Graphics color="FF000020" />
         <StatusEffects>
             <Ingestion>
-                <StatusEffect type="FOOD_POISONING"
+                <StatusEffect type="POISONED"
                     amount="0.1" />
             </Ingestion>
         </StatusEffects>
     </CellDataChild>
 
-    <!-- Scripted materials -->
-
-    <CellDataChild name="cobalt_lodestone"
-        _parent="steel_static"
-        _inherit_reactions="1"
-        ui_name="Lodestone"
-        tags="[static],[solid]"
-        wang_color="ff6033fe"
-        hp="200000"
-        fire_hp="200000"
-        on_fire="1"
-        requires_oxygen="0"
-        temperature_of_fire="100"
-        danger_fire="1">
-        <ExplosionConfig damage="0.0"
-            cell_explosion_power="1"
-            cell_explosion_damage_required="1"
-            cell_explosion_radius_min="0"
-            cell_explosion_radius_max="1"
-            max_durability_to_destroy="1"
-            explosion_sprite=""
-            explosion_sprite_lifetime="0"
-            load_this_entity="mods/azoth/files/materials/cobalt_lodestone.xml"
-            ray_energy="400000">
-        </ExplosionConfig>
-    </CellDataChild>
-
-    <CellDataChild name="pale_spawner"
-        _parent="purifying_powder"
-        _inherit_reactions="1"
-        ui_name="Pale Stone"
-        wang_color="ff6044ff"
-        hp="200000"
-        fire_hp="200000"
-        on_fire="1"
-        requires_oxygen="0"
-        temperature_of_fire="100"
-        danger_fire="1">
-        <ExplosionConfig damage="0.0"
-            cell_explosion_power="1"
-            cell_explosion_damage_required="1"
-            cell_explosion_radius_min="0"
-            cell_explosion_radius_max="1"
-            max_durability_to_destroy="1"
-            sparks_enabled="0"
-            material_sparks_enabled="0"
-            explosion_sprite=""
-            explosion_sprite_lifetime="0"
-            load_this_entity="mods/azoth/files/items/palestone/pale_spawner.xml"
-            ray_energy="400000">
-        </ExplosionConfig>
-    </CellDataChild>
-
-    <!-- Reactions -->
-
-
-
-    <Reaction probability="100"
-        input_cell1="cinnabar"
-        input_cell2="[fire]"
-        output_cell1="mercury"
-        output_cell2="[fire]" />
 
     <Reaction probability="100"
         input_cell1="[meat]"
@@ -406,18 +576,16 @@
         output_cell2="ink" />
 
     <Reaction probability="10"
-        input_cell1="water"
-        input_cell2="rotten_meat"
-        output_cell1="swamp"
-        output_cell2="rotten_meat">
-    </Reaction>
+        input_cell1="rotten_meat"
+        input_cell2="water"
+        output_cell1="rotten_meat"
+        output_cell2="swamp" />
 
     <Reaction probability="10"
         input_cell1="water"
         input_cell2="vomit"
         output_cell1="swamp"
-        output_cell2="swamp">
-    </Reaction>
+        output_cell2="swamp" />
 
     <Reaction probability="5"
         input_cell1="water_swamp"
@@ -430,60 +598,77 @@
         input_cell2="copper"
         output_cell1="verdigris"
         output_cell2="verdigris" />
-
-    <Reaction probability="15"
+    <Reaction probability="50"
         input_cell1="vinegar"
         input_cell2="patina"
         output_cell1="verdigris"
         output_cell2="verdigris" />
-
     <Reaction probability="50"
         input_cell1="verdigris"
         input_cell2="ink"
         output_cell1="murky_elixir"
         output_cell2="murky_elixir" />
 
-    <!-- Copper forms visual rust when exposed to water -->
-    <Reaction probability="1"
-        input_cell1="copper"
-        input_cell2="[water]"
-        output_cell1="patina"
-        output_cell2="[water]" />
-    <!-- <Reaction probability="1" input_cell1="copper" input_cell2="air" output_cell1="patina" output_cell2="air" /> -->
+    <!-- Scripted materials -->
+    <CellDataChild name="cobalt_lodestone"
+        _parent="cobalt"
+        _inherit_reactions="0"
+        ui_name="Cobaltite"
+        wang_color="ff6033fe" />
 
-    <Reaction probability="100"
-        input_cell1="mercury"
-        input_cell2="[gold]"
-        output_cell1="mercury"
-        output_cell2="amalgam_gold" />
-
-    <Reaction probability="50"
-        input_cell1="mercury"
-        input_cell2="magic_liquid_berserk"
-        output_cell1="mercury"
-        output_cell2="magic_liquid_critical" />
-    <Reaction probability="50"
-        input_cell1="mercury"
-        input_cell2="magic_liquid_berserk"
-        output_cell1="mercury"
-        output_cell2="alcohol" />
-
-    <Reaction probability="50"
-        input_cell1="mercury"
-        input_cell2="magic_liquid_protection_all"
-        output_cell1="mercury"
-        output_cell2="magic_liquid_ichor" />
-    <Reaction probability="50"
-        input_cell1="mercury"
-        input_cell2="magic_liquid_protection_all"
-        output_cell1="mercury"
-        output_cell2="honey" />
-
-
-
-    <!-- <Reaction probability="100" input_cell1="[rust_box2d]" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
+    <Reaction probability="10"
+        fast_reaction="1"
+        input_cell1="cobalt_lodestone"
+        input_cell2="cobalt"
+        output_cell1="cobalt_lodestone"
+        output_cell2="cobalt">
+        <ExplosionConfig cell_explosion_probability="100"
+            damage="0.0"
+            audio_enabled="0"
+            pixel_sprites_enabled="0"
+            explosion_sprite=""
+            cell_explosion_power="10"
+            cell_explosion_damage_required="1"
+            cell_explosion_radius_min="1"
+            cell_explosion_radius_max="1"
+            create_cell_material="fire"
+            create_cell_probability="0"
+            camera_shake="0"
+            max_durability_to_destroy="0"
+            sparks_enabled="0"
+            load_this_entity="mods/azoth/files/materials/cobalt_lodestone.xml"
+            particle_effect="0"
+            ray_energy="100" />
     </Reaction>
-    <Reaction probability="100" input_cell1="fire_cold_emitter" input_cell2="air" output_cell1="fire_cold_emitter" output_cell2="fire_cold">
-    </Reaction> -->
+
+    <CellDataChild name="pale_spawner"
+        _parent="purifying_powder"
+        _inherit_reactions="1"
+        ui_name="Pale Stone"
+        wang_color="ff6044ff"
+        hp="200000"
+        fire_hp="200000"
+        on_fire="1"
+        requires_oxygen="0"
+        temperature_of_fire="100"
+        danger_fire="1">
+        <ExplosionConfig cell_explosion_probability="100"
+            damage="0.0"
+            audio_enabled="0"
+            pixel_sprites_enabled="0"
+            explosion_sprite=""
+            cell_explosion_power="1"
+            cell_explosion_damage_required="1"
+            cell_explosion_radius_min="0"
+            cell_explosion_radius_max="1"
+            max_durability_to_destroy="1"
+            sparks_enabled="0"
+            material_sparks_enabled="0"
+            explosion_sprite=""
+            explosion_sprite_lifetime="0"
+            load_this_entity="mods/azoth/files/items/palestone/pale_spawner.xml"
+            ray_energy="400000">
+        </ExplosionConfig>
+    </CellDataChild>
 
 </Materials>

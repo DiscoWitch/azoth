@@ -6,18 +6,30 @@
             mass="0.04" />
     </Base>
 
+    <InheritTransformComponent only_position="1">
+        <Transform position.x="0"
+            position.y="0">
+        </Transform>
+    </InheritTransformComponent>
+
+    <CameraBoundComponent max_count="20"
+        distance="500"
+        freeze_on_distance_kill="0"
+        freeze_on_max_count_kill="0" />
+
     <ProjectileComponent _tags="in_flight"
         _enabled="1"
         speed_min="800"
         speed_max="800"
         on_collision_die="0"
-        damage="0" />
+        damage="0"
+        velocity_sets_rotation="0" />
 
     <ParticleEmitterComponent _tags="in_flight"
         _enabled="1"
         emitted_material_name="spark_white_bright"
         count_min="1"
-        count_max="1"
+        count_max="10"
         lifetime_min="1"
         lifetime_max="1"
         is_trail="1"
@@ -58,31 +70,33 @@
         _enabled="0"
         emitted_material_name="gold_molten"
         gravity.y="0"
+        area_circle_radius.min="0"
+        area_circle_radius.max="3"
+        attractor_force="300"
+        x_vel_min="200"
+        x_vel_max="400"
+        y_vel_min="0"
+        y_vel_max="0"
         x_pos_offset_min="0"
         x_pos_offset_max="0"
-        x_vel_min="10"
-        x_vel_max="100"
-        y_vel_min="-1"
-        y_vel_max="1"
         count_min="10"
         count_max="10"
-        lifetime_min="0.3"
-        lifetime_max="0.3"
-        is_trail="0"
+        lifetime_min="0.1"
+        lifetime_max="0.25"
         render_on_grid="1"
         fade_based_on_lifetime="1"
         emission_interval_min_frames="1"
         emission_interval_max_frames="1"
         emit_cosmetic_particles="1"
-        is_emitting="1"
-        draw_as_long="1"
-        collide_with_grid="0" />
+        collide_with_grid="0"
+        draw_as_long="1" />
 
     <LuaComponent execute_on_added="1"
         execute_every_n_frame="1"
         script_source_file="mods/azoth/files/actions/tether/tether.lua" />
 
-    <CollisionTriggerComponent width="16"
+    <CollisionTriggerComponent _tags="in_flight"
+        width="16"
         height="16"
         radius="16"
         destroy_this_entity_when_triggered="0" />

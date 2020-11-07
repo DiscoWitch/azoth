@@ -1,13 +1,9 @@
-local self = GetUpdatedEntityID();
-local my_pc = EntityGetFirstComponent(self, "ProjectileComponent");
-local stone = ComponentGetValue2(my_pc, "mWhoShot")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local my_wallet = EntityGetFirstComponentIncludingDisabled(self, "WalletComponent")
-local stone_wallet = EntityGetFirstComponentIncludingDisabled(stone, "WalletComponent")
-
-local my_money = ComponentGetValue2(my_wallet, "money")
+local self = Entity(GetUpdatedEntityID())
+local stone = Entity(self.ProjectileComponent.mWhoShot)
+local my_money = self.WalletComponent.money
 if my_money > 0 then
-    local stone_money = ComponentGetValue2(stone_wallet, "money")
-    ComponentSetValue2(stone_wallet, "money", stone_money + my_money)
-    ComponentSetValue2(my_wallet, "money", 0)
+    stone.WalletComponent.money = stone.WalletComponent.money + my_money
+    self.WalletComponent.money = 0
 end

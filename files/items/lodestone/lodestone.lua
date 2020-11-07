@@ -1,69 +1,65 @@
 dofile_once("data/scripts/lib/utilities.lua")
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = GetUpdatedEntityID()
+local self = Entity(GetUpdatedEntityID())
 local now = GameGetFrameNum()
-local phase = EntityGetVariableNumber(self, "phase", -1)
-if phase == -1 then
+local phase = self.var_int.phase
+if phase == nil then
     return
 elseif phase == 0 then
-    EntitySetVariableNumber(self, "phase_change_frame", now + 60 - (now % 30))
+    phase = 1
+    self.var_int.phase = 1
+    self.var_int.phase_change_frame = now + 60 - (now % 30)
 end
 
-local x, y = EntityGetTransform(self)
-local vc = EntityGetFirstComponent(self, "VelocityComponent")
-local mass = ComponentGetValue2(vc, "mass")
-
+local x, y = self:transform()
+local mass = self.VelocityComponent.mass
 local g = 9.8 * 5
 local antigrav = -g * mass
 local drag = 10 * mass
 
 function phaseStop()
     -- Come to rest in midair shortly after throwing
-    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
-    local vx, vy = PhysicsGetComponentVelocity(self, pbc)
-    PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
-    local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
-    PhysicsApplyTorque(self, -angvel)
-    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
-        EntitySetVariableNumber(self, "phase", 2)
-        EntitySetVariableNumber(self, "phase_change_frame", now + 4 * 60)
+    local pbc = self.PhysicsBodyComponent
+    local vx, vy = pbc:getVelocity()
+    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    local angvel = pbc:getAngularVelocity()
+    self:applyTorque(-angvel)
+    if now >= self.var_int.phase_change_frame then
+        self.var_int.phase = 2
+        self.var_int.phase_change_frame = now + 4 * 60
     end
 end
 
 function phaseSpin()
     -- spend 4 seconds spinning
-    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
-    local vx, vy = PhysicsGetComponentVelocity(self, pbc)
-    PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
-    local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
-    PhysicsApplyTorque(self, mass * 2)
+    local vx, vy = self.PhysicsBodyComponent:getVelocity()
+    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    self:applyTorque(mass * 2)
+
+    local vac_count = 180
+    local vac_speed = 100
 
     if now % 60 == 0 then
-        for i = 1, 360 do
-            local a = i * math.pi / 180
-            local tx = math.cos(a)
-            local ty = math.sin(a)
-            local vac_speed = 400
-            shoot_projectile(self, "mods/azoth/files/items/lodestone/lodestone_vacuum.xml", x, y, tx * vac_speed,
-                ty * vac_speed, true)
+        for i = 1, vac_count do
+            local a = i * 2 * math.pi / vac_count
+            local proj = shoot_projectile(self:id(), "mods/azoth/files/items/lodestone/lodestone_vacuum.xml", x, y,
+                             vac_speed * math.cos(a), vac_speed * math.sin(a), true)
         end
     end
-    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
-        EntitySetVariableNumber(self, "phase", 3)
+    if now >= self.var_int.phase_change_frame then
+        self.var_int.phase = 3
     end
 end
 
 function phaseReleaseGold()
     -- Keep spinning while spraying gold
-    local pbc = EntityGetFirstComponent(self, "PhysicsBodyComponent")
-    local vx, vy = PhysicsGetComponentVelocity(self, pbc)
-    PhysicsApplyForce(self, -drag * vx, -drag * vy + antigrav)
-    local angvel = PhysicsGetComponentAngularVelocity(self, pbc)
-    PhysicsApplyTorque(self, mass * 2)
+    local pbc = self.PhysicsBodyComponent
+    local vx, vy = pbc:getVelocity()
+    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    self:applyTorque(mass * 2)
 
-    local my_wallet = EntityGetFirstComponentIncludingDisabled(self, "WalletComponent")
-    local my_money = ComponentGetValue2(my_wallet, "money")
+    local my_money = self.WalletComponent.money
     if my_money > 0 then
         local spray_amt = math.min(my_money, 10)
         local angle = 24 * now * (math.pi / 180)
@@ -71,16 +67,27 @@ function phaseReleaseGold()
         local gold_offset = 7
         GameCreateParticle("gold", x + gold_offset * math.cos(angle), y + gold_offset * math.sin(angle), spray_amt,
             gold_speed * math.cos(angle), gold_speed * math.sin(angle), false, false)
-        ComponentSetValue2(my_wallet, "money", my_money - spray_amt)
+        self.WalletComponent.money = my_money - spray_amt
     else
-        EntitySetVariableNumber(self, "phase", 4)
-        EntitySetVariableNumber(self, "phase_change_frame", now + 1 * 60)
+        self.var_int.phase = 4
+        self.var_int.phase_change_frame = now + 1 * 60
     end
 end
 
 function phaseLaunch()
+    for k, v in self.ParticleEmitterComponent:ipairs() do
+        v.mExPosition = {
+            x = x,
+            y = y
+        }
+    end
     -- Find the nearest treasure and launch at it
-    local treasure = EntityGetClosestWithTag(x, y, "chest")
+    local target = EntityGetClosestWithTag(x, y, "chest")
+    local dist = math.huge
+    if target ~= 0 then
+        local tx, ty = EntityGetTransform(target)
+        dist = math.sqrt((tx - x) ^ 2 + (ty - y) ^ 2)
+    end
     local heart_candidates = EntityGetWithTag("drillable")
     local heart_dist = math.huge
     local heart = 0
@@ -88,28 +95,11 @@ function phaseLaunch()
         local uicomp = EntityGetFirstComponent(v, "UIInfoComponent")
         if uicomp and string.match(ComponentGetValue2(uicomp, "name"), "heart") then
             local hx, hy = EntityGetTransform(v)
-            local dist = math.sqrt((hx - x) ^ 2 + (hy - y) ^ 2)
-            if dist < heart_dist then
-                heart_dist = dist
-                heart = v
+            local hdist = math.sqrt((hx - x) ^ 2 + (hy - y) ^ 2)
+            if hdist < dist then
+                dist = hdist
+                target = v
             end
-        end
-    end
-    local target = 0
-    if treasure == 0 then
-        -- No treasure: get heart
-        target = heart
-    elseif heart == 0 then
-        -- No heart: get treasure
-        target = treasure
-    else
-        -- Treasure and heart coexist: get closest
-        local tx, ty = EntityGetTransform(treasure)
-        local treasure_dist = math.sqrt((tx - x) ^ 2 + (ty - y) ^ 2)
-        if treasure_dist < heart_dist then
-            target = treasure
-        else
-            target = heart
         end
     end
     if target ~= 0 then
@@ -117,23 +107,26 @@ function phaseLaunch()
         local tx, ty = EntityGetTransform(target)
         local dx = tx - x
         local dy = ty - y
-        local dist = math.sqrt(dx ^ 2 + dy ^ 2)
 
-        EntitySetComponentsWithTagEnabled(self, "disabled_in_flight", false)
-        EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", true)
-        ComponentSetValue2(vc, "mVelocity", launch_speed * dx / dist, launch_speed * dy / dist)
+        self:setEnabledWithTag("disabled_in_flight", false)
+        self:setEnabledWithTag("enabled_in_flight", true)
+        self.VelocityComponent.mVelocity = {
+            x = launch_speed * dx / dist,
+            y = launch_speed * dy / dist
+        }
     end
-    EntitySetVariableNumber(self, "phase", 5)
-    EntitySetVariableNumber(self, "phase_change_frame", now + 10)
+    self.var_int.phase = 5
+    self.var_int.phase_change_frame = now + 20
 end
 
 function phaseFinal()
-    if now >= EntityGetVariableNumber(self, "phase_change_frame", 0) then
-        EntitySetVariableNumber(self, "phase", -1)
-        EntitySetComponentsWithTagEnabled(self, "disabled_in_flight", true)
-        EntitySetComponentsWithTagEnabled(self, "enabled_in_flight", false)
-        local vx, vy = GameGetVelocityCompVelocity(self)
-        PhysicsApplyForce(self, -vx, -vy)
+    if now >= self.var_int.phase_change_frame then
+        self.var_int:delete("phase")
+        self:setEnabledWithTag("disabled_in_flight", true)
+        self:setEnabledWithTag("enabled_in_flight", false)
+        self:setEnabledWithTag("disabled_during_throw", true)
+        local vel = self.VelocityComponent.mVelocity
+        self:applyForce(-vel.x / 2, -vel.y / 2)
     end
 end
 

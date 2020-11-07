@@ -1,0 +1,9 @@
+<Entity>
+    <InheritTransformComponent />
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_ELSEWHERE" />
+
+    <LuaComponent script_source_file="mods/azoth/files/status/elsewhere/teleport.lua"
+        execute_on_removed="1"
+        execute_every_n_frame="300" />
+</Entity>

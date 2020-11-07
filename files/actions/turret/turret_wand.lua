@@ -1,14 +1,9 @@
 dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
 
 function throw_item(from_x, from_y, to_x, to_y)
-    local self = GetUpdatedEntityID()
-    local owner = EntityGetVariableNumber(self, "owner", 0)
-    if owner ~= 0 then
-        EntityKill(owner)
-    end
-    EntityKill(self)
+    -- Kill the wand to make sure it's never possible for the player to get it
+    EntityKill(GetUpdatedEntityID())
 end
 
 local entity_id = GetUpdatedEntityID()

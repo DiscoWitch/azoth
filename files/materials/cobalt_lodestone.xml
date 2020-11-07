@@ -1,13 +1,19 @@
 <Entity tags="transient">
 
+    <LoadEntitiesComponent _enabled="1"
+        entity_file="mods/azoth/files/items/lodestone/lodestone.xml"
+        kill_entity="1"
+        timeout_frames="10"
+        count.min="1"
+        count.max="1" />
+
     <MagicConvertMaterialComponent kill_when_finished="0"
         from_material="cobalt_lodestone"
-        steps_per_frame="3"
+        steps_per_frame="25"
         to_material="air"
         is_circle="1"
         radius="25">
     </MagicConvertMaterialComponent>
-
 
     <MagicConvertMaterialComponent kill_when_finished="0"
         from_material="cobalt"
@@ -16,11 +22,4 @@
         is_circle="1"
         radius="25">
     </MagicConvertMaterialComponent>
-    <LifetimeComponent lifetime="10">
-    </LifetimeComponent>
-
-    <LuaComponent execute_on_added="1"
-        remove_after_executed="1"
-        script_source_file="mods/azoth/files/materials/cobalt_lodestone.lua"></LuaComponent>
-
 </Entity>

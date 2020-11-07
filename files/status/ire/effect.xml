@@ -1,0 +1,13 @@
+<Entity>
+    <InheritTransformComponent />
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_IRE" />
+
+    <LuaComponent script_source_file="mods/azoth/files/status/ire/apply.lua"
+        remove_after_executed="1" />
+    <LuaComponent script_source_file="mods/azoth/files/status/ire/remove.lua"
+        execute_on_removed="1"
+        execute_every_n_frame="-1" />
+    <LuaComponent script_shot="mods/azoth/files/status/ire/shot.lua" />
+
+</Entity>

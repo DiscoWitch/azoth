@@ -38,23 +38,31 @@
         offset_y="4"
         image_file="mods/azoth/files/items/palestone/palestone.png" />
 
+    <BookComponent>
+    </BookComponent>
+
     <ItemComponent _tags="enabled_in_world"
-        item_name="PaleStone"
-        ui_description="desc_palestone"
+        item_name="Pale Stone"
+        ui_description="The generation of the elements from one another is circular,
+but still because nothing but the matter is preserved 
+in that generation in what was generated, 
+for this reason what is generated is simple, 
+just as it is generated from something simple, 
+and each one is an element, although one is before the other 
+in time in a generation such as this"
         ui_sprite="mods/azoth/files/items/palestone/palestone_ui.png"
-        max_child_items="0"
         is_pickable="1"
         is_equipable_forced="1"
         preferred_inventory="QUICK" />
 
     <LuaComponent _tags="enabled_in_world,enabled_in_hand"
         script_source_file="mods/azoth/files/items/palestone/palestone.lua"
-        execute_every_n_frame="5" />
+        execute_every_n_frame="12" />
 
     <UIInfoComponent _tags="enabled_in_world"
-        name="PaleStone" />
+        name="" />
 
-    <AbilityComponent ui_name="$item_moon"
+    <AbilityComponent ui_name=""
         throw_as_item="1">
         <gun_config deck_capacity="0">
         </gun_config>

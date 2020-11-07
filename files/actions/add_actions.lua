@@ -1,4 +1,7 @@
 dofile_once("mods/azoth/files/actions/blink_cast/init.lua")
+dofile_once("mods/azoth/files/actions/sight/init.lua")
 dofile_once("mods/azoth/files/actions/tether/init.lua")
 dofile_once("mods/azoth/files/actions/leash/init.lua")
 dofile_once("mods/azoth/files/actions/turret/init.lua")
+dofile_once("mods/azoth/files/actions/turret_patient/init.lua")
+dofile_once("mods/azoth/files/actions/test/init.lua")

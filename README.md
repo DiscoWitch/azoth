@@ -5,12 +5,14 @@ Azoth is a Noita mod aiming to add an alchemy and crafting-based progression sys
 ### Feature progress:
 More features will likely be added to this list as the mod develops.
 - [x] Tether + leash spells
-- [ ] Wand turret
-- [ ] Cast on cursor spell
+- [x] Wand turret
+- [x] Cast on cursor spell
+- [ ] Spells that consume all mana
 - Advanced flasks
     - [x] Metal flask (doesn't break on impact)
     - [x] Vacuum flask
 - [x] Lodestone
+- [ ] Homeward bone
 - [ ] Philosopher's stone
     - [x] Albedo: Pale Stone
     - [ ] Citrinitas: ???
@@ -21,3 +23,7 @@ More features will likely be added to this list as the mod develops.
     - [x] Cobalt
     - [ ] Aqua Regia
     - [ ] Bismuth
+- Misc:
+    - [ ] Particle text display
+    - [ ] interactable creatures
+    - [ ] Onion

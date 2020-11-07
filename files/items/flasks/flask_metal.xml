@@ -16,7 +16,7 @@
     <PhysicsImageShapeComponent body_id="1"
         centered="1"
         image_file="data/items_gfx/potion_normals.png"
-        material="steel"></PhysicsImageShapeComponent>
+        material="gem_box2d"></PhysicsImageShapeComponent>
 
     <PhysicsThrowableComponent max_throw_speed="180"
         throw_force_coeff="1.5"></PhysicsThrowableComponent>
@@ -29,22 +29,15 @@
 
     <!-- potion logic -->
 
-    <!-- <LuaComponent  -->
-    <!-- execute_on_added="1" -->
-    <!-- remove_after_executed="1" -->
-    <!-- call_init_function="1" -->
-    <!-- script_source_file="data/scripts/items/potion.lua"  -->
-    <!-- ></LuaComponent> -->
-
     <LuaComponent remove_after_executed="1"
         script_item_picked_up="data/scripts/items/potion_effect.lua"></LuaComponent>
 
     <PotionComponent _tags="enabled_in_hand,enabled_in_world"
         spray_velocity_coeff="75"
-        spray_velocity_normalized_min="0.75"></PotionComponent>
+        spray_velocity_normalized_min="1"></PotionComponent>
 
     <MaterialSuckerComponent _tags="enabled_in_world,enabled_in_hand"
-        barrel_size="1000"
+        barrel_size="2000"
         num_cells_sucked_per_frame="5"></MaterialSuckerComponent>
 
     <MaterialInventoryComponent _tags="enabled_in_world,enabled_in_hand"
@@ -117,7 +110,7 @@
         is_pickable="1"
         is_equipable_forced="1"
         ui_sprite="data/ui_gfx/items/potion.png"
-        ui_description="$item_description_potion"
+        ui_description="A flask that can't be broken no matter how hard it's thrown."
         preferred_inventory="QUICK"></ItemComponent>
 
     <AbilityComponent ui_name="$item_potion_with_material"

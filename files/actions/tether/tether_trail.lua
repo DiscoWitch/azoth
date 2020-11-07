@@ -1,18 +1,19 @@
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = GetUpdatedEntityID();
-local knot1 = EntityGetVariableNumber(self, "knot1", 0);
-local knot2 = EntityGetVariableNumber(self, "knot2", 0);
+local self = Entity(GetUpdatedEntityID())
+local knot1 = self.var_int.knot1
+local knot2 = self.var_int.knot2
 
-if EntityGetIsAlive(knot1) and EntityGetIsAlive(knot2) then
+if knot1 and knot2 and EntityGetIsAlive(knot1) and EntityGetIsAlive(knot2) then
     -- Zip back and forth along the rope to draw a trail along it
-    local cur_knot = knot1
-    if GameGetFrameNum() % 2 == 0 then
-        cur_knot = knot2
-    end
-    local pos_x, pos_y, rotation = EntityGetTransform(cur_knot)
-    EntitySetTransform(self, pos_x, pos_y, rotation)
+    local x1, y1, angle = EntityGetTransform(knot1)
+    local x2, y2 = EntityGetTransform(knot2)
+    self:setTransform(x1, y1, angle)
+    self.ParticleEmitterComponent.mExPosition = {
+        x = x2,
+        y = y2
+    }
 else
     -- If either side of the tether is destroyed, destroy the tether effect too
-    EntityKill(self)
+    self:kill()
 end

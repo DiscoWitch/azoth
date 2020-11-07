@@ -2,7 +2,8 @@
     tags="mortal,human,hittable,peasant,prey,player_unit,teleportable">
 
     <Base file="data/entities/player_base.xml"
-        include_children="1" />
+        include_children="1">
+    </Base>
 
     <!--
   <Entity name="inventory_quick">
@@ -19,19 +20,24 @@
             <Base file="data/entities/items/starting_bomb_wand_rng.xml" />
         </Entity>
         <Entity>
-            <Base file="data/entities/items/pickup/potion_water.xml" />
-        </Entity>
-        <Entity>
-            <Base file="mods/azoth/files/test/flask_test_2.xml" />
-        </Entity>
-        <Entity>
-            <Base file="mods/azoth/files/items/lodestone/lodestone.xml" />
-        </Entity>
-
-        <Entity>
-            <Base file="mods/azoth/files/items/palestone/palestone.xml"
+            <Base file="mods/azoth/files/items/bag_holding/bag.xml"
                 include_children="1" />
         </Entity>
+        <!-- <Entity>
+            <Base file="mods/azoth/files/items/lodestar/lodestar.xml" include_children="1" />
+        </Entity> -->
+        <Entity>
+            <Base file="mods/azoth/files/items/flasks/flask_vacuum.xml" />
+        </Entity>
+        <Entity>
+            <Base file="data/entities/items/pickup/potion_water.xml" />
+        </Entity>
+        <!-- <Entity>
+            <Base file="mods/azoth/files/items/lodestone/lodestone.xml" include_children="1" />
+        </Entity> -->
+        <!-- <Entity>
+            <Base file="mods/azoth/files/items/palestone/palestone.xml" include_children="1" />
+        </Entity> -->
     </Entity>
     <Entity name="inventory_full" />
 

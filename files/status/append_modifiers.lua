@@ -1,0 +1,4 @@
+-- function extra_modifiers.ire()
+--     print("ire!")
+--     c.damage_critical_chance = 100
+-- end

@@ -1,6 +1,5 @@
 local self = GetUpdatedEntityID()
 local parent = EntityGetParent(self)
-
 if parent == nil or parent == 0 then
     return
 end
