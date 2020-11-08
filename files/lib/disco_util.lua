@@ -111,22 +111,28 @@ function Entity(entity_id)
         EntitySetComponentsWithTagEnabled(entity_id, tag, enabled)
     end
     function ent:findChildren(pred)
-        local children = {}
-        for k, v in ipairs(EntityGetAllChildren(entity_id)) do
-            if pred(Entity(v)) then
-                table.insert(children, v)
+        local output = {}
+        local children = EntityGetAllChildren(entity_id)
+        if children then
+            for k, v in ipairs(children) do
+                if pred(Entity(v)) then
+                    table.insert(output, v)
+                end
             end
         end
-        return WrapList(children, Entity)
+        return WrapList(output, Entity)
     end
     function ent:findChildrenUnwrapped(pred)
-        local children = {}
-        for k, v in ipairs(EntityGetAllChildren(entity_id)) do
-            if pred(v) then
-                table.insert(children, v)
+        local output = {}
+        local children = EntityGetAllChildren(entity_id)
+        if children then
+            for k, v in ipairs(children) do
+                if pred(v) then
+                    table.insert(output, v)
+                end
             end
         end
-        return WrapList(children, Entity)
+        return WrapList(output, Entity)
     end
     function ent:applyForce(fx, fy)
         PhysicsApplyForce(entity_id, fx, fy)
@@ -211,6 +217,9 @@ function Component(component_id, entity_id)
         },
         ControlsComponent = {
             mAimingVectorNormalized = GetVec2
+        },
+        DamageModelComponent = {
+            damage_multipliers = MetaObject
         },
         ItemComponent = {
             inventory_slot = GetVec2

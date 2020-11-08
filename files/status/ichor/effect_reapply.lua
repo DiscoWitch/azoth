@@ -1,31 +1,28 @@
-dofile_once("mods/azoth/files/lib/goki_variables.lua")
+dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = GetUpdatedEntityID()
-local parent = EntityGetRootEntity(self)
+local self = Entity(GetUpdatedEntityID())
+local parent = self:parent()
 
 -- Make sure we're getting the right parent
-if parent == self then
+if not parent then
     return
 end
 
-local stain_rate = EntityGetVariableNumber(self, "stain_rate", -1)
-if stain_rate == -1 then
-    stain_rate = 20
-end
+local stain_rate = self.var_int.stain_rate or 20
 
 -- Logic to reduce stain_rate
-local fire = GameGetGameEffect(parent, "ON_FIRE")
-local oiled = GameGetGameEffect(parent, "OILED")
+local fire = GameGetGameEffect(parent:id(), "ON_FIRE")
+local oiled = GameGetGameEffect(parent:id(), "OILED")
 if (fire ~= 0 or oiled ~= 0) and stain_rate > 0 then
     stain_rate = stain_rate - 1
-    print(tostring(stain_rate))
-    if stain_rate == 0 then
-        EntityKill(self)
+    self.var_int.stain_rate = stain_rate
+    if stain_rate <= 0 then
+        self:kill()
+        return
     end
-    EntitySetVariableNumber(self, "stain_rate", stain_rate)
 end
 
 -- Reapply ichor to prevent washing it off easily
 local ichor = CellFactory_GetType("magic_liquid_ichor")
-EntityAddRandomStains(parent, ichor, stain_rate)
+EntityAddRandomStains(parent:id(), ichor, stain_rate)
 

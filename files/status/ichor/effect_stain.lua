@@ -9,7 +9,7 @@ function init(self)
         return ent:name() == "azoth_ichor_reapply"
     end)
     if not reapply then
-        LoadGameEffectEntityTo(parent:id(), "mods/azoth/files/status/effect_reapply.xml")
+        LoadGameEffectEntityTo(parent:id(), "mods/azoth/files/status/ichor/effect_reapply.xml")
     end
     self.var_bool.initialized = true
 end
@@ -25,7 +25,8 @@ init(self)
 
 -- Anger the gods if something ichored is in the holy mountain
 local x, y = self:transform()
-if BiomeMapGetName(x, y) == "$biome_holymountain" then
+print(GlobalsGetValue("TEMPLE_SPAWN_GUARDIAN"))
+if BiomeMapGetName(x, y) == "$biome_holymountain" and GlobalsGetValue("TEMPLE_SPAWN_GUARDIAN") ~= "1" then
     GlobalsSetValue("TEMPLE_SPAWN_GUARDIAN", "1")
     local guard_spawn_id = EntityGetClosestWithTag(x, y, "guardian_spawn_pos")
     if guard_spawn_id ~= 0 then

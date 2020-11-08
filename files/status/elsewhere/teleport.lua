@@ -12,6 +12,10 @@ local rand = Random()
 local dist = 100
 local type = "enemy"
 if rand < 0.1 then
+    ents = EntityGetWithTag("prop_physics")
+    type = "prop"
+    dist = 30
+elseif #ents == 0 or rand < 0.2 then
     ents = {}
     for k, v in ipairs(EntityGetWithTag("item_physics")) do
         if EntityGetParent(v) == 0 then
@@ -20,10 +24,6 @@ if rand < 0.1 then
         end
     end
     type = "item"
-    dist = 30
-elseif rand < 0.2 then
-    ents = EntityGetWithTag("prop_physics")
-    type = "prop"
     dist = 30
 end
 if #ents == 0 then
