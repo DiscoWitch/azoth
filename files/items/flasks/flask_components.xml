@@ -1,0 +1,28 @@
+<Entity>
+    <LuaComponent _tags="enabled_in_world"
+        execute_every_n_frame="60"
+        script_source_file="mods/azoth/files/items/palestone/flask_script.lua" />
+
+    <MagicConvertMaterialComponent _enabled="0"
+        _tags="enabled_by_elixir"
+        kill_when_finished="0"
+        from_material="purifying_powder"
+        to_material="pale_spawner"
+        is_circle="1"
+        steps_per_frame="5"
+        radius="5"
+        loop="1" />
+
+    <Entity name="azoth_forge_data"
+        tags="forgeable">
+        <InheritTransformComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory" />
+        <VariableStorageComponent name="forge"
+            value_string="mods/azoth/files/items/flasks/flask_forge.lua" />
+
+        <LuaComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory"
+            vm_type="ONE_PER_COMPONENT_INSTANCE"
+            script_enabled_changed="mods/azoth/files/lib/enable_world.lua"
+            script_source_file="mods/azoth/files/lib/enable_world.lua" />
+    </Entity>
+
+</Entity>

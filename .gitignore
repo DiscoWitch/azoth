@@ -5,3 +5,4 @@
 /files/test
 # The mod does not overwrite data files
 *.code-workspace
+.vscode

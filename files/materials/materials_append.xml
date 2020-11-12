@@ -367,6 +367,44 @@
             ray_energy="100" />
     </Reaction>
 
+    <CellDataChild name="azoth_magic_liquid_worm"
+        _parent="magic_liquid"
+        ui_name="Wormymorphine"
+        wang_color="dd781002"
+        gfx_glow="100"
+        density="3"
+        lifetime="0"
+        liquid_stains_self="0"
+        liquid_stains="1"
+        liquid_sprite_stains_check_offset="-1">
+        <Graphics color="dd781002" />
+        <ParticleEffect vel.y="0"
+            vel_random.min_x="-5"
+            vel_random.max_x="5"
+            vel_random.min_y="-100"
+            vel_random.max_y="0"
+            lifetime.min="0.1"
+            lifetime.max="0.2"
+            gravity.y="0"
+            render_on_grid="1"
+            draw_as_long="1"
+            airflow_force="0.8314"
+            airflow_scale="0.1371"
+            friction="-10"
+            count.min="1"
+            count.max="5" />
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="AZOTH_WORMPOLY" />
+            </Stains>
+            <Ingestion>
+                <StatusEffect type="AZOTH_WORMPOLY"
+                    amount="0.2" />
+            </Ingestion>
+        </StatusEffects>
+    </CellDataChild>
+
+
     <!-- Mercury + Berserkium -> Aqua Irae + Whiskey -->
     <!-- Causes incoming and outgoing critical hits -->
     <CellDataChild name="magic_liquid_critical"

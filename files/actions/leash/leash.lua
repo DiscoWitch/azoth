@@ -81,7 +81,6 @@ function CanAttach(target)
 end
 
 function collision_trigger(colliding_entity_id)
-    print("trigger")
     local self = Entity(GetUpdatedEntityID())
     if self.var_bool.attached then
         -- Don't attach if we're already attached to something

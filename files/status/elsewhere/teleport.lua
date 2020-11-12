@@ -19,7 +19,6 @@ elseif #ents == 0 or rand < 0.2 then
     ents = {}
     for k, v in ipairs(EntityGetWithTag("item_physics")) do
         if EntityGetParent(v) == 0 then
-            print(EntityGetTags(v))
             table.insert(ents, v)
         end
     end

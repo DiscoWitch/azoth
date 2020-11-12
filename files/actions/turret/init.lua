@@ -24,7 +24,7 @@ table.insert(actions, {
             return
         end
         local wand = Entity(shooter.Inventory2Component.mActiveItem)
-        if wand == nil then
+        if not wand then
             return
         end
 

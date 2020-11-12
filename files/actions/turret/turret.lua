@@ -23,7 +23,7 @@ local src = {
 storage:kill()
 
 if src.wand == nil then
-    print("No original wand found for turret")
+    print_error("No original wand found for turret")
     self:kill()
     return
 end

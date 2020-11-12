@@ -25,7 +25,6 @@ init(self)
 
 -- Anger the gods if something ichored is in the holy mountain
 local x, y = self:transform()
-print(GlobalsGetValue("TEMPLE_SPAWN_GUARDIAN"))
 if BiomeMapGetName(x, y) == "$biome_holymountain" and GlobalsGetValue("TEMPLE_SPAWN_GUARDIAN") ~= "1" then
     GlobalsSetValue("TEMPLE_SPAWN_GUARDIAN", "1")
     local guard_spawn_id = EntityGetClosestWithTag(x, y, "guardian_spawn_pos")

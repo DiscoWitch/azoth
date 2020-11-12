@@ -30,3 +30,11 @@ table.insert(status_effects, {
     protects_from_fire = false,
     effect_entity = "mods/azoth/files/status/elsewhere/effect.xml"
 })
+table.insert(status_effects, {
+    id = "AZOTH_WORMPOLY",
+    ui_name = "Worm?",
+    ui_description = "worm worm woRM WORM WORM",
+    ui_icon = "mods/azoth/files/status/wormpoly/icon.png",
+    protects_from_fire = false,
+    effect_entity = "mods/azoth/files/status/wormpoly/effect.xml"
+})
