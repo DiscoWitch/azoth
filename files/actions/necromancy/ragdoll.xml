@@ -1,0 +1,38 @@
+<Entity name="ragdoll">
+    <LuaComponent script_source_file="mods/azoth/files/actions/necromancy/ragdoll.lua"
+        execute_every_n_frame="1" />
+
+    <LifetimeComponent lifetime="300" />
+
+    <MagicConvertMaterialComponent _enabled="0"
+        kill_when_finished="1"
+        steps_per_frame="20"
+        from_material="azoth_necromeat"
+        to_material="smoke"
+        is_circle="1"
+        radius="20">
+    </MagicConvertMaterialComponent>
+
+    <ParticleEmitterComponent _enabled="1"
+        emitted_material_name="spark_red"
+        area_circle_radius.min="15"
+        area_circle_radius.max="20"
+        attractor_force="100"
+        friction="1"
+        x_vel_min="-100"
+        x_vel_max="100"
+        y_vel_min="-100"
+        y_vel_max="100"
+        count_min="1"
+        count_max="1"
+        lifetime_min="1"
+        lifetime_max="2"
+        create_real_particles="0"
+        emit_cosmetic_particles="1"
+        fade_based_on_lifetime="1"
+        draw_as_long="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1"
+        is_emitting="1">
+    </ParticleEmitterComponent>
+</Entity>

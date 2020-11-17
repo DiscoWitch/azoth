@@ -3,7 +3,7 @@
     </InheritTransformComponent>
 
     <GameEffectComponent effect="POLYMORPH"
-        frames="600"
+        frames="300"
         disable_movement="0"
         polymorph_target="data/entities/animals/sheep_bat.xml">
     </GameEffectComponent >
@@ -90,11 +90,17 @@
         script_source_file="mods/azoth/files/status/target_polymorph/apply.lua">
     </LuaComponent>
 
-    <VariableStorageComponent _tags="keep_ui"
+    <LuaComponent execute_on_removed="1"
+        execute_every_n_frame="-1"
+        script_source_file="mods/azoth/files/status/target_polymorph/on_remove.lua">
+    </LuaComponent>
+
+
+    <VariableStorageComponent name="keep_ui"
         value_bool="1" />
-    <VariableStorageComponent _tags="end_on_death"
+    <VariableStorageComponent name="end_on_death"
         value_bool="1" />
-    <VariableStorageComponent _tags="add_components" />
+    <VariableStorageComponent name="add_components" />
 
     <AudioComponent file="data/audio/Desktop/misc.bank"
         event_root="game_effect/polymorph">

@@ -3,6 +3,11 @@
 
     <VelocityComponent gravity_y="0" />
 
+    <HotspotComponent _tags="hand"
+        offset.x="0"
+        offset.y="0">
+    </HotspotComponent>
+
     <ProjectileComponent _enabled="1"
         lob_min="0.8"
         lob_max="1.0"
@@ -15,7 +20,7 @@
         explosion_dont_damage_shooter="1"
         on_collision_die="0"
         die_on_liquid_collision="0"
-        lifetime="-1"
+        lifetime="3600"
         damage="0"
         ragdoll_force_multiplier="0.0"
         hit_particle_force_multiplier="0.0"
@@ -32,11 +37,6 @@
 
     <ControlsComponent enabled="0" />
 
-    <CameraBoundComponent max_count="5"
-        distance="1000"
-        freeze_on_distance_kill="0"
-        freeze_on_max_count_kill="0" />
-
     <AnimalAIComponent preferred_job="JobDefault"
         ai_state="0"
         eye_offset_x="0"
@@ -49,9 +49,10 @@
         attack_ranged_offset_y="0"
         attack_ranged_action_frame="0"
         attack_ranged_min_distance="0"
-        attack_ranged_max_distance="150"
+        attack_ranged_max_distance="0"
         creature_detection_range_x="150"
         creature_detection_range_y="150"
+        creature_detection_check_every_x_frames="30"
         needs_food="0"
         can_fly="1"
         sense_creatures="1"
@@ -82,6 +83,7 @@
     <LuaComponent execute_on_added="1"
         execute_every_n_frame="-1"
         script_source_file="mods/azoth/files/actions/turret/turret.lua" />
+    <LuaComponent script_shot="mods/azoth/files/actions/turret/turret_shot.lua" />
 
     <ParticleEmitterComponent emitted_material_name="spark_purple_bright"
         offset.x="0"
@@ -138,10 +140,7 @@
         render_back="0">
     </ParticleEmitterComponent>
     <GameStatsComponent />
-    <HomingComponent target_tag="enemy"
-        detect_distance="250"
-        just_rotate_towards_target="1"
-        max_turn_rate="0.2">
-    </HomingComponent>
+    <!-- <HomingComponent target_tag="enemy" detect_distance="250" just_rotate_towards_target="1" max_turn_rate="0.2">
+    </HomingComponent> -->
 </Entity>
 

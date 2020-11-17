@@ -1,0 +1,12 @@
+<Materials>
+
+    <!-- Indestructible meat -->
+    <CellDataChild name="azoth_necromeat"
+        _parent="meat"
+        _inherit_reactions="0"
+        tags="[box2d],[solid]"
+        durability="100"
+        wang_color="fff4ddb4">
+    </CellDataChild>
+
+</Materials>

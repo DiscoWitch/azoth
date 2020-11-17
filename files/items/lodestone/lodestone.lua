@@ -21,8 +21,8 @@ local drag = 10 * mass
 function phaseStop()
     -- Come to rest in midair shortly after throwing
     local pbc = self.PhysicsBodyComponent
-    local vx, vy = pbc:getVelocity()
-    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    local vel = pbc:getVelocity()
+    self:applyForce(-drag * vel.x, -drag * vel.y + antigrav)
     local angvel = pbc:getAngularVelocity()
     self:applyTorque(-angvel)
     if now >= self.var_int.phase_change_frame then
@@ -33,8 +33,8 @@ end
 
 function phaseSpin()
     -- spend 4 seconds spinning
-    local vx, vy = self.PhysicsBodyComponent:getVelocity()
-    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    local vel = self.PhysicsBodyComponent:getVelocity()
+    self:applyForce(-drag * vel.x, -drag * vel.y + antigrav)
     self:applyTorque(mass * 2)
 
     local vac_count = 180
@@ -55,8 +55,8 @@ end
 function phaseReleaseGold()
     -- Keep spinning while spraying gold
     local pbc = self.PhysicsBodyComponent
-    local vx, vy = pbc:getVelocity()
-    self:applyForce(-drag * vx, -drag * vy + antigrav)
+    local vel = pbc:getVelocity()
+    self:applyForce(-drag * vel.x, -drag * vel.y + antigrav)
     self:applyTorque(mass * 2)
 
     local my_money = self.WalletComponent.money

@@ -1,4 +1,4 @@
-<Entity tags="card_action,energy_shield">
+<Entity tags="card_action">
     <ItemComponent _tags="enabled_in_world"
         play_spinning_animation="0"
         preferred_inventory="FULL"></ItemComponent>
@@ -61,7 +61,7 @@
     </SpriteOffsetAnimatorComponent>
 
     <ItemActionComponent _tags="enabled_in_world"
-        action_id="AZOTH_TEST">
+        action_id="AZOTH_SIGHT">
     </ItemActionComponent>
 
     <InheritTransformComponent _tags="enabled_in_hand"

@@ -220,7 +220,7 @@
 
     <Entity name="inventory_quick">
         <Entity>
-            <Base file="mods/azoth/files/status/target_polymorph/null_wand.xml" />
+            <Base file="mods/azoth/files/status/target_polymorph/polywand.xml" />
         </Entity>
     </Entity>
     <Entity name="inventory_full" />

@@ -596,7 +596,7 @@
 
 
     <Reaction probability="100"
-        input_cell1="[meat]"
+        input_cell1="meat"
         input_cell2="[fire]"
         output_cell1="ash"
         output_cell2="[fire]" />
@@ -707,6 +707,27 @@
             load_this_entity="mods/azoth/files/items/palestone/pale_spawner.xml"
             ray_energy="400000">
         </ExplosionConfig>
+    </CellDataChild>
+
+    <CellDataChild name="azoth_bag"
+        _parent="water"
+        ui_name="bag"
+        density="0"
+        wang_color="007d6c46">
+        <Graphics color="00FFFFFF" />
+    </CellDataChild>
+
+    <CellDataChild name="azoth_clean"
+        _parent="water"
+        ui_name="None"
+        density="0"
+        wang_color="FFAABBFF">
+        <Graphics color="FFAABBFF" />
+        <StatusEffects>
+            <Stains>
+                <StatusEffect type="AZOTH_CLEAN" />
+            </Stains>
+        </StatusEffects>
     </CellDataChild>
 
 </Materials>

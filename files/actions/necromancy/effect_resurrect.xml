@@ -1,0 +1,36 @@
+<Entity name="azoth_necromancy">
+    <InheritTransformComponent />
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_RESURRECTED"
+        frames="-1" />
+    <LuaComponent script_source_file="mods/azoth/files/actions/necromancy/effect_resurrect.lua"
+        execute_every_n_frame="60" />
+
+    <ParticleEmitterComponent emitted_material_name="spark_red_bright"
+        delay_frames="30"
+        offset.x="0"
+        offset.y="0"
+        x_pos_offset_min="0"
+        x_pos_offset_max="0"
+        y_pos_offset_min="0"
+        y_pos_offset_max="0"
+        area_circle_radius.min="10"
+        area_circle_radius.max="10"
+        friction="1"
+        x_vel_min="-10"
+        x_vel_max="10"
+        y_vel_min="-100"
+        y_vel_max="0"
+        count_min="1"
+        count_max="2"
+        lifetime_min="0.5"
+        lifetime_max="0.75"
+        create_real_particles="0"
+        emit_cosmetic_particles="1"
+        fade_based_on_lifetime="1"
+        draw_as_long="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1"
+        is_emitting="1">
+    </ParticleEmitterComponent>
+</Entity>

@@ -1,23 +1,21 @@
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
--- Used to split the entity lists that were sent through storage
-function str2table(input)
-    local output = {}
-    for i in string.gmatch(input, "([^,]+),") do
-        table.insert(output, tonumber(i))
-    end
-    return output
-end
-
 -- Init code, called once at turret creation
 local self = Entity(GetUpdatedEntityID())
+if self.var_bool.initialized then
+    return
+end
+
 local storage = Entity(EntityGetWithName("turret_storage"))
+if not storage then
+    return
+end
 -- Populate our data table from storage
 local src = {
     wand = Entity(tonumber(storage.variables.wand)),
-    deck = str2table(storage.variables.deck),
-    inventoryitem_id = str2table(storage.variables.inventoryitem_id)
+    deck = StringSplit(storage.variables.deck, ",", tonumber),
+    inventoryitem_id = StringSplit(storage.variables.inventoryitem_id, ",", tonumber)
 }
 -- kill storage now that we're done with it
 storage:kill()
@@ -54,3 +52,4 @@ for k, v in pairs(src.deck) do
         action_entity:setEnabledWithTag("enabled_in_world", false)
     end
 end
+self.var_bool.initialized = true

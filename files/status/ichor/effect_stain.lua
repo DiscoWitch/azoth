@@ -22,6 +22,12 @@ if not parent then
     return
 end
 init(self)
+local fire_prot = parent:children():search(function(ent)
+    return ent.GameEffectComponent and ent.GameEffectComponent.effect == "PROTECTION_FIRE"
+end)
+if fire_prot then
+    fire_prot.GameEffectComponent:setEnabled(false)
+end
 
 -- Anger the gods if something ichored is in the holy mountain
 local x, y = self:transform()

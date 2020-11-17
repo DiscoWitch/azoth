@@ -1,0 +1,13 @@
+<Entity name="polyhide">
+    <InheritTransformComponent />
+
+    <GameEffectComponent effect="POLYMORPH"
+        frames="-1"
+        disable_movement="0"
+        polymorph_target="mods/azoth/files/lib/polyhide/null.xml" />
+
+    <LuaComponent execute_every_n_frame="1"
+        remove_after_executed="1"
+        script_source_file="mods/azoth/files/lib/polyhide/apply.lua" />
+
+</Entity>

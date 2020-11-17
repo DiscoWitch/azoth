@@ -1,0 +1,27 @@
+<Entity name="ragdoll">
+
+    <DamageModelComponent hp="0"
+        ui_report_damage="0"
+        create_ragdoll="1"
+        ragdoll_material="azoth_necromeat"
+        blood_material="smoke"
+        blood_spray_material="smoke"
+        ragdoll_filenames_file=""
+        blood_sprite_directional="data/particles/bloodsplatters/bloodsplatter_directional_$[1-3].xml"
+        blood_sprite_large="data/particles/bloodsplatters/bloodsplatter_$[1-3].xml"
+        blood_spray_create_some_cosmetic="0"
+        ragdollify_child_entity_sprites="1"
+        ragdollify_disintegrate_nonroot="1"
+        ragdollify_root_angular_damping="2" />
+
+    <Entity>
+        <InheritTransformComponent />
+        <GameEffectComponent effect="CUSTOM"
+            custom_effect_id="AZOTH_NECROMANCY2"
+            ragdoll_effect="CUSTOM_RAGDOLL_ENTITY"
+            ragdoll_effect_custom_entity_file="mods/azoth/files/actions/necromancy/ragdoll.xml"
+            ragdoll_fx_custom_entity_apply_only_to_largest_body="1" />
+    </Entity>
+
+</Entity>
+

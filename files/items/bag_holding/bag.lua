@@ -22,8 +22,7 @@ if holder then
                 return ent.ItemComponent.inventory_slot.x == (islot.x + 1) % 4 and not is_wand
             end)
             if item then
-                EntityRemoveFromParent(item:id())
-                EntityAddChild(storage:id(), item:id())
+                item:setParent(storage)
                 ic.uses_remaining = ic.uses_remaining + 1
             end
         end
@@ -35,14 +34,13 @@ if holder then
             if stored then
                 local slot = (self.var_int.inv_slot or 0) % #stored + 1
                 self.var_int.inv_slot = slot
-                local target = Entity(stored[slot])
+                local item = Entity(stored[slot])
                 -- Make sure the item appears in the same slot the bag would stow from
-                target.ItemComponent.inventory_slot = {
+                item.ItemComponent.inventory_slot = {
                     x = (islot.x + 1) % 4,
                     y = islot.y
                 }
-                EntityRemoveFromParent(target:id())
-                EntityAddChild(inventory:id(), target:id())
+                item:setParent(inventory)
                 ic.uses_remaining = ic.uses_remaining - 1
             end
         end

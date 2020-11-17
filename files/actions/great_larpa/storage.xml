@@ -1,0 +1,9 @@
+<Entity>
+
+    <LifetimeComponent lifetime="900" />
+
+    <CameraBoundComponent max_count="5"
+        freeze_on_distance_kill="0"
+        freeze_on_max_count_kill="0" />
+
+</Entity>

@@ -4,5 +4,5 @@ if parent == nil or parent == 0 then
     return
 end
 local x, y, angle = EntityGetTransform(parent)
-local dist = 5
+local dist = 30
 EntitySetTransform(self, x + dist * math.cos(angle), y + dist * math.sin(angle))

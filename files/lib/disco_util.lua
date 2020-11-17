@@ -1,67 +1,96 @@
-function WrapList(list, wrapper, args)
-    if not list or #list == 0 then
-        return nil
-    end
-    local wrapped = {}
-    function wrapped:len()
-        return #list
-    end
-    function wrapped:ipairs()
-        local i = 0
-        local n = self:len()
-        return function()
-            i = i + 1
-            if i <= n then
-                return i, self[i]
-            end
+List = {}
+List.__mt = {
+    __tostring = function(self)
+        return "Class: List"
+    end,
+    __call = function(self, data, wrapper, args)
+        if not data or #data == 0 then
+            return nil
         end
+        local output = {
+            __data = data,
+            __wrapper = wrapper,
+            __args = args or {}
+        }
+        setmetatable(output, List)
+        return output
     end
-    function wrapped:searchList(pred)
-        local output = {}
-        for i = 1, #list do
-            if pred(wrapper(list[i], args)) then
-                table.insert(output, list[i])
-            end
-        end
-        return WrapList(output, wrapper, args)
+}
+List.__index = function(self, key)
+    if List[key] then
+        return List[key]
+    elseif type(key) == "number" then
+        return self.__wrapper(self.__data[key], self.__args)
+    else
+        -- If addressed directly, assume the user wants the first entry
+        return self.__wrapper(self.__data[1], self.__args)[key]
     end
-    function wrapped:searchListRaw(pred)
-        -- Does not wrap list entries during the search
-        local output = {}
-        for i = 1, #list do
-            if pred(list[i]) then
-                table.insert(output, list[i])
-            end
-        end
-        return WrapList(output, wrapper, args)
-    end
-    setmetatable(wrapped, {
-        __index = function(self, key)
-            if type(key) == "number" then
-                return wrapper(list[key], args)
-            else
-                -- If addressed directly, assume the user wants the first entry
-                return wrapper(list[1], args)[key]
-            end
-        end,
-        __newindex = function(self, key, value)
-            if type(key) == "number" then
-                -- Don't allow writing to the component list
-            else
-                -- If addressed directly, assume the user wants the first entry
-                wrapper(list[1], args)[key] = value
-            end
-        end,
-        __tostring = function(self)
-            local output = "List: "
-            for k, v in self:ipairs() do
-                output = output .. "\n - " .. tostring(v)
-            end
-            return output
-        end
-    })
-    return wrapped
 end
+List.__newindex = function(self, key, value)
+    if List[key] then
+        print_error("Tried to overwrite list class")
+        return
+    elseif type(key) == "number" then
+        print_error("Tried to overwrite list index")
+        -- Don't allow writing to the component list
+    else
+        -- If addressed directly, assume the user wants the first entry
+        self.__wrapper(self.__data[1], self.__args)[key] = value
+    end
+end
+List.__tostring = function(self)
+    local output = "List: "
+    for k, v in self:ipairs() do
+        output = output .. "\n - " .. tostring(v)
+    end
+    return output
+end
+function List:len()
+    return #self.__data
+end
+function List:ipairs()
+    local i = 0
+    local n = #self.__data
+    return function()
+        i = i + 1
+        if i <= n then
+            return i, self[i]
+        end
+    end
+end
+function List:search(pred)
+    local output = {}
+    for i = 1, #self.__data do
+        if pred(self.__wrapper(self.__data[i], self.__args)) then
+            table.insert(output, self.__data[i])
+        end
+    end
+    return List(output, self.__wrapper, self.__args)
+end
+function List:searchRaw(pred)
+    -- Does not wrap list entries during the search
+    local output = {}
+    for i = 1, #self.__data do
+        if pred(self.__data[i]) then
+            table.insert(output, self.__data[i])
+        end
+    end
+    return List(output, self.__wrapper, self.__args)
+end
+function List:getBest(score)
+    local best = nil
+    local best_score = nil
+    for i = 1, #self.__data do
+        local my_score = score(self.__wrapper(self.__data[i], self.__args))
+        if not best_score or my_score > best_score then
+            best = self.__data[i]
+            best_score = my_score
+        end
+    end
+    return self.__wrapper(best, self.__args)
+end
+
+setmetatable(List, List.__mt)
 
 local ent_values_special = {
     variables = function(eid)
@@ -111,7 +140,7 @@ Entity.__index = function(self, key)
     if ent_values_special[key] then
         return ent_values_special[key](self.__id)
     else
-        return WrapList(EntityGetComponentIncludingDisabled(self.__id, key), Component, self.__id)
+        return List(EntityGetComponentIncludingDisabled(self.__id, key), Component, self.__id)
     end
 end
 Entity.__newindex = function(self, key, value)
@@ -120,6 +149,15 @@ end
 Entity.__tostring = function(self)
     return "Entity (" .. self.__id .. ")"
 end
+-- Static functions
+function Entity.getInRadius(x, y, radius, tag)
+    if tag == nil then
+        return List(EntityGetInRadius(x, y, radius), Entity)
+    else
+        return List(EntityGetInRadiusWithTag(x, y, radius, tag), Entity)
+    end
+end
+-- Member functions
 function Entity:id()
     return self.__id
 end
@@ -161,28 +199,44 @@ end
 
 -- Component functions
 function Entity:addComponent(ctype, values)
-    EntityAddComponent2(self.__id, ctype, values)
+    return Component(EntityAddComponent2(self.__id, ctype, values), self.__id)
 end
 function Entity:allComponents()
-    return WrapList(EntityGetAllComponents(self.__id), Component, self.__id)
+    return List(EntityGetAllComponents(self.__id), Component, self.__id)
 end
 function Entity:componentsWithTag(ctype, tag)
-    return WrapList(EntityGetComponentIncludingDisabled(self.__id, ctype, tag), Component, self.__id)
+    return List(EntityGetComponentIncludingDisabled(self.__id, ctype, tag), Component, self.__id)
 end
 
 function Entity:setEnabledWithTag(tag, enabled)
     EntitySetComponentsWithTagEnabled(self.__id, tag, enabled)
 end
-function Entity:loadComponents(filename, load_children)
+function Entity:loadComponents(filename, load_children, set_name, set_tags)
     EntityLoadToEntity(filename, self.__id)
-    if load_children then
+    if load_children or set_name or set_tags then
         local x, y = EntityGetTransform(self.__id)
         local surrogate = EntityLoad(filename, x, y)
-        local children = EntityGetAllChildren(surrogate)
-        if children then
-            for k, v in ipairs(children) do
-                EntityRemoveFromParent(v)
-                EntityAddChild(self.__id, v)
+        if load_children then
+            local children = EntityGetAllChildren(surrogate)
+            if children then
+                for k, v in ipairs(children) do
+                    EntityRemoveFromParent(v)
+                    EntityAddChild(self.__id, v)
+                end
+            end
+        end
+        if set_name then
+            self:setName(EntityGetName(surrogate))
+        end
+        if set_tags then
+            local tags = StringSplit(self:tags())
+            for i = 1, #tags do
+                self:removeTag(tags[i])
+            end
+            local tags = EntityGetTags(entity_id)
+            tags = StringSplit(tags)
+            for i = 1, #tags do
+                self:addTag(tags[i])
             end
         end
         EntityKill(surrogate)
@@ -207,7 +261,10 @@ function Entity:parent()
     return Entity(EntityGetParent(self.__id))
 end
 function Entity:setParent(parent)
-    if type(parent) == "number" then
+    EntityRemoveFromParent(self.__id)
+    if not parent then
+        return
+    elseif type(parent) == "number" then
         EntityAddChild(parent, self.__id)
     else
         EntityAddChild(parent:id(), self.__id)
@@ -217,7 +274,7 @@ function Entity:root()
     return Entity(EntityGetRootEntity(self.__id))
 end
 function Entity:children()
-    return WrapList(EntityGetAllChildren(self.__id), Entity)
+    return List(EntityGetAllChildren(self.__id), Entity)
 end
 function Entity:childrenUnwrapped()
     return EntityGetAllChildren(self.__id)
@@ -232,7 +289,7 @@ function Entity:findChildren(pred)
             end
         end
     end
-    return WrapList(output, Entity)
+    return List(output, Entity)
 end
 function Entity:findChildrenUnwrapped(pred)
     local output = {}
@@ -244,7 +301,7 @@ function Entity:findChildrenUnwrapped(pred)
             end
         end
     end
-    return WrapList(output, Entity)
+    return List(output, Entity)
 end
 -- Misc Gameplay
 function Entity:addStains(material, amount)
@@ -313,11 +370,15 @@ local comp_getters_special = {
         gun_config = MetaObject,
         gunaction_config = MetaObject
     },
+    AnimalAIComponent = {
+        mHomePosition = SetVec2
+    },
     CharacterDataComponent = {
         mVelocity = GetVec2
     },
     ControlsComponent = {
-        mAimingVectorNormalized = GetVec2
+        mAimingVectorNormalized = GetVec2,
+        mMousePosition = GetVec2
     },
     DamageModelComponent = {
         damage_multipliers = MetaObject
@@ -336,12 +397,18 @@ local comp_getters_special = {
     PhysicsBody2Component = {
         mLocalPosition = GetVec2
     },
+    ProjectileComponent = {
+        config_explosion = MetaObject
+    },
     VelocityComponent = {
         mVelocity = GetVec2
     }
 }
 
 local comp_setters_special = {
+    AnimalAIComponent = {
+        mHomePosition = SetVec2
+    },
     CharacterDataComponent = {
         mVelocity = SetVec2
     },
@@ -424,7 +491,7 @@ end
 function Component:members()
     return ComponentGetMembers(self.__id)
 end
-function Component:enabled()
+function Component:isEnabled()
     return ComponentGetIsEnabled(self.__id)
 end
 function Component:setEnabled(value)
@@ -506,6 +573,24 @@ function Variable:delete(key)
 end
 
 setmetatable(Variable, Variable.__mt)
+
+function StringSplit(str, separator, func)
+    separator = separator or ","
+    local output = {}
+    if not str or str == "" then
+        return output
+    end
+    if func then
+        for seg in string.gmatch(str, "([^" .. separator .. "]+)[" .. separator .. "$]") do
+            table.insert(output, func(seg))
+        end
+    else
+        for seg in string.gmatch(str, "([^" .. separator .. "]+)[" .. separator .. "$]") do
+            table.insert(output, seg)
+        end
+    end
+    return output
+end
 
 function WandCopy(from, to)
     local names_ac = {"ui_name", "mana_max", "mana", "mana_charge_speed"}

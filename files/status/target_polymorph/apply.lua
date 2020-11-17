@@ -22,6 +22,7 @@ end
 
 -- Load in the new creature over the sheep
 local polytarget = self.GameEffectComponent.polymorph_target
+
 parent:loadComponents(polytarget, true)
 local add_components = self.var_str.add_components
 if add_components and add_components ~= "" then
@@ -40,6 +41,38 @@ if animal_ai then
     for k, v in animal_ai:ipairs() do
         v:setEnabled(false)
     end
+end
+
+local dragon = parent.BossDragonComponent
+if dragon then
+    -- Special handling for the dragon
+    parent:addComponent("WormAIComponent", {})
+    parent:addComponent("WormComponent", {
+        speed = dragon.speed,
+        acceleration = dragon.acceleration,
+        gravity = dragon.gravity,
+        tail_gravity = dragon.tail_gravity,
+        part_distance = dragon.part_distance,
+        ground_check_offset = dragon.ground_check_offset,
+        hitbox_radius = dragon.hitbox_radius,
+        bite_damage = dragon.bite_damage,
+        target_kill_radius = dragon.target_kill_radius,
+        target_kill_ragdoll_force = dragon.target_kill_ragdoll_force,
+        jump_cam_shake = dragon.jump_cam_shake,
+        jump_cam_shake_distance = dragon.jump_cam_shake_distance,
+        eat_anim_wait_mult = dragon.eat_anim_wait_mult,
+        ragdoll_filename = dragon.ragdoll_filename
+    })
+    -- Add some dummy attack components for the wand to scrape
+    parent:addComponent("AIAttackComponent", {
+        attack_ranged_entity_file = "data/entities/projectiles/bossdragon.xml",
+        frames_between = 1
+    })
+    parent:addComponent("AIAttackComponent", {
+        attack_ranged_entity_file = "data/entities/projectiles/bossdragon_ray.xml",
+        frames_between = 0
+    })
+    dragon:setEnabled(false)
 end
 
 local keep_ui = self.var_bool.keep_ui
@@ -69,13 +102,12 @@ else
                                  "ItemChestComponent"})
         -- Add components to make controls more player-like
         parent:loadComponents("mods/azoth/files/status/target_polymorph/player_base.xml", true)
-    end
 
-    -- Script for choosing different rangedd attacks from the creature
-    self:addComponent("LuaComponent", {
-        execute_every_n_frame = 1,
-        script_source_file = "mods/azoth/files/status/target_polymorph/choose_attack.lua"
-    })
+    end
+end
+
+if parent.DamageModelComponent then
+    self.var_float.maxhp_start = parent.DamageModelComponent.max_hp
 end
 
 -- Script to depoly instead of dying on lethal damage
