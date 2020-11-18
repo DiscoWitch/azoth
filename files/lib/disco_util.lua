@@ -318,13 +318,19 @@ end
 function Entity:applyForce(fx, fy)
     if self.PhysicsBodyComponent or self.PhysicsBody2Component then
         PhysicsApplyForce(self.__id, fx, fy)
+    elseif self.CharacterDataComponent then
+        local vel = self.CharacterDataComponent.mVelocity
+        local mass = self.CharacterDataComponent.mass
+        vel.x = vel.x + fx / (2 * mass)
+        vel.y = vel.y + fy / (2 * mass)
+        self.CharacterDataComponent.mVelocity = vel
+        self.CharacterDataComponent.mCollidedHorizontally = true
     elseif self.VelocityComponent then
         local vel = self.VelocityComponent.mVelocity
-        vel.x = vel.x + fx / 60
-        vel.y = vel.y + fy / 60
+        local mass = self.VelocityComponent.mass
+        vel.x = vel.x + fx / (60 * mass)
+        vel.y = vel.y + fy / (60 * mass)
         self.VelocityComponent.mVelocity = vel
-    else
-        print_error("Tried to apply a force to an object with no physics or velocity component")
     end
 end
 function Entity:applyTorque(tz)

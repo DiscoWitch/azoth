@@ -6,5 +6,6 @@ dofile_once("mods/azoth/files/actions/turret/init.lua")
 dofile_once("mods/azoth/files/actions/writable/init.lua")
 dofile_once("mods/azoth/files/actions/great_larpa/init.lua")
 dofile_once("mods/azoth/files/actions/necromancy/init.lua")
+dofile_once("mods/azoth/files/actions/polymorph/init.lua")
 
 dofile_once("mods/azoth/files/actions/test/init.lua")

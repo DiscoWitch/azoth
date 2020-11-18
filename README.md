@@ -4,17 +4,19 @@ Azoth is a Noita mod aiming to add an alchemy and crafting-based progression sys
 
 ### Feature progress:
 More features will likely be added to this list as the mod develops.
-- [x] Tether + leash spells
-- [x] Wand turret
-- [x] Cast on cursor spell
-- [x] Larpa that inherits modifiers
-- [x] Improved necromancy
-- [ ] Spells that consume all mana
-- Advanced flasks
-    - [x] Metal flask (doesn't break on impact)
+ - Spells
+    - [x] Tether + leash spells
+    - [x] Wand turret
+    - [x] Cast on cursor spell
+    - [x] Larpa that inherits modifiers
+    - [x] Improved necromancy
+    - [ ] Scan creatures to polymorph into them
+    - [ ] Spells that consume all mana
+- Items
+    - [x] Reinforced flask
     - [x] Vacuum flask
-- [x] Lodestone
-- [ ] Homeward bone
+        - [x] Lodestone
+    - [ ] Homeward bone
 - [ ] The Work
     - [x] Albedo: Pale Stone
     - [ ] Citrinitas: ???
@@ -25,20 +27,18 @@ More features will likely be added to this list as the mod develops.
     - [x] Cobalt
     - [x] Aqua Regia
     - [ ] Bismuth
-- New Potions:
-    - [ ] Acceleratium
-    - [ ] Levitatium
-    - [ ] Hastium
-    - [ ] Worm Pheromone
-    - [x] Ichor
-    - [ ] Concentrated Mana
-    - [x] Oil of Elsewhere
-    - [ ] Healthium
-    - [x] Spirit of Chaos
-    - [ ] Berserkium
-    - [ ] Pheromone
-    - [ ] Invisiblium
+    - New Potions:
+        - [ ] Acceleratium
+        - [ ] Levitatium
+        - [ ] Hastium
+        - [x] Wormymorphine
+        - [x] Ichor
+        - [ ] Concentrated Mana
+        - [x] Oil of Elsewhere
+        - [ ] Healthium
+        - [x] Spirit of Chaos
+        - [x] Aqua Ira (effect is tentative)
+        - [ ] Pheromone
+        - [ ] Invisiblium
 - Misc:
-    - [ ] Particle text display
-    - [ ] interactable creatures
     - [ ] Onion

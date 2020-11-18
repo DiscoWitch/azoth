@@ -94,6 +94,8 @@ if worm_ai then
         -- Parts to enable the health bar and inventory
         parent:loadComponents("mods/azoth/files/status/target_polymorph/player_base_worm.xml", true)
     end
+    local wormvision = parent:addGameEffect("data/entities/misc/effect_nightvision.xml")
+    wormvision.GameEffectComponent.frames = -1
 else
     if keep_ui then
         -- Kill components so the game doesn't crash when they player components are added

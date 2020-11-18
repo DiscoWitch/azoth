@@ -15,5 +15,15 @@
     <VariableStorageComponent name="save_data"
         value_bool="0"
         value_int="0"
-        value_string="polydata" />
+        value_string="" />
+
+    <VariableStorageComponent name="load_data"
+        value_bool="0"
+        value_string="" />
+
+    <VariableStorageComponent name="save_path"
+        value_bool="0"
+        value_int="0"
+        value_string="polypath" />
+
 </Entity>

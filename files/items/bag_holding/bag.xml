@@ -1,8 +1,4 @@
 <Entity tags="hittable,teleportable_NOT,item_physics">
-
-    <!-- For keeping items in -->
-    <Entity name="storage" />
-
     <PhysicsBodyComponent _tags="enabled_in_world"
         uid="1"
         allow_sleep="1"
@@ -28,13 +24,13 @@
 
     <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
 
-    <LuaComponent _tags="enabled_in_hand"
-        execute_every_n_frame="1"
+    <LuaComponent _tags="enabled_in_inventory"
+        execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag.lua" />
 
-    <PotionComponent _tags="enabled_in_hand,enabled_in_world"
-        spray_velocity_coeff="75"
-        spray_velocity_normalized_min="0.75"></PotionComponent>
+    <LuaComponent _tags="enabled_in_hand"
+        execute_every_n_frame="12"
+        script_source_file="mods/azoth/files/items/bag_holding/bag_hide_items.lua" />
 
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
@@ -61,18 +57,25 @@
         offset_y="4"
         image_file="mods/azoth/files/items/bag_holding/bag.png"></SpriteComponent>
 
+    <MaterialInventoryComponent />
+
     <ItemComponent _tags="enabled_in_world"
         item_name="Bag of holding"
+        always_use_item_name_in_ui="1"
         is_pickable="1"
         is_equipable_forced="1"
         uses_remaining="0"
+        max_child_items="15"
+        collect_nondefault_actions="1"
         ui_sprite="mods/azoth/files/items/bag_holding/bag_ui.png"
         ui_description="A magical bag which can hold other items"
         preferred_inventory="QUICK"></ItemComponent>
 
-    <AbilityComponent ui_name=""
-        throw_as_item="0">
-        <gun_config deck_capacity="0" />
+    <AbilityComponent ui_name="$item_potion_with_material"
+        sprite_file="mods/azoth/files/items/bag_holding/bag_ui.png"
+        throw_as_item="1">
+        <gun_config deck_capacity="15"
+            actions_per_round="0" />
     </AbilityComponent>
 
     <UIInfoComponent _tags="enabled_in_world"

@@ -1,0 +1,25 @@
+<Entity name="tether_anchor"
+    tags="hittable,prop_physics">
+
+    <Entity name="tether_knot">
+        <Base file="mods/azoth/files/actions/tether/tether_knot.xml"
+            include_children="1" />
+    </Entity>
+
+    <PhysicsBody2Component allow_sleep="1"
+        angular_damping="0.01"
+        linear_damping="0.1"
+        init_offset_x="0"
+        init_offset_y="0"
+        root_offset_x="0"
+        root_offset_y="0" />
+
+    <PhysicsImageShapeComponent body_id="0"
+        centered="1"
+        image_file="mods/azoth/files/actions/tether/anchor.png"
+        offset_x="0"
+        offset_y="0"
+        material="steel"
+        is_root="1" />
+
+</Entity>

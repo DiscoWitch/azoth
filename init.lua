@@ -14,4 +14,4 @@ ModLuaFileAppend("data/scripts/gun/gun_actions.lua", "mods/azoth/files/actions/a
 ModLuaFileAppend("data/scripts/status_effects/status_list.lua", "mods/azoth/files/status/append_status.lua")
 ModLuaFileAppend("data/scripts/gun/gun_extra_modifiers.lua", "mods/azoth/files/status/append_modifiers.lua")
 ModLuaFileAppend("data/scripts/buildings/forge_item_convert.lua", "mods/azoth/files/items/append_forge_convert.lua")
-ModLuaFileAppend("data/scripts/biomes/lavalake.lua", "mods/azoth/files/items/bag_holding2/spawn_bag.lua")
+ModLuaFileAppend("data/scripts/biomes/lavalake.lua", "mods/azoth/files/items/bag_holding/spawn_bag.lua")

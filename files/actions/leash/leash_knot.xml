@@ -1,0 +1,12 @@
+<Entity name="leash_knot">
+    <InheritTransformComponent />
+
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_LEASH"
+        frames="-1"
+        disable_movement="0" />
+
+    <LuaComponent script_source_file="mods/azoth/files/actions/leash/leash_connect.lua"
+        remove_after_executed="1" />
+
+</Entity>

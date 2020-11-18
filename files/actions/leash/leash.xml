@@ -1,6 +1,8 @@
-<Entity tags="teleportable_NOT,rope">
-    <ParticleEmitterComponent _enabled="1"
-        emitted_material_name="spark_white_bright"
+<Entity name="leash"
+    tags="teleportable_NOT">
+    <LuaComponent script_source_file="mods/azoth/files/actions/leash/leash.lua" />
+
+    <ParticleEmitterComponent emitted_material_name="spark_purple_bright"
         gravity.y="0"
         y_pos_offset_min="-2"
         y_pos_offset_max="2"
@@ -19,11 +21,6 @@
         emit_cosmetic_particles="1"
         is_emitting="1"
         draw_as_long="1"
-        collide_with_grid="0">
-    </ParticleEmitterComponent>
+        collide_with_grid="0" />
 
-    <LuaComponent _tags="enabled_in_world"
-        execute_every_n_frame="1"
-        script_source_file="mods/azoth/files/actions/tether/tether_trail.lua">
-    </LuaComponent>
 </Entity>

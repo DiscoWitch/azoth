@@ -1,0 +1,56 @@
+<Entity name="tether_knot">
+    <InheritTransformComponent />
+
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="AZOTH_TETHER"
+        frames="-1"
+        disable_movement="0" />
+
+    <LuaComponent script_source_file="mods/azoth/files/actions/tether/tether_connect.lua"
+        remove_after_executed="1" />
+
+    <ParticleEmitterComponent _enabled="1"
+        emitted_material_name="spark_blue"
+        gravity.y="0"
+        area_circle_radius.min="5"
+        area_circle_radius.max="5"
+        attractor_force="30"
+        count_min="3"
+        count_max="3"
+        lifetime_min="1"
+        lifetime_max="1"
+        is_trail="0"
+        render_on_grid="1"
+        fade_based_on_lifetime="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1"
+        emit_cosmetic_particles="1"
+        is_emitting="1"
+        draw_as_long="1"
+        collide_with_grid="0" />
+
+    <ParticleEmitterComponent _enabled="0"
+        emitted_material_name="gold_molten"
+        gravity.y="0"
+        area_circle_radius.min="0"
+        area_circle_radius.max="3"
+        attractor_force="300"
+        x_vel_min="200"
+        x_vel_max="400"
+        y_vel_min="0"
+        y_vel_max="0"
+        x_pos_offset_min="0"
+        x_pos_offset_max="0"
+        count_min="10"
+        count_max="10"
+        lifetime_min="0.1"
+        lifetime_max="0.25"
+        render_on_grid="1"
+        fade_based_on_lifetime="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1"
+        emit_cosmetic_particles="1"
+        collide_with_grid="0"
+        draw_as_long="1" />
+
+</Entity>

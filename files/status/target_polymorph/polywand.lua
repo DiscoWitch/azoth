@@ -2,15 +2,9 @@ dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-function throw_item(from_x, from_y, to_x, to_y)
-    -- Kill the wand to make sure it's never possible for the player to get it
-    EntityKill(GetUpdatedEntityID())
-end
-
 local wand = Entity(GetUpdatedEntityID())
 
 local wandac = wand.AbilityComponent
-
 wandac.ui_name = "Natural Attacks"
 wandac.mana_max = 0
 wandac.mana = 0
@@ -41,6 +35,7 @@ end
 
 local owner = wand:root()
 if not owner then
+    print_error("no owner -- can't add natural attacks")
     return
 end
 local attacks = {}

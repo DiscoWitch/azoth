@@ -1,0 +1,3 @@
+<Entity name="leash_handle">
+    <InheritTransformComponent />
+</Entity>

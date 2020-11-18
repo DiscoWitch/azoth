@@ -1,49 +1,35 @@
-dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
 local self = Entity(GetUpdatedEntityID())
-local storage = self:findChildren(function(ent)
-    return ent:name() == "storage"
-end)[1]
-local inventory = self:parent()
-local holder = inventory:parent()
-if holder then
-    local now = GameGetFrameNum();
-    local controls = holder.ControlsComponent
-    if controls then
-        local main_fire = controls.mButtonDownFire and (now - controls.mButtonFrameFire) % 30 == 0
-        local alt_fire = controls.mButtonDownThrow and controls.mButtonFrameThrow == now
-        if main_fire or alt_fire then
-            -- Find the item directly after the bag if it exists and stow it
-            local ic = self.ItemComponent
-            local islot = ic.inventory_slot
-            local item = inventory:findChildren(function(ent)
-                local is_wand = ent.AbilityComponent.use_gun_script
-                return ent.ItemComponent.inventory_slot.x == (islot.x + 1) % 4 and not is_wand
-            end)
-            if item then
-                item:setParent(storage)
-                ic.uses_remaining = ic.uses_remaining + 1
-            end
-        end
-        if main_fire then
-            -- Pull an item out of storage into the now-empty slot
-            local ic = self.ItemComponent
-            local islot = ic.inventory_slot
-            local stored = storage:childrenUnwrapped()
-            if stored then
-                local slot = (self.var_int.inv_slot or 0) % #stored + 1
-                self.var_int.inv_slot = slot
-                local item = Entity(stored[slot])
-                -- Make sure the item appears in the same slot the bag would stow from
-                item.ItemComponent.inventory_slot = {
-                    x = (islot.x + 1) % 4,
-                    y = islot.y
-                }
-                item:setParent(inventory)
-                ic.uses_remaining = ic.uses_remaining - 1
-            end
-        end
 
+local children = self:children()
+if children then
+    local contents = children:search(function(ent)
+        return ent.ItemComponent ~= nil
+    end)
+    if contents then
+        self.ItemComponent.uses_remaining = contents:len()
+    else
+        self.ItemComponent.uses_remaining = 0
     end
+else
+    self.ItemComponent.uses_remaining = 0
 end
+
+local comp = Component(GetUpdatedComponentID(), self:id())
+local window = GameGetFrameNum() - comp.execute_every_n_frame
+local activated = self.MaterialInventoryComponent.last_frame_drank > window
+local full = self.ItemComponent.uses_remaining >= self.AbilityComponent.gun_config.deck_capacity
+if activated and not full then
+    local holder = self:root()
+    local inventory = holder:children():search(function(ent)
+        return ent:name() == "inventory_quick"
+    end)
+    local item = Entity(holder.Inventory2Component.mActiveItem)
+    item:setParent(self)
+    item:setEnabledWithTag("enabled_in_hand", false)
+    holder.Inventory2Component.mActiveItem = inventory:children():id()
+    holder.Inventory2Component.mActualActiveItem = 0
+    holder.Inventory2Component.mForceRefresh = true
+end
+AddMaterialInventoryMaterial(self:id(), "azoth_bag", 1)

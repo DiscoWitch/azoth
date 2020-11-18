@@ -35,11 +35,6 @@
         </ItemComponent>
     </Base>
 
-    <Base file="data/entities/base_wand_pickup.xml">
-        <LuaComponent _enabled="0"
-            script_item_picked_up="" />
-    </Base>
-
     <LuaComponent _tags="enabled_in_hand,enabled_in_inventory"
         remove_after_executed="1"
         script_source_file="mods/azoth/files/status/target_polymorph/polywand.lua">
@@ -49,10 +44,10 @@
     </LuaComponent>
     <LuaComponent _enabled="1"
         execute_every_n_frame="-1"
-        script_throw_item="mods/azoth/files/status/target_polymorph/polywand.lua">
+        script_throw_item="mods/azoth/files/status/target_polymorph/polywand_throw.lua">
     </LuaComponent>
 
-    <ManaReloaderComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory">
+    <ManaReloaderComponent _tags="enabled_in_hand,enabled_in_inventory">
     </ManaReloaderComponent>
 
 </Entity>
