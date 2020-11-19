@@ -22,10 +22,10 @@ function GetClosest(x, y, tags)
 end
 
 local x, y = self:transform()
-local active = Entity.getInRadius(x, y, detect_range):search(
-                   function(ent)
-        return ent:name() == "leash_knot"
-    end)
+local ents = Entity.getInRadius(x, y, detect_range)
+local active = ents and ents:search(function(ent)
+    return ent:name() == "leash_knot"
+end)
 if active then
     -- Don't re-leash things that are already leashed
     return

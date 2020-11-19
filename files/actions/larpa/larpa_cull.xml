@@ -1,0 +1,10 @@
+<Entity name="larpa_cull">
+    <InheritTransformComponent />
+    <GameEffectComponent effect="CUSTOM"
+        custom_effect_id="LARPA_CULL"
+        frames="3600" />
+
+    <LuaComponent script_source_file="mods/azoth/files/actions/larpa/larpa_cull.lua"
+        execute_every_n_frame="15" />
+
+</Entity>

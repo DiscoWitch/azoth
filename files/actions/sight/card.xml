@@ -113,7 +113,7 @@
         emission_interval_max_frames="1" />
 
     <LuaComponent _tags="enabled_in_hand"
-        script_source_file="mods/azoth/files/actions/test/sight.lua" />
+        script_source_file="mods/azoth/files/actions/sight/sight.lua" />
 
     <LightComponent _tags="enabled_in_hand,item_identified"
         _enabled="1"

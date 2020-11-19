@@ -1,27 +1,23 @@
-<Entity name="DEBUG_NAME:player"
-    tags="mortal,human,hittable,peasant,prey,player_unit,teleportable">
+<Entity>
 
     <HotspotComponent _tags="hand"
         offset.x="0"
-        offset.y="-2"></HotspotComponent>
-
+        offset.y="-2" />
     <HotspotComponent _tags="shoot_pos"
         offset.x="0"
-        offset.y="-2"></HotspotComponent>
-
+        offset.y="-2" />
     <HotspotComponent _tags="kick_pos"
         offset.x="0"
-        offset.y="2"></HotspotComponent>
-
+        offset.y="2" />
     <HotspotComponent _tags="crouch_sensor"
         offset.x="0"
-        offset.y="-14"></HotspotComponent>
+        offset.y="-14" />
 
     <PhysicsPickUpComponent original_left_joint_pos.x="-8"
         original_left_joint_pos.y="-2"
         original_right_joint_pos.x="-2"
         original_right_joint_pos.y="-2"
-        pick_up_strength="400"></PhysicsPickUpComponent>
+        pick_up_strength="400" />
 
     <PlatformShooterPlayerComponent center_camera_on_this_entity="1"
         aiming_reticle_distance_from_character="60"
@@ -31,7 +27,10 @@
         eating_area_max.x="6"
         eating_area_min.y="-4"
         eating_area_max.y="6"
-        eating_cells_per_frame="2"></PlatformShooterPlayerComponent>
+        eating_cells_per_frame="2" />
+
+    <PlayerCollisionComponent getting_crushed_threshold="6"
+        moving_up_before_getting_crushed_threshold="6" />
 
     <CharacterDataComponent platforming_type="2"
         check_collision_max_size_x="4"
@@ -55,14 +54,14 @@
         eff_hg_update_box2d="0"
         eff_hg_b2force_multiplier="0.0015"
         effect_hit_ground="1"
-        fly_time_max="0"
-        fly_recharge_spd="0"
-        fly_recharge_spd_ground="0"
+        fly_time_max="3.0"
+        fly_recharge_spd="0.4"
+        fly_recharge_spd_ground="6"
         flying_needs_recharge="1"
         flying_in_air_wait_frames="38"
         flying_recharge_removal_frames="8"
         gravity="0"
-        buoyancy_check_offset_y="-7"></CharacterDataComponent>
+        buoyancy_check_offset_y="-7" />
 
     <CharacterPlatformingComponent animation_to_play=""
         jump_keydown_buffer="2"
@@ -78,7 +77,7 @@
         keyboard_look="1"
         mouse_look_buffer="1"
         pixel_gravity="350"
-        run_velocity="75"
+        run_velocity="30"
         fly_velocity_x="52"
         accel_x="0.15"
         turning_buffer="0.5"
@@ -104,49 +103,46 @@
     <HotspotComponent _tags="right_arm_root"
         offset.x="0"
         offset.y="-2"
-        transform_with_scale="1"></HotspotComponent>
+        transform_with_scale="1" />
 
     <Entity name="arm_r">
-
         <InheritTransformComponent parent_hotspot_tag="right_arm_root"
-            only_position="1"></InheritTransformComponent>
-
+            only_position="1" />
         <HotspotComponent _tags="hand"
             offset.x="0"
             offset.y="-2"
-            transform_with_scale="1"></HotspotComponent>
-
+            transform_with_scale="1" />
     </Entity>
 
     <AudioComponent file="data/audio/Desktop/player.bank"
         event_root="player"
         audio_physics_material="character_player"
-        set_latest_event_position="1"></AudioComponent>
+        set_latest_event_position="1" />
 
     <AudioLoopComponent _tags="sound_jetpack"
         file="data/audio/Desktop/player.bank"
         event_name="player/jetpack"
-        volume_autofade_speed="0.25"></AudioLoopComponent>
+        volume_autofade_speed="0.25" />
 
     <AudioLoopComponent _tags="sound_air_whoosh"
         file="data/audio/Desktop/player.bank"
         event_name="player/air_whoosh"
-        volume_autofade_speed="0.5"></AudioLoopComponent>
+        volume_autofade_speed="0.5" />
 
     <AudioLoopComponent _tags="sound_underwater"
         file="data/audio/Desktop/player.bank"
         event_name="player/underwater"
-        volume_autofade_speed="0.25"></AudioLoopComponent>
+        volume_autofade_speed="0.25" />
 
     <AudioLoopComponent _tags="sound_suffocating"
         file="data/audio/Desktop/player.bank"
         event_name="player/suffocating"
-        volume_autofade_speed="0.25"></AudioLoopComponent>
+        volume_autofade_speed="0.25" />
 
     <AudioLoopComponent _tags="sound_damage_curse"
         file="data/audio/Desktop/player.bank"
         event_name="player/suffocating"
-        volume_autofade_speed="0.1"></AudioLoopComponent>
+        volume_autofade_speed="0.1" />
 
     <AudioLoopComponent _tags="sound_pick_gold_sand"
         file="data/audio/Desktop/player.bank"
@@ -154,7 +150,9 @@
         volume_autofade_speed="0.05"></AudioLoopComponent>
 
     <AudioListenerComponent z="-60" />
+    <SpriteAnimatorComponent />
     <GunComponent />
+    <LiquidDisplacerComponent radius="1" />
     <ItemPickUpperComponent drop_items_on_death="0" />
     <GameLogComponent report_damage="0"
         report_death="1" />
@@ -162,10 +160,8 @@
     <!-- cape -->
 
     <HotspotComponent _tags="cape_root"
-        offset.x="0"
-        offset.y="0">
-    </HotspotComponent>
-
+        offset.x="-3"
+        offset.y="-8" />
     <Entity name="cape">
         <Base file="data/entities/verlet_chains/cape/cape.xml">
         </Base>
@@ -176,34 +172,31 @@
     <MaterialInventoryComponent _tags="ingestion"
         drop_as_item="0"
         on_death_spill="0"
-        kill_when_empty="0"></MaterialInventoryComponent>
-
+        kill_when_empty="0" />
     <IngestionComponent ingestion_capacity="7500"
         overingestion_damage="0.002"
-        blood_healing_speed="0.0008"></IngestionComponent>
+        blood_healing_speed="0.0008" />
 
     <DrugEffectComponent />
-    <SpriteAnimatorComponent />
+
+    <!-- -->
+
     <WalletComponent />
     <StreamingKeepAliveComponent />
     <KickComponent />
 
     <VariableStorageComponent name="ocarina_song"
-        value_string=""></VariableStorageComponent>
-
+        value_string="" />
     <VariableStorageComponent name="kantele_song"
-        value_string=""></VariableStorageComponent>
-
+        value_string="" />
     <VariableStorageComponent name="ocarina_song_pos"
-        value_int="0"></VariableStorageComponent>
-
+        value_int="0" />
     <VariableStorageComponent name="kantele_song_pos"
-        value_int="0"></VariableStorageComponent>
-
+        value_int="0" />
 
     <Entity name="inventory_quick">
         <Entity>
-            <Base file="mods/azoth/files/status/target_polymorph/polywand.xml" />
+            <Base file="mods/azoth/files/lib/polytools/ui/polywand.xml" />
         </Entity>
     </Entity>
     <Entity name="inventory_full" />

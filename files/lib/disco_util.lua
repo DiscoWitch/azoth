@@ -77,6 +77,14 @@ function List:searchRaw(pred)
     end
     return List(output, self.__wrapper, self.__args)
 end
+function List:sort(comp)
+    table.sort(self.__data, function(a, b)
+        return comp(self.__wrapper(a, self.__args), self.__wrapper(b, self.__args))
+    end)
+end
+function List:sortRaw(comp)
+    table.sort(self.__data, comp)
+end
 function List:getBest(score)
     local best = nil
     local best_score = nil
@@ -151,7 +159,7 @@ Entity.__tostring = function(self)
 end
 -- Static functions
 function Entity.getInRadius(x, y, radius, tag)
-    if tag == nil then
+    if not tag then
         return List(EntityGetInRadius(x, y, radius), Entity)
     else
         return List(EntityGetInRadiusWithTag(x, y, radius, tag), Entity)
@@ -565,17 +573,19 @@ Variable.__newindex = function(self, key, value)
             end
         end
     end
+    if value == nil then
+        local v = Variable.__cache[self.__id][key]
+        if v then
+            EntityRemoveComponent(self.__id, v)
+        end
+        return
+    end
     if not Variable.__cache[self.__id][key] then
         Variable.__cache[self.__id][key] = EntityAddComponent2(self.__id, "VariableStorageComponent", {
             name = key
         })
     end
     ComponentSetValue2(Variable.__cache[self.__id][key], self.__type, value)
-end
-
-function Variable:delete(key)
-    local v = EntityGetFirstComponentIncludingDisabled(self.__id, "VariableStorageComponent", key)
-    EntityRemoveComponent(self.__id, v)
 end
 
 setmetatable(Variable, Variable.__mt)

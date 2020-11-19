@@ -33,9 +33,6 @@
         eating_area_max.y="6"
         eating_cells_per_frame="2"></PlatformShooterPlayerComponent>
 
-    <PlayerCollisionComponent getting_crushed_threshold="6"
-        moving_up_before_getting_crushed_threshold="6"></PlayerCollisionComponent >
-
     <CharacterDataComponent platforming_type="2"
         check_collision_max_size_x="4"
         check_collision_max_size_y="4"
@@ -58,9 +55,9 @@
         eff_hg_update_box2d="0"
         eff_hg_b2force_multiplier="0.0015"
         effect_hit_ground="1"
-        fly_time_max="3.0"
-        fly_recharge_spd="0.4"
-        fly_recharge_spd_ground="6"
+        fly_time_max="0"
+        fly_recharge_spd="0"
+        fly_recharge_spd_ground="0"
         flying_needs_recharge="1"
         flying_in_air_wait_frames="38"
         flying_recharge_removal_frames="8"
@@ -81,7 +78,7 @@
         keyboard_look="1"
         mouse_look_buffer="1"
         pixel_gravity="350"
-        run_velocity="30"
+        run_velocity="75"
         fly_velocity_x="52"
         accel_x="0.15"
         turning_buffer="0.5"
@@ -156,24 +153,17 @@
         event_name="player/pick_gold_sand"
         volume_autofade_speed="0.05"></AudioLoopComponent>
 
-    <AudioListenerComponent z="-60"></AudioListenerComponent>
-
-    <GunComponent>
-    </GunComponent>
-
-    <LiquidDisplacerComponent radius="1"></LiquidDisplacerComponent>
-
-    <ItemPickUpperComponent drop_items_on_death="0">
-    </ItemPickUpperComponent>
-
+    <AudioListenerComponent z="-60" />
+    <GunComponent />
+    <ItemPickUpperComponent drop_items_on_death="0" />
     <GameLogComponent report_damage="0"
-        report_death="1"></GameLogComponent>
+        report_death="1" />
 
     <!-- cape -->
 
     <HotspotComponent _tags="cape_root"
-        offset.x="-3"
-        offset.y="-8">
+        offset.x="0"
+        offset.y="0">
     </HotspotComponent>
 
     <Entity name="cape">
@@ -192,19 +182,11 @@
         overingestion_damage="0.002"
         blood_healing_speed="0.0008"></IngestionComponent>
 
-    <DrugEffectComponent>
-    </DrugEffectComponent>
-
-    <!-- -->
-
-    <WalletComponent>
-    </WalletComponent>
-
-    <StreamingKeepAliveComponent>
-    </StreamingKeepAliveComponent>
-
-    <KickComponent>
-    </KickComponent>
+    <DrugEffectComponent />
+    <SpriteAnimatorComponent />
+    <WalletComponent />
+    <StreamingKeepAliveComponent />
+    <KickComponent />
 
     <VariableStorageComponent name="ocarina_song"
         value_string=""></VariableStorageComponent>
@@ -218,9 +200,10 @@
     <VariableStorageComponent name="kantele_song_pos"
         value_int="0"></VariableStorageComponent>
 
+
     <Entity name="inventory_quick">
         <Entity>
-            <Base file="mods/azoth/files/status/target_polymorph/polywand.xml" />
+            <Base file="mods/azoth/files/lib/polytools/ui/polywand.xml" />
         </Entity>
     </Entity>
     <Entity name="inventory_full" />

@@ -14,7 +14,7 @@ end
 for k, v in ents:ipairs() do
     if v.DamageModelComponent then
         v:addComponent("LuaComponent", {
-            execute_every_n_frame = 10,
+            execute_every_n_frame = 60,
             script_damage_received = "mods/azoth/files/actions/necromancy/on_death.lua",
             script_source_file = "mods/azoth/files/empty.lua",
             remove_after_executed = true

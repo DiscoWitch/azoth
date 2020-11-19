@@ -1,4 +1,5 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
+local polytools = dofile_once("mods/azoth/files/lib/polytools.lua")
 
 function damage_received(damage, message, entity_thats_responsible, is_fatal)
     local self = Entity(GetUpdatedEntityID())
@@ -27,7 +28,7 @@ function damage_received(damage, message, entity_thats_responsible, is_fatal)
         end
         self:removeTag("homing_target")
         self:addGameEffect("mods/azoth/files/actions/necromancy/effect_resurrect.xml")
-        self:addGameEffect("mods/azoth/files/lib/polyhide/effect.xml")
+        polytools.hide(self, -1)
         EntityInflictDamage(ragdoll:id(), 1000, "DAMAGE_CURSE", "NONE", "NONE", 0, 0)
     end
 end

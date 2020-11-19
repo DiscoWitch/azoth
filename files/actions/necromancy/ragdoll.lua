@@ -41,7 +41,7 @@ elseif GameGetFrameNum() < self.var_int.start_time + 180 then
     self.MagicConvertMaterialComponent:setEnabled(true)
     if creature:children() then
         local effect = creature:children():search(function(ent)
-            return ent:name() == "polyhide"
+            return ent:name() == "polytools"
         end)
         if effect then
             effect.GameEffectComponent.frames = 5

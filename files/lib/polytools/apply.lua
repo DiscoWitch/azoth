@@ -1,29 +1,37 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 local self = Entity(GetUpdatedEntityID())
+
+local x, y = self:transform()
 local parent = self:parent()
 if not parent then
     return
 end
 
+local basepath = self.var_str.basepath
 local is_player = false
 
 -- Destroy all components from the polymorph sheep to make room for the new creature
-for k, v in parent:allComponents():ipairs() do
-    local name = v:type()
-    if name == "GameStatsComponent" then
-        is_player = v.is_player
-        v.extra_death_msg = ", while polymorphed"
-    elseif name == "ControlsComponent" or name == "FogOfWarRadiusComponent" then
-        -- Do nothing
-    else
-        v:remove()
+local keep_comps = {
+    ControlsComponent = true,
+    FogOfWarRadiusComponent = true
+}
+local comps = parent:allComponents()
+if comps then
+    for k, v in comps:ipairs() do
+        local name = v:type()
+        if name == "GameStatsComponent" then
+            is_player = v.is_player
+            v.extra_death_msg = ", while polymorphed"
+        elseif not keep_comps[name] then
+            v:remove()
+        end
     end
 end
 
 -- Load in the new creature over the sheep
 local polytarget = self.GameEffectComponent.polymorph_target
 
-parent:loadComponents(polytarget, true)
+parent:loadComponents(polytarget, true, true, true)
 local add_components = self.var_str.add_components
 if add_components and add_components ~= "" then
     -- Scripts applying this effect can point to an xml with extra components to add (eg new attacks)
@@ -92,7 +100,7 @@ if worm_ai then
                                  "ItemPickUpperComponent", "ItemChestComponent"})
 
         -- Parts to enable the health bar and inventory
-        parent:loadComponents("mods/azoth/files/status/target_polymorph/player_base_worm.xml", true)
+        parent:loadComponents(basepath .. "ui/player_base_worm.xml", true)
     end
     local wormvision = parent:addGameEffect("data/entities/misc/effect_nightvision.xml")
     wormvision.GameEffectComponent.frames = -1
@@ -103,19 +111,24 @@ else
                                  "CharacterCollisionComponent", "ControlsComponent", "ItemPickUpperComponent",
                                  "ItemChestComponent"})
         -- Add components to make controls more player-like
-        parent:loadComponents("mods/azoth/files/status/target_polymorph/player_base.xml", true)
+        parent:loadComponents(basepath .. "ui/player_base.xml", true)
 
     end
 end
 
 if parent.DamageModelComponent then
+    -- Add script to pass health/gold pickups to the player
     self.var_float.maxhp_start = parent.DamageModelComponent.max_hp
+    self:addComponent("LuaComponent", {
+        script_source_file = basepath .. "ui/on_remove.lua",
+        execute_on_removed = true,
+        execute_every_n_frame = -1
+    })
 end
-
--- Script to depoly instead of dying on lethal damage
 if self.var_bool.end_on_death then
+    print("adding death script")
     parent:addComponent("LuaComponent", {
         execute_every_n_frame = -1,
-        script_damage_received = "mods/azoth/files/status/target_polymorph/saving_grace.lua"
+        script_damage_received = basepath .. "depoly_death.lua"
     })
 end

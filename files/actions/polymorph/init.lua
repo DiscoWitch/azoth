@@ -1,4 +1,5 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
+local polytools = dofile_once("mods/azoth/files/lib/polytools.lua")
 
 table.insert(actions, {
     id = "AZOTH_POLYSELF",
@@ -14,11 +15,10 @@ table.insert(actions, {
     mana = 0,
     max_uses = -1,
     custom_xml_file = "mods/azoth/files/actions/polymorph/card.xml",
-
     action = function()
         local shooter = Entity(GetUpdatedEntityID())
         if not shooter or not shooter.Inventory2Component then
-            -- Don't do reflection stuff during the metadata scraping
+            -- Don't do card reflection stuff during the metadata scraping
             return
         end
         local wand = Entity(shooter.Inventory2Component.mActiveItem)
@@ -28,8 +28,6 @@ table.insert(actions, {
         local cards = GetSpells(wand)
         local me = hand[#hand]
         local mycard = cards[me.deck_index + 1]
-        local effect = shooter:addGameEffect("mods/azoth/files/status/target_polymorph/effect.xml")
-        effect.GameEffectComponent.polymorph_target = mycard.var_str.entity
-        effect.GameEffectComponent.frames = 360
+        polytools.polymorph(shooter, mycard.var_str.entity, 1800, true, "", true)
     end
 })
