@@ -7,11 +7,11 @@ if not k1 or not k2 or not k1:alive() or not k2:alive() then
     self:kill()
     return
 end
-if k1:parent():id() ~= k1:root():id() then
+if not k1:parent() or k1:parent():id() ~= k1:root():id() then
     k1:kill()
     return
 end
-if k2:parent():id() ~= k2:root():id() then
+if not k2:parent() or k2:parent():id() ~= k2:root():id() then
     k2:kill()
     return
 end

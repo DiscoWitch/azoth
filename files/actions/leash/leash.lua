@@ -7,7 +7,7 @@ if not knot or not handle or not knot:alive() or not handle:alive() then
     self:kill()
     return
 end
-if knot:parent():id() ~= knot:root():id() then
+if not knot:parent() or knot:parent():id() ~= knot:root():id() then
     knot:kill()
     return
 end

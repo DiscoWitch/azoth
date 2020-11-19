@@ -3,8 +3,8 @@ dofile_once("mods/azoth/files/lib/disco_util.lua")
 
 local self = Entity(GetUpdatedEntityID())
 local now = GameGetFrameNum()
-local phase = self.var_int.phase
-if phase == nil then
+local phase = self.var_int.phase or -1
+if phase < 0 then
     return
 elseif phase == 0 then
     phase = 1
@@ -121,7 +121,7 @@ end
 
 function phaseFinal()
     if now >= self.var_int.phase_change_frame then
-        self.var_int:delete("phase")
+        self.var_int.phase = -1
         self:setEnabledWithTag("disabled_in_flight", true)
         self:setEnabledWithTag("enabled_in_flight", false)
         self:setEnabledWithTag("disabled_during_throw", true)
