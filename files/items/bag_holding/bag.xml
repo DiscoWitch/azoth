@@ -32,6 +32,8 @@
         execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag_hide_items.lua" />
 
+    <!-- <LuaComponent _tags="enabled_in_hand" execute_every_n_frame="1" script_source_file="mods/azoth/files/items/bag_holding/bag_cycle.lua" /> -->
+
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
         blood_material=""
@@ -68,12 +70,13 @@
         max_child_items="15"
         collect_nondefault_actions="1"
         ui_sprite="mods/azoth/files/items/bag_holding/bag_ui.png"
-        ui_description="A magical bag which can hold other items"
+        ui_description="A magical bag which can hold other items.
+Right click it in your inventory to put your currently held item inside."
         preferred_inventory="QUICK"></ItemComponent>
 
     <AbilityComponent ui_name="$item_potion_with_material"
         sprite_file="mods/azoth/files/items/bag_holding/bag_ui.png"
-        throw_as_item="1">
+        throw_as_item="0">
         <gun_config deck_capacity="15"
             actions_per_round="0" />
     </AbilityComponent>
