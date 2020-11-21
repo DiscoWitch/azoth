@@ -1,6 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local mats = self.MaterialInventoryComponent.count_per_material_type
 local stone = self:parent()
 for k, v in ipairs(mats) do

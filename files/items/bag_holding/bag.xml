@@ -71,7 +71,8 @@
         collect_nondefault_actions="1"
         ui_sprite="mods/azoth/files/items/bag_holding/bag_ui.png"
         ui_description="A magical bag which can hold other items.
-Right click it in your inventory to put your currently held item inside."
+Right click it in your inventory to put your currently held item inside.
+Items can only be retrieved from the bag when you can edit wands."
         preferred_inventory="QUICK"></ItemComponent>
 
     <AbilityComponent ui_name="$item_potion_with_material"

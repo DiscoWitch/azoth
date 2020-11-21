@@ -5,7 +5,7 @@
     <GameEffectComponent effect="POLYMORPH"
         frames="1"
         disable_movement="0"
-        polymorph_target="mods/azoth/files/lib/polytools/null.xml">
+        polymorph_target="[POLYTOOLS_PATH]null.xml">
     </GameEffectComponent >
 
 </Entity>

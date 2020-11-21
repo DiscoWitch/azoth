@@ -1,6 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local inventory = self:parent()
 local holder = inventory and inventory:parent()
 local controls = holder and holder.ControlsComponent

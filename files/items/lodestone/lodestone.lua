@@ -1,7 +1,7 @@
 dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local now = GameGetFrameNum()
 local phase = self.var_int.phase or -1
 if phase < 0 then
@@ -43,13 +43,13 @@ function phaseSpin()
     if now % 60 == 0 then
         for i = 1, vac_count do
             local a = i * 2 * math.pi / vac_count
-            local proj = shoot_projectile(self:id(), "mods/azoth/files/items/lodestone/lodestone_vacuum.xml", x, y,
-                             vac_speed * math.cos(a), vac_speed * math.sin(a), true)
+            local proj = shoot_projectile(self:id(),
+                                          "mods/azoth/files/items/lodestone/lodestone_vacuum.xml",
+                                          x, y, vac_speed * math.cos(a), vac_speed * math.sin(a),
+                                          true)
         end
     end
-    if now >= self.var_int.phase_change_frame then
-        self.var_int.phase = 3
-    end
+    if now >= self.var_int.phase_change_frame then self.var_int.phase = 3 end
 end
 
 function phaseReleaseGold()
@@ -65,8 +65,9 @@ function phaseReleaseGold()
         local angle = 24 * now * (math.pi / 180)
         local gold_speed = 300
         local gold_offset = 7
-        GameCreateParticle("gold", x + gold_offset * math.cos(angle), y + gold_offset * math.sin(angle), spray_amt,
-            gold_speed * math.cos(angle), gold_speed * math.sin(angle), false, false)
+        GameCreateParticle("gold", x + gold_offset * math.cos(angle),
+                           y + gold_offset * math.sin(angle), spray_amt,
+                           gold_speed * math.cos(angle), gold_speed * math.sin(angle), false, false)
         self.WalletComponent.money = my_money - spray_amt
     else
         self.var_int.phase = 4
@@ -75,12 +76,7 @@ function phaseReleaseGold()
 end
 
 function phaseLaunch()
-    for k, v in self.ParticleEmitterComponent:ipairs() do
-        v.mExPosition = {
-            x = x,
-            y = y
-        }
-    end
+    for k, v in self.ParticleEmitterComponent:ipairs() do v.mExPosition = {x = x, y = y} end
     -- Find the nearest treasure and launch at it
     local target = EntityGetClosestWithTag(x, y, "chest")
     local dist = math.huge
@@ -110,10 +106,8 @@ function phaseLaunch()
 
         self:setEnabledWithTag("disabled_in_flight", false)
         self:setEnabledWithTag("enabled_in_flight", true)
-        self.VelocityComponent.mVelocity = {
-            x = launch_speed * dx / dist,
-            y = launch_speed * dy / dist
-        }
+        self.VelocityComponent.mVelocity = {x = launch_speed * dx / dist,
+                                            y = launch_speed * dy / dist}
     end
     self.var_int.phase = 5
     self.var_int.phase_change_frame = now + 20

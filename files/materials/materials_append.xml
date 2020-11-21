@@ -594,7 +594,8 @@
 
     <CellDataChild name="murky_elixir"
         _parent="water"
-        ui_name="Murky Elixir"
+        ui_name="Caput Mortuum"
+        gfx_glow="100"
         density="3"
         wang_color="FF000020">
         <Graphics color="FF000020" />

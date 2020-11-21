@@ -1,16 +1,12 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local parent = self:parent()
-if not parent then
-    return
-end
+if not parent then return end
 local basepath = self.var_str.basepath
 local is_player = parent.GameStatsComponent and parent.GameStatsComponent.is_player
 
-if not is_player then
-    return
-end
+if not is_player then return end
 
 -- This runs right before polymorph wears off
 local x, y = parent:transform()

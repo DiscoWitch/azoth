@@ -2,7 +2,7 @@ dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local wand = Entity(GetUpdatedEntityID())
+local wand = Entity.Current()
 
 local wandac = wand.AbilityComponent
 wandac.ui_name = "Natural Attacks"

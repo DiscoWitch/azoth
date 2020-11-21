@@ -10,7 +10,7 @@
         max_amount_in_inventory="1"
         reload_time_frames="0"
         shooting_reduces_amount_in_inventory="0"
-        sprite_file="mods/azoth/files/lib/polytools/blank.png"
+        sprite_file="[POLYTOOLS_PATH]blank.png"
         swim_propel_amount="0"
         throw_as_item="0"
         ui_name="Bolt staff"
@@ -37,14 +37,14 @@
 
     <LuaComponent _tags="enabled_in_hand,enabled_in_inventory"
         remove_after_executed="1"
-        script_source_file="mods/azoth/files/lib/polytools/ui/polywand.lua">
+        script_source_file="[POLYTOOLS_PATH]ui/polywand.lua">
     </LuaComponent>
     <LuaComponent _tags="enabled_in_hand"
-        script_source_file="mods/azoth/files/lib/polytools/ui/polywand_switch.lua">
+        script_source_file="[POLYTOOLS_PATH]ui/polywand_switch.lua">
     </LuaComponent>
     <LuaComponent _enabled="1"
         execute_every_n_frame="-1"
-        script_throw_item="mods/azoth/files/lib/polytools/ui/polywand_throw.lua">
+        script_throw_item="[POLYTOOLS_PATH]ui/polywand_throw.lua">
     </LuaComponent>
 
     <ManaReloaderComponent _tags="enabled_in_hand,enabled_in_inventory">

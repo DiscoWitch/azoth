@@ -203,7 +203,7 @@
 
     <Entity name="inventory_quick">
         <Entity>
-            <Base file="mods/azoth/files/lib/polytools/ui/polywand.xml" />
+            <Base file="[POLYTOOLS_PATH]ui/polywand.xml" />
         </Entity>
     </Entity>
     <Entity name="inventory_full" />

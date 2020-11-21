@@ -2,7 +2,7 @@ dofile_once("data/scripts/lib/utilities.lua")
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local wand = Entity(GetUpdatedEntityID())
+local wand = Entity.Current()
 local owner = wand:root()
 
 local ctrl = owner.ControlsComponent
@@ -26,9 +26,7 @@ if ctrl then
             v.ItemComponent.inventory_slot = slot
             new_order[slot.x + 1] = v
         end
-        for k, v in pairs(new_order) do
-            v:setParent(wand)
-        end
+        for k, v in pairs(new_order) do v:setParent(wand) end
         wand.ItemComponent.ui_sprite = new_order[1].ItemComponent.ui_sprite
     end
 end

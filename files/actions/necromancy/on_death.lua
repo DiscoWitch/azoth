@@ -1,19 +1,16 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
-local polytools = dofile_once("mods/azoth/files/lib/polytools.lua")
+local polytools = dofile_once("mods/azoth/files/lib/polytools/polytools.lua")
 
 function damage_received(damage, message, entity_thats_responsible, is_fatal)
-    local self = Entity(GetUpdatedEntityID())
+    local self = Entity.Current()
     if is_fatal then
         local genome = self.GenomeDataComponent
-        if not genome or genome.herd_id == StringToHerdId("player") then
-            return
-        end
+        if not genome or genome.herd_id == StringToHerdId("player") then return end
         local dmc = self.DamageModelComponent
-        if dmc.ragdoll_filenames_file == "" then
-            return
-        end
+        if dmc.ragdoll_filenames_file == "" then return end
         local x, y = self:transform()
-        local ragdoll = Entity(EntityLoad("mods/azoth/files/actions/necromancy/ragdollgen.xml", x, y - 10))
+        local ragdoll = Entity(EntityLoad("mods/azoth/files/actions/necromancy/ragdollgen.xml", x,
+                                          y - 10))
         ragdoll.DamageModelComponent.ragdoll_filenames_file = dmc.ragdoll_filenames_file
 
         dmc.hp = dmc.max_hp + damage

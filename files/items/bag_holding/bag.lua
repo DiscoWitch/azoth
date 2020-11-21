@@ -1,11 +1,9 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 
 local children = self:children()
-local contents = children and children:search(function(ent)
-    return ent.ItemComponent ~= nil
-end)
+local contents = children and children:search(function(ent) return ent.ItemComponent ~= nil end)
 if contents then
     self.ItemComponent.uses_remaining = contents:len()
 else

@@ -1,11 +1,12 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local x, y = self:transform()
 local max_length = 500
-local other = Entity.getInRadius(x, y, max_length):search(function(ent)
-    return ent:id() ~= self:id() and ent:name() == "tether_knot" and ent.var_bool.can_connect
-end)
+local other = Entity.GetInRadius(x, y, max_length):search(
+                  function(ent)
+        return ent:id() ~= self:id() and ent:name() == "tether_knot" and ent.var_bool.can_connect
+    end)
 
 if not other then
     -- Nothing to connect to
