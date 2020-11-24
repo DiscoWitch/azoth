@@ -32,6 +32,10 @@
         execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag_hide_items.lua" />
 
+    <LuaComponent _tags="enabled_in_world"
+        execute_every_n_frame="30"
+        script_source_file="mods/azoth/files/items/bag_holding/bag_upgrades.lua" />
+
     <!-- <LuaComponent _tags="enabled_in_hand" execute_every_n_frame="1" script_source_file="mods/azoth/files/items/bag_holding/bag_cycle.lua" /> -->
 
     <DamageModelComponent _tags="enabled_in_world"
@@ -60,6 +64,10 @@
         image_file="mods/azoth/files/items/bag_holding/bag.png"></SpriteComponent>
 
     <MaterialInventoryComponent />
+
+    <MaterialSuckerComponent _tags="enabled_in_world"
+        barrel_size="2000"
+        num_cells_sucked_per_frame="5"></MaterialSuckerComponent>
 
     <ItemComponent _tags="enabled_in_world"
         item_name="Bag of holding"
