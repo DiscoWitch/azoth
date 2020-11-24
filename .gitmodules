@@ -1,3 +1,6 @@
 [submodule "files/lib/polytools"]
 	path = files/lib/polytools
 	url = https://github.com/DiscoWitch/polytools.git
+[submodule "files/lib/disco_util"]
+	path = files/lib/disco_util
+	url = https://github.com/DiscoWitch/disco_util.git
