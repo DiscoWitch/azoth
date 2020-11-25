@@ -20,15 +20,18 @@ if activated and not full then
         return ent:name() == "inventory_quick"
     end)
     local item = Entity(holder.Inventory2Component.mActiveItem)
-    item:setParent(self)
     item:setEnabledWithTag("enabled_in_hand", false)
+    item:setParent(self)
 
     local lc = item.LuaComponent
     local tspath = "mods/azoth/files/items/bag_holding/item_throw.lua"
     local throwscript = lc and lc:search(function(c) return c.script_throw_item == tspath end)
     if not throwscript then
-        item:addComponent("LuaComponent", {script_throw_item = tspath, execute_every_n_frame = -1,
-                                           remove_after_executed = true})
+        item:addComponent("LuaComponent", {
+            script_throw_item = tspath,
+            execute_every_n_frame = -1,
+            remove_after_executed = true
+        })
     end
 
     holder.Inventory2Component.mActiveItem = inventory:children():id()

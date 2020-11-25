@@ -24,6 +24,11 @@
 
     <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
 
+    <LuaComponent _tags="enabled_in_world,enabled_in_inventory,enabled_in_hand"
+        execute_on_added="1"
+        remove_after_executed="1"
+        script_source_file="mods/azoth/files/items/bag_holding/init.lua" />
+
     <LuaComponent _tags="enabled_in_inventory"
         execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag.lua" />
@@ -35,8 +40,6 @@
     <LuaComponent _tags="enabled_in_world"
         execute_every_n_frame="30"
         script_source_file="mods/azoth/files/items/bag_holding/bag_upgrades.lua" />
-
-    <!-- <LuaComponent _tags="enabled_in_hand" execute_every_n_frame="1" script_source_file="mods/azoth/files/items/bag_holding/bag_cycle.lua" /> -->
 
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
