@@ -174,16 +174,4 @@
         set_latest_event_position="1">
     </AudioComponent>
 
-    <Entity name="azoth_forge_data"
-        tags="forgeable">
-        <InheritTransformComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory" />
-        <VariableStorageComponent name="forge"
-            value_string="mods/azoth/files/items/flasks/flask_metal_forge.lua" />
-
-        <LuaComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory"
-            vm_type="ONE_PER_COMPONENT_INSTANCE"
-            script_enabled_changed="mods/azoth/files/lib/enable_world.lua"
-            script_source_file="mods/azoth/files/lib/enable_world.lua" />
-    </Entity>
-
 </Entity>
