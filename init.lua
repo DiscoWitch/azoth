@@ -1,5 +1,5 @@
-local polytools = dofile_once("mods/azoth/files/lib/polytools/polytools_init.lua")
-polytools.init("mods/azoth/files/lib/polytools/")
+dofile_once("mods/azoth/files/lib/polytools/polytools_init.lua").init(
+    "mods/azoth/files/lib/polytools/")
 
 function OnModInit()
     -- dofile_once("mods/azoth/files/materials/inject_material_tags.lua")
@@ -10,9 +10,10 @@ function OnModInit()
 end
 
 function OnPlayerSpawned(player_entity) -- This runs when player entity has been created
-    EntityAddComponent2(player_entity, "LuaComponent",
-                        {script_source_file = "mods/azoth/files/items/held_item_components.lua",
-                         execute_every_n_frame = 120})
+    EntityAddComponent2(player_entity, "LuaComponent", {
+        script_source_file = "mods/azoth/files/items/held_item_components.lua",
+        execute_every_n_frame = 120
+    })
 end
 
 ModMaterialsFileAdd("mods/azoth/files/materials/materials_append.xml")
