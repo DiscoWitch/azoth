@@ -1,10 +1,8 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local flask = Entity(self.ProjectileComponent.mWhoShot)
-if not flask then
-    return
-end
+if not flask then return end
 
 local flask_mats = flask.MaterialInventoryComponent.count_per_material_type
 local flask_suc = flask.MaterialSuckerComponent
@@ -30,15 +28,13 @@ end
 local x, y = self:transform()
 if had_mat then
     -- Generate particles that look like the material going into the flask
-    local particle = Entity(EntityLoad("mods/azoth/files/items/flasks/flask_vacuum_particle.xml", x, y))
+    local particle = Entity(EntityLoad("mods/azoth/files/items/flasks/flask_vacuum_particle.xml", x,
+                                       y))
     particle:setParent(flask)
     local fx, fy = flask:transform()
     local p = particle.ParticleEmitterComponent
     p.m_next_emit_frame = GameGetFrameNum() + 1
-    p.offset = {
-        x = x - fx,
-        y = y - fy
-    }
+    p.offset = {x = x - fx, y = y - fy}
     p.color = GameGetPotionColorUint(self:id())
 end
 

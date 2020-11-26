@@ -1,21 +1,15 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
-local polytools = dofile_once("mods/azoth/files/lib/polytools.lua")
+local polytools = dofile_once("mods/azoth/files/lib/polytools/polytools.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 
-if not self.var_str.larpa_data then
-    return
-end
-if self.var_bool.larpa_stop then
-    return
-end
+if not self.var_str.larpa_data then return end
+if self.var_bool.larpa_stop then return end
 
 local x, y, angle = self:transform()
 local cx, cy = GameGetCameraPos()
 local kill_dist = 300
-if (x - cx) ^ 2 + (y - cy) ^ 2 > kill_dist ^ 2 then
-    return
-end
+if (x - cx) ^ 2 + (y - cy) ^ 2 > kill_dist ^ 2 then return end
 
 local vel = self.VelocityComponent.mVelocity
 local bounce_angle = 15 * math.pi / 180

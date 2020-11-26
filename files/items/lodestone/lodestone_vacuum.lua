@@ -1,6 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local stone = Entity(self.ProjectileComponent.mWhoShot)
 local my_money = self.WalletComponent.money
 if my_money > 0 then

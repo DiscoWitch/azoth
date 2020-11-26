@@ -2,7 +2,7 @@
     <LoadEntitiesComponent _enabled="1"
         entity_file="mods/azoth/files/items/palestone/palestone.xml"
         kill_entity="1"
-        timeout_frames="105"
+        timeout_frames="125"
         count.min="1"
         count.max="1" />
 
@@ -18,14 +18,14 @@
         area_circle_radius.min="0"
         area_circle_radius.max="0"
         cosmetic_force_create="0"
-        airflow_force="1.5"
+        airflow_force="0.25"
         airflow_time="1.01"
         airflow_scale="0.05"
         emission_interval_min_frames="1"
         emission_interval_max_frames="1"
         emit_cosmetic_particles="1"
         image_animation_file="mods/azoth/files/items/palestone/palespawn.png"
-        image_animation_speed="6"
+        image_animation_speed="4"
         image_animation_loop="0">
     </ParticleEmitterComponent>
 

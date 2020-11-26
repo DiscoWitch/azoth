@@ -73,32 +73,18 @@
         _parent="sulphur"
         ui_name="Cinnabar"
         density="5"
+        durability="12"
+        requires_oxygen="0"
         liquid_static="1"
-        fire_hp="10000"
-        on_fire_flame_material="fire_blue"
+        fire_hp="1000"
+        temperature_of_fire="95"
+        autoignition_temperature="90"
+        on_fire_flame_material="mercury"
         wang_color="ffFF947B">
         <Graphics texture_file="mods/azoth/files/materials_gfx/cinnabar.png"
             color="ffFF947B"
             fire_colors_index="0" />
-        <ExplosionConfig cell_explosion_probability="100"
-            damage="0.0"
-            audio_enabled="0"
-            pixel_sprites_enabled="0"
-            explosion_sprite=""
-            cell_explosion_power="100"
-            cell_explosion_damage_required="10"
-            cell_explosion_radius_min="1"
-            cell_explosion_radius_max="1"
-            create_cell_material="mercury"
-            create_cell_probability="1"
-            camera_shake="0"
-            sparks_enabled="0"
-            particle_effect="0"
-            hole_enabled="1"
-            hole_destroy_liquid="0"
-            hole_destroy_physics_dynamic="0"
-            max_durability_to_destroy="0"
-            ray_energy="100" />
+        <!-- <ExplosionConfig cell_explosion_probability="100" damage="0.0" audio_enabled="0" pixel_sprites_enabled="0" explosion_sprite="" cell_explosion_power="100" cell_explosion_damage_required="10" cell_explosion_radius_min="1" cell_explosion_radius_max="1" create_cell_material="mercury" create_cell_probability="1" camera_shake="0" sparks_enabled="0" particle_effect="0" hole_enabled="1" hole_destroy_liquid="0" hole_destroy_physics_dynamic="0" max_durability_to_destroy="0" ray_energy="100" /> -->
     </CellDataChild>
 
     <CellDataChild name="ash"
@@ -159,6 +145,20 @@
     <!-- Mercury + Levitatium = ? -->
     <!-- Mercury + Worm attractor = ? -->
 
+    <CellDataChild _parent="fire"
+        _inherit_reactions="1"
+        name="azoth_fire_purple"
+        ui_name="$mat_fire"
+        cell_type="gas"
+        temperature_of_fire="0"
+        gfx_glow="255"
+        lifetime="30"
+        wang_color="56B4323F">
+        <Graphics color="ff7c41ff"
+            fire_colors_index="1">
+        </Graphics>
+    </CellDataChild>
+
     <!-- Mercury + Ambrosia -> Ichor + Honey -->
     <!-- Stains stick and anger the gods if you enter a holy mountain -->
     <!--  -->
@@ -169,8 +169,15 @@
         liquid_stains_self="0"
         liquid_stains="1"
         liquid_sprite_stains_check_offset="-1"
+        burnable="1"
+        requires_oxygen="1"
+        autoignition_temperature="95"
+        temperature_of_fire="97"
+        fire_hp="-1"
+        on_fire_flame_material="magic_liquid_ichor"
         lifetime="0">
-        <Graphics color="ff1d1c4a" />
+        <Graphics color="ff1d1c4a"
+            fire_colors_index="1" />
         <ParticleEffect vel.y="-2.857"
             vel_random.min_x="-6"
             vel_random.max_x="6"
@@ -270,8 +277,6 @@
         input_cell2="magic_liquid_unstable_teleportation"
         output_cell1="[mercury]"
         output_cell2="glass_broken" />
-
-
 
     <!-- Mercury + Healthium = ? -->
 
@@ -594,7 +599,8 @@
 
     <CellDataChild name="murky_elixir"
         _parent="water"
-        ui_name="Murky Elixir"
+        ui_name="Caput Mortuum"
+        gfx_glow="100"
         density="3"
         wang_color="FF000020">
         <Graphics color="FF000020" />

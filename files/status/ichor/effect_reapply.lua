@@ -1,12 +1,10 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local parent = self:parent()
 
 -- Make sure we're getting the right parent
-if not parent then
-    return
-end
+if not parent then return end
 
 local stain_rate = self.var_int.stain_rate or 20
 

@@ -1,5 +1,5 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local knot = Entity(self.var_int.knot)
 local handle = Entity(self.var_int.owner)
 
@@ -35,10 +35,8 @@ if dist > dist_max then
     local fx = fr * math.cos(ang)
     local fy = fr * math.sin(ang)
 
-    local v1 = {
-        x = (x1 - (knot.var_float.prev_x or x1)) * 60,
-        y = (y1 - (knot.var_float.prev_y or y1)) * 60
-    }
+    local v1 = {x = (x1 - (knot.var_float.prev_x or x1)) * 60,
+                y = (y1 - (knot.var_float.prev_y or y1)) * 60}
     knot:parent():applyForce(fx - drag * v1.x, fy - drag * v1.y)
 end
 knot.var_float.prev_x = x1
@@ -48,7 +46,4 @@ handle.var_float.prev_y = y2
 
 -- Zip back and forth along the rope to draw a trail along it
 self:setTransform(x1, y1, angle)
-self.ParticleEmitterComponent.mExPosition = {
-    x = x2,
-    y = y2
-}
+self.ParticleEmitterComponent.mExPosition = {x = x2, y = y2}

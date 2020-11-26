@@ -24,6 +24,11 @@
 
     <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
 
+    <LuaComponent _tags="enabled_in_world,enabled_in_inventory,enabled_in_hand"
+        execute_on_added="1"
+        remove_after_executed="1"
+        script_source_file="mods/azoth/files/items/bag_holding/init.lua" />
+
     <LuaComponent _tags="enabled_in_inventory"
         execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag.lua" />
@@ -31,6 +36,10 @@
     <LuaComponent _tags="enabled_in_hand"
         execute_every_n_frame="12"
         script_source_file="mods/azoth/files/items/bag_holding/bag_hide_items.lua" />
+
+    <LuaComponent _tags="enabled_in_world"
+        execute_every_n_frame="30"
+        script_source_file="mods/azoth/files/items/bag_holding/bag_upgrades.lua" />
 
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
@@ -59,6 +68,10 @@
 
     <MaterialInventoryComponent />
 
+    <MaterialSuckerComponent _tags="enabled_in_world"
+        barrel_size="2000"
+        num_cells_sucked_per_frame="5"></MaterialSuckerComponent>
+
     <ItemComponent _tags="enabled_in_world"
         item_name="Bag of holding"
         always_use_item_name_in_ui="1"
@@ -68,12 +81,14 @@
         max_child_items="15"
         collect_nondefault_actions="1"
         ui_sprite="mods/azoth/files/items/bag_holding/bag_ui.png"
-        ui_description="A magical bag which can hold other items"
+        ui_description="A magical bag which can hold other items.
+Right click it in your inventory to put your currently held item inside.
+Items can only be retrieved from the bag when you can edit wands."
         preferred_inventory="QUICK"></ItemComponent>
 
     <AbilityComponent ui_name="$item_potion_with_material"
         sprite_file="mods/azoth/files/items/bag_holding/bag_ui.png"
-        throw_as_item="1">
+        throw_as_item="0">
         <gun_config deck_capacity="15"
             actions_per_round="0" />
     </AbilityComponent>

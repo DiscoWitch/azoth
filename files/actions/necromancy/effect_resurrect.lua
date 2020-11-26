@@ -1,10 +1,8 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local parent = self:parent()
-if not parent then
-    return
-end
+if not parent then return end
 local genome = parent.GenomeDataComponent
 if genome then
     genome.herd_id = StringToHerdId("player")
@@ -18,10 +16,7 @@ if ai then
     ai.aggressiveness_max = 100
     ai.escape_if_damaged_probability = 0
     local x, y = GameGetCameraPos()
-    ai.mHomePosition = {
-        x = x,
-        y = y
-    }
+    ai.mHomePosition = {x = x, y = y}
     ai.max_distance_to_move_from_home = 50
 end
 parent:removeTag("homing_target")

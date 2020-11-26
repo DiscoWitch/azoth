@@ -116,7 +116,8 @@
         is_pickable="1"
         is_equipable_forced="1"
         ui_sprite="data/ui_gfx/items/potion.png"
-        ui_description="A teleportatium-infused flask that can draw in loose materials."
+        ui_description="A durable, teleportatium-infused flask.
+Suck in loose materials with right click."
         preferred_inventory="QUICK" />
 
     <AbilityComponent ui_name="$item_potion_with_material"

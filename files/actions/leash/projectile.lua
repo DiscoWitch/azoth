@@ -1,6 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 
 local detect_range = 20
 
@@ -22,10 +22,8 @@ function GetClosest(x, y, tags)
 end
 
 local x, y = self:transform()
-local ents = Entity.getInRadius(x, y, detect_range)
-local active = ents and ents:search(function(ent)
-    return ent:name() == "leash_knot"
-end)
+local ents = Entity.GetInRadius(x, y, detect_range)
+local active = ents and ents:search(function(ent) return ent:name() == "leash_knot" end)
 if active then
     -- Don't re-leash things that are already leashed
     return

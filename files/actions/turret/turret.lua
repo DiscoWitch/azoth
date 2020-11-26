@@ -2,21 +2,15 @@ dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
 -- Init code, called once at turret creation
-local self = Entity(GetUpdatedEntityID())
-if self.var_bool.initialized then
-    return
-end
+local self = Entity.Current()
+if self.var_bool.initialized then return end
 
 local storage = Entity(EntityGetWithName("turret_storage"))
-if not storage then
-    return
-end
+if not storage then return end
 -- Populate our data table from storage
-local src = {
-    wand = Entity(tonumber(storage.variables.wand)),
-    deck = StringSplit(storage.variables.deck, ",", tonumber),
-    inventoryitem_id = StringSplit(storage.variables.inventoryitem_id, ",", tonumber)
-}
+local src = {wand = Entity(tonumber(storage.variables.wand)),
+             deck = StringSplit(storage.variables.deck, ",", tonumber),
+             inventoryitem_id = StringSplit(storage.variables.inventoryitem_id, ",", tonumber)}
 -- kill storage now that we're done with it
 storage:kill()
 
@@ -25,12 +19,8 @@ if src.wand == nil then
     self:kill()
     return
 end
-local inv = self:findChildren(function(ent)
-    return ent:name() == "inventory_quick"
-end)[1]
-local my_wand = inv:findChildren(function(ent)
-    return ent:hasTag("wand")
-end)[1]
+local inv = self:children():search(function(ent) return ent:name() == "inventory_quick" end)[1]
+local my_wand = inv:children():search(function(ent) return ent:hasTag("wand") end)[1]
 if my_wand == nil then
     print_error("Turret couldn't find its own wand!")
     self:kill()

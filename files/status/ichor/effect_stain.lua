@@ -1,33 +1,29 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
 function init(self)
-    if self.var_bool.initialized then
-        return
-    end
+    if self.var_bool.initialized then return end
     local parent = self:parent()
-    local reapply = self:findChildren(function(ent)
-        return ent:name() == "azoth_ichor_reapply"
-    end)
+    local children = self:children()
+    local reapply = children
+                        and children:search(function(ent)
+            return ent:name() == "azoth_ichor_reapply"
+        end)
     if not reapply then
         LoadGameEffectEntityTo(parent:id(), "mods/azoth/files/status/ichor/effect_reapply.xml")
     end
     self.var_bool.initialized = true
 end
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local parent = self:parent()
 
 -- Make sure we're getting the right parent
-if not parent then
-    return
-end
+if not parent then return end
 init(self)
 local fire_prot = parent:children():search(function(ent)
     return ent.GameEffectComponent and ent.GameEffectComponent.effect == "PROTECTION_FIRE"
 end)
-if fire_prot then
-    fire_prot.GameEffectComponent:setEnabled(false)
-end
+if fire_prot then fire_prot.GameEffectComponent:setEnabled(false) end
 
 -- Anger the gods if something ichored is in the holy mountain
 local x, y = self:transform()

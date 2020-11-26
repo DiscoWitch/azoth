@@ -1,6 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util.lua")
 
-local self = Entity(GetUpdatedEntityID())
+local self = Entity.Current()
 local x, y = self:transform()
 local drag = 1000
 local pull = 1
