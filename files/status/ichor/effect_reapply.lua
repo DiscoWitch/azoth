@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 local parent = self:parent()
@@ -21,6 +21,6 @@ if (fire ~= 0 or oiled ~= 0) and stain_rate > 0 then
 end
 
 -- Reapply ichor to prevent washing it off easily
-local ichor = CellFactory_GetType("magic_liquid_ichor")
+local ichor = CellFactory_GetType("azoth_ichor")
 EntityAddRandomStains(parent:id(), ichor, stain_rate)
 

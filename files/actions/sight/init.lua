@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 table.insert(actions, {
     id = "AZOTH_SIGHT",
@@ -14,7 +14,5 @@ table.insert(actions, {
     mana = 0,
     max_uses = -1,
     custom_xml_file = "mods/azoth/files/actions/sight/card.xml",
-    action = function()
-
-    end
+    action = function() end
 })

@@ -1,5 +1,5 @@
 dofile_once("data/scripts/lib/utilities.lua")
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 local now = GameGetFrameNum()
@@ -106,8 +106,10 @@ function phaseLaunch()
 
         self:setEnabledWithTag("disabled_in_flight", false)
         self:setEnabledWithTag("enabled_in_flight", true)
-        self.VelocityComponent.mVelocity = {x = launch_speed * dx / dist,
-                                            y = launch_speed * dy / dist}
+        self.VelocityComponent.mVelocity = {
+            x = launch_speed * dx / dist,
+            y = launch_speed * dy / dist
+        }
     end
     self.var_int.phase = 5
     self.var_int.phase_change_frame = now + 20

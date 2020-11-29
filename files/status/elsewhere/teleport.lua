@@ -1,11 +1,9 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = GetUpdatedEntityID()
 local x, y = EntityGetTransform(self)
 
-if not initialized then
-    SetRandomSeed(x, y)
-end
+if not initialized then SetRandomSeed(x, y) end
 
 local ents = EntityGetWithTag("enemy")
 local rand = Random()
@@ -18,16 +16,12 @@ if rand < 0.1 then
 elseif #ents == 0 or rand < 0.2 then
     ents = {}
     for k, v in ipairs(EntityGetWithTag("item_physics")) do
-        if EntityGetParent(v) == 0 then
-            table.insert(ents, v)
-        end
+        if EntityGetParent(v) == 0 then table.insert(ents, v) end
     end
     type = "item"
     dist = 30
 end
-if #ents == 0 then
-    return
-end
+if #ents == 0 then return end
 local ent = ents[Random(1, #ents)]
 for i = 1, 10 do
     local tx = x + Random(-dist, dist)

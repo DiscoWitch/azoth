@@ -6,7 +6,7 @@
         count.min="1"
         count.max="1" />
 
-    <ParticleEmitterComponent emitted_material_name="ink"
+    <ParticleEmitterComponent emitted_material_name="azoth_ink"
         delay_frames="0"
         gravity.y="0.0"
         lifetime_min="8"
@@ -54,7 +54,7 @@
 
     <MagicConvertMaterialComponent _enabled="1"
         kill_when_finished="0"
-        from_material="pale_spawner"
+        from_material="azoth_spawn_palestone"
         to_material="air"
         is_circle="1"
         steps_per_frame="50"

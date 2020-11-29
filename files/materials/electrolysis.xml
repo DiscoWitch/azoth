@@ -1,6 +1,6 @@
 <MagicConvertMaterialComponent _enabled="1"
     radius="3"
     is_circle="1"
-    from_material="cobalt"
-    to_material="cobalt_lodestone"
+    from_material="azoth_cobalt"
+    to_material="azoth_spawn_lodestone"
     loop="1" />

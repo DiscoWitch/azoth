@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 if ModSettingGet("azoth.necromancy_replace") then
     for i = 1, #actions do

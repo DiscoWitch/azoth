@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 local self = Entity.Current()
 local k1 = Entity(self.var_int.knot1)
 local k2 = Entity(self.var_int.knot2)
@@ -39,10 +39,14 @@ if dist > dist_max then
     local fx = fr * math.cos(ang)
     local fy = fr * math.sin(ang)
 
-    local v1 = {x = (x1 - (k1.var_float.prev_x or x1)) * 60,
-                y = (y1 - (k1.var_float.prev_y or y1)) * 60}
-    local v2 = {x = (x2 - (k2.var_float.prev_x or x2)) * 60,
-                y = (y2 - (k2.var_float.prev_y or y2)) * 60}
+    local v1 = {
+        x = (x1 - (k1.var_float.prev_x or x1)) * 60,
+        y = (y1 - (k1.var_float.prev_y or y1)) * 60
+    }
+    local v2 = {
+        x = (x2 - (k2.var_float.prev_x or x2)) * 60,
+        y = (y2 - (k2.var_float.prev_y or y2)) * 60
+    }
 
     k1:parent():applyForce(fx - drag * v1.x, fy - drag * v1.y)
     k2:parent():applyForce(-fx - drag * v2.x, -fy - drag * v2.y)

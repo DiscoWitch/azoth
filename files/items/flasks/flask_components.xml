@@ -7,7 +7,7 @@
         _tags="enabled_by_elixir"
         kill_when_finished="0"
         from_material="purifying_powder"
-        to_material="pale_spawner"
+        to_material="azoth_spawn_palestone"
         is_circle="1"
         steps_per_frame="5"
         radius="5"

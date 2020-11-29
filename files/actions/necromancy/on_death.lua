@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 local polytools = dofile_once("mods/azoth/files/lib/polytools/polytools.lua")
 
 function damage_received(damage, message, entity_thats_responsible, is_fatal)

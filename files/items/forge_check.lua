@@ -1,12 +1,10 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 function collision_trigger(colliding_entity_id)
     local x, y = EntityGetTransform(GetUpdatedEntityID())
 
     -- abort if conversion already in progress
-    if #EntityGetInRadiusWithTag(x, y, 10, "forge_item_convert") > 0 then
-        return
-    end
+    if #EntityGetInRadiusWithTag(x, y, 10, "forge_item_convert") > 0 then return end
 
     local fdata = Entity(colliding_entity_id)
     local item = fdata:parent()

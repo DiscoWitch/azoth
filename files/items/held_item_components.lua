@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 local inventory = self:children():search(function(ent) return ent:name() == "inventory_quick" end)

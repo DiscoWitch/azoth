@@ -34,15 +34,31 @@ table.insert(status_effects, {
     id = "AZOTH_WORMPOLY",
     ui_name = "Worm?",
     ui_description = "worm worm woRM WORM WORM",
-    ui_icon = "mods/azoth/files/status/wormpoly/icon.png",
+    ui_icon = "mods/azoth/files/status/blank.png",
     protects_from_fire = false,
     effect_entity = "mods/azoth/files/status/wormpoly/effect.xml"
 })
 table.insert(status_effects, {
-    id = "AZOTH_CLEAN",
-    ui_name = "",
-    ui_description = "",
+    id = "AZOTH_BLIND",
+    ui_name = "Blind",
+    ui_description = "You can't see!",
+    ui_icon = "mods/azoth/files/status/blind/icon.png",
+    protects_from_fire = false,
+    effect_entity = "mods/azoth/files/status/blind/effect.xml"
+})
+table.insert(status_effects, {
+    id = "AZOTH_CHRONOS",
+    ui_name = "Chronos",
+    ui_description = "You feel like you're getting ahead of yourself",
     ui_icon = "mods/azoth/files/status/blank.png",
     protects_from_fire = false,
-    effect_entity = ""
+    effect_entity = "mods/azoth/files/status/wormpoly/effect.xml"
+})
+table.insert(status_effects, {
+    id = "AZOTH_MERCURY",
+    ui_name = "Mercury Poisoning",
+    ui_description = "You're having trouble thinking straight",
+    ui_icon = "mods/azoth/files/status/blank.png",
+    protects_from_fire = false,
+    effect_entity = "mods/azoth/files/status/wormpoly/effect.xml"
 })

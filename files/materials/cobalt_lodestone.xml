@@ -8,7 +8,7 @@
         count.max="1" />
 
     <MagicConvertMaterialComponent kill_when_finished="0"
-        from_material="cobalt_lodestone"
+        from_material="azoth_spawn_lodestone"
         steps_per_frame="25"
         to_material="air"
         is_circle="1"
@@ -16,7 +16,7 @@
     </MagicConvertMaterialComponent>
 
     <MagicConvertMaterialComponent kill_when_finished="0"
-        from_material="cobalt"
+        from_material="azoth_cobalt"
         steps_per_frame="3"
         to_material="air"
         is_circle="1"

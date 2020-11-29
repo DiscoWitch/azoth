@@ -118,7 +118,7 @@
         body_id="1"
         centered="1"
         image_file="data/items_gfx/smallgem_03.png"
-        material="lodestone_box2d" />
+        material="azoth_lodestone_box2d" />
 
     <PhysicsThrowableComponent max_throw_speed="180"
         throw_force_coeff="1.5"

@@ -87,23 +87,28 @@ end
 
 setmetatable(List, List.__mt)
 
-local ent_values_special = {variables = function(eid) return Variable(eid, "value_string") end,
-                            var_str = function(eid) return Variable(eid, "value_string") end,
-                            var_int = function(eid) return Variable(eid, "value_int") end,
-                            var_bool = function(eid) return Variable(eid, "value_bool") end,
-                            var_float = function(eid) return Variable(eid, "value_float") end}
+local ent_values_special = {
+    variables = function(eid) return Variable(eid, "value_string") end,
+    var_str = function(eid) return Variable(eid, "value_string") end,
+    var_int = function(eid) return Variable(eid, "value_int") end,
+    var_bool = function(eid) return Variable(eid, "value_bool") end,
+    var_float = function(eid) return Variable(eid, "value_float") end
+}
 
 ---@class Entity
 Entity = {}
 Entity.__cache = {}
-Entity.__mt = {__tostring = function(self) return "Class: Entity" end, __call = function(self, id)
-    if not id or id == 0 then return nil end
-    if not Entity.__cache[id] then
-        Entity.__cache[id] = {__id = id}
-        setmetatable(Entity.__cache[id], Entity)
+Entity.__mt = {
+    __tostring = function(self) return "Class: Entity" end,
+    __call = function(self, id)
+        if not id or id == 0 then return nil end
+        if not Entity.__cache[id] then
+            Entity.__cache[id] = {__id = id}
+            setmetatable(Entity.__cache[id], Entity)
+        end
+        return Entity.__cache[id]
     end
-    return Entity.__cache[id]
-end}
+}
 Entity.__index = function(self, key)
     if Entity[key] then return Entity[key] end
     if key == "__id" then
@@ -278,6 +283,11 @@ end
 ---@return Entity effect
 function Entity:addGameEffect(filename) return Entity(LoadGameEffectEntityTo(self.__id, filename)) end
 
+function Entity:setMaterialCount(matname, amount)
+    if type(matname) == "number" then matname = CellFactory_GetName(matname) end
+    AddMaterialInventoryMaterial(self.__id, matname, amount)
+end
+
 -- Physics functions
 ---@param fx number
 ---@param fy number
@@ -316,12 +326,14 @@ end
 function SetVec2(component_id, key, value) ComponentSetValue2(component_id, key, value.x, value.y) end
 
 MetaObject = {}
-MetaObject.__mt = {__call = function(self, c_id, obj_name)
-    if not c_id or c_id == 0 or not obj_name then return nil end
-    local output = {__id = c_id, __name = obj_name}
-    setmetatable(output, MetaObject)
-    return output
-end}
+MetaObject.__mt = {
+    __call = function(self, c_id, obj_name)
+        if not c_id or c_id == 0 or not obj_name then return nil end
+        local output = {__id = c_id, __name = obj_name}
+        setmetatable(output, MetaObject)
+        return output
+    end
+}
 MetaObject.__index = function(self, key) return
     ComponentObjectGetValue2(self.__id, self.__name, key) end
 MetaObject.__newindex = function(self, key, value)
@@ -329,41 +341,43 @@ MetaObject.__newindex = function(self, key, value)
 end
 setmetatable(MetaObject, MetaObject.__mt)
 
-local comp_getters_special = {AbilityComponent = {gun_config = MetaObject,
-                                                  gunaction_config = MetaObject},
-                              AnimalAIComponent = {mHomePosition = SetVec2},
-                              CharacterDataComponent = {mVelocity = GetVec2},
-                              ControlsComponent = {mAimingVectorNormalized = GetVec2,
-                                                   mMousePosition = GetVec2},
-                              DamageModelComponent = {damage_multipliers = MetaObject},
-                              ItemComponent = {inventory_slot = GetVec2},
-                              LaserEmitterComponent = {laser = MetaObject},
-                              ParticleEmitterComponent = {mExPosition = GetVec2, offset = GetVec2,
-                                                          gravity = GetVec2},
-                              PhysicsBody2Component = {mLocalPosition = GetVec2},
-                              ProjectileComponent = {config_explosion = MetaObject},
-                              VelocityComponent = {mVelocity = GetVec2}}
+local comp_getters_special = {
+    AbilityComponent = {gun_config = MetaObject, gunaction_config = MetaObject},
+    AnimalAIComponent = {mHomePosition = SetVec2},
+    CharacterDataComponent = {mVelocity = GetVec2},
+    ControlsComponent = {mAimingVectorNormalized = GetVec2, mMousePosition = GetVec2},
+    DamageModelComponent = {damage_multipliers = MetaObject},
+    ItemComponent = {inventory_slot = GetVec2},
+    LaserEmitterComponent = {laser = MetaObject},
+    ParticleEmitterComponent = {mExPosition = GetVec2, offset = GetVec2, gravity = GetVec2},
+    PhysicsBody2Component = {mLocalPosition = GetVec2},
+    ProjectileComponent = {config_explosion = MetaObject},
+    VelocityComponent = {mVelocity = GetVec2}
+}
 
-local comp_setters_special = {AnimalAIComponent = {mHomePosition = SetVec2},
-                              CharacterDataComponent = {mVelocity = SetVec2},
-                              ItemComponent = {inventory_slot = SetVec2},
-                              ParticleEmitterComponent = {mExPosition = SetVec2, offset = SetVec2,
-                                                          gravity = SetVec2},
-                              VelocityComponent = {mVelocity = SetVec2}}
+local comp_setters_special = {
+    AnimalAIComponent = {mHomePosition = SetVec2},
+    CharacterDataComponent = {mVelocity = SetVec2},
+    ItemComponent = {inventory_slot = SetVec2},
+    ParticleEmitterComponent = {mExPosition = SetVec2, offset = SetVec2, gravity = SetVec2},
+    VelocityComponent = {mVelocity = SetVec2}
+}
 
 ---@class Component
 Component = {}
 Component.__cache = {}
-Component.__mt = {__tostring = function(self) return "Class: Component" end,
-                  __call = function(self, c_id, e_id)
-    if not c_id or c_id == 0 or not e_id or e_id == 0 then return nil end
-    if not Component.__cache[e_id] then Component.__cache[e_id] = {} end
-    if not Component.__cache[e_id][c_id] then
-        Component.__cache[e_id][c_id] = {__id = c_id, __entity = e_id}
-        setmetatable(Component.__cache[e_id][c_id], Component)
+Component.__mt = {
+    __tostring = function(self) return "Class: Component" end,
+    __call = function(self, c_id, e_id)
+        if not c_id or c_id == 0 or not e_id or e_id == 0 then return nil end
+        if not Component.__cache[e_id] then Component.__cache[e_id] = {} end
+        if not Component.__cache[e_id][c_id] then
+            Component.__cache[e_id][c_id] = {__id = c_id, __entity = e_id}
+            setmetatable(Component.__cache[e_id][c_id], Component)
+        end
+        return Component.__cache[e_id][c_id]
     end
-    return Component.__cache[e_id][c_id]
-end}
+}
 Component.__index = function(self, key)
     if Component[key] then return Component[key] end
     if key == "__id" then
@@ -406,13 +420,15 @@ setmetatable(Component, Component.__mt)
 
 Variable = {}
 Variable.__cache = {}
-Variable.__mt = {__call = function(self, e_id, var_type)
-    if not e_id or e_id == 0 or not var_type then return nil end
-    local output = {__id = e_id, __type = var_type}
-    if not Variable.__cache[e_id] then Variable.__cache[e_id] = {} end
-    setmetatable(output, Variable)
-    return output
-end}
+Variable.__mt = {
+    __call = function(self, e_id, var_type)
+        if not e_id or e_id == 0 or not var_type then return nil end
+        local output = {__id = e_id, __type = var_type}
+        if not Variable.__cache[e_id] then Variable.__cache[e_id] = {} end
+        setmetatable(output, Variable)
+        return output
+    end
+}
 Variable.__index = function(self, key)
     if Variable[key] then return Variable[key] end
     if not Variable.__cache[self.__id][key] then
@@ -478,8 +494,12 @@ end
 ---@param to Entity
 function WandCopy(from, to)
     local names_ac = {"ui_name", "mana_max", "mana", "mana_charge_speed"}
-    local names_gunconfig = {"reload_time", "actions_per_round", "deck_capacity",
-                             "shuffle_deck_when_empty"}
+    local names_gunconfig = {
+        "reload_time",
+        "actions_per_round",
+        "deck_capacity",
+        "shuffle_deck_when_empty"
+    }
     local names_gunactionconfig = {"fire_rate_wait", "spread_degrees", "speed_multiplier"}
     local fromac = from.AbilityComponent
     local toac = to.AbilityComponent

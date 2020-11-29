@@ -1,5 +1,5 @@
 dofile_once("data/scripts/lib/utilities.lua")
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 local user = self:root()
@@ -13,7 +13,7 @@ if controls and controls.mButtonDownThrow and not controls.mButtonDownFire then
         local spread_deg = 15
         angle = angle + (math.random() - 0.5) * spread_deg * math.pi / 180
         local speed = 800
-        shoot_projectile(self:id(), "mods/azoth/files/items/flasks/flask_vacuum_projectile.xml", x,
+        shoot_projectile(self:id(), "mods/azoth/files/items/flasks/flask_vacuum/projectile.xml", x,
                          y, speed * math.cos(angle), speed * math.sin(angle), true)
     end
 end

@@ -1,5 +1,5 @@
 dofile_once("data/scripts/gun/procedural/gun_action_utils.lua")
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 -- Init code, called once at turret creation
 local self = Entity.Current()
@@ -8,9 +8,11 @@ if self.var_bool.initialized then return end
 local storage = Entity(EntityGetWithName("turret_storage"))
 if not storage then return end
 -- Populate our data table from storage
-local src = {wand = Entity(tonumber(storage.variables.wand)),
-             deck = StringSplit(storage.variables.deck, ",", tonumber),
-             inventoryitem_id = StringSplit(storage.variables.inventoryitem_id, ",", tonumber)}
+local src = {
+    wand = Entity(tonumber(storage.variables.wand)),
+    deck = StringSplit(storage.variables.deck, ",", tonumber),
+    inventoryitem_id = StringSplit(storage.variables.inventoryitem_id, ",", tonumber)
+}
 -- kill storage now that we're done with it
 storage:kill()
 

@@ -1,5 +1,5 @@
 dofile_once("data/scripts/lib/utilities.lua")
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 

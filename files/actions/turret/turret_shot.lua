@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 function shot(proj_id)
     local self = Entity.Current()
@@ -11,6 +11,8 @@ function shot(proj_id)
     local speed = math.sqrt(vel.x ^ 2 + vel.y ^ 2)
     local proj_angle = math.atan2(vel.y, vel.x)
     proj_angle = proj_angle + angle - prey_angle
-    projectile.VelocityComponent.mVelocity = {x = speed * math.cos(proj_angle),
-                                              y = speed * math.sin(proj_angle)}
+    projectile.VelocityComponent.mVelocity = {
+        x = speed * math.cos(proj_angle),
+        y = speed * math.sin(proj_angle)
+    }
 end

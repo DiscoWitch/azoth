@@ -1,0 +1,17 @@
+<Entity>
+    <InheritTransformComponent>
+    </InheritTransformComponent>
+
+    <GameEffectComponent effect="BLINDNESS"
+        frames="1200">
+    </GameEffectComponent>
+
+    <GameEffectComponent effect="BREATH_UNDERWATER"
+        exclusivity_group="0"></GameEffectComponent >
+
+    <LuaComponent script_source_file="mods/azoth/files/status/blind/apply.lua"
+        remove_after_executed="1" />
+    <LuaComponent script_source_file="mods/azoth/files/status/blind/remove.lua"
+        execute_on_removed="1"
+        execute_every_n_frame="-1" />
+</Entity>

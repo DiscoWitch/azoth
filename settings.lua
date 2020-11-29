@@ -35,7 +35,7 @@ mod_settings = {
                 ui_name = "Starting Size",
                 ui_description = "Sets the starting size of the bag of holding",
                 value_default = "5",
-                values = {{5, "5"}, {10, "10"}, {15, "15"}},
+                values = {{"5", "5"}, {"10", "10"}, {"15", "15"}},
                 scope = MOD_SETTING_SCOPE_NEW_GAME
             },
             {
@@ -61,9 +61,6 @@ function ModSettingsUpdate(init_scope)
     mod_settings_update(mod_id, mod_settings, init_scope)
 end
 
-function ModSettingsGuiCount()
-    if (not DebugGetIsDevBuild()) then return 0 end
-    return mod_settings_gui_count(mod_id, mod_settings)
-end
+function ModSettingsGuiCount() return mod_settings_gui_count(mod_id, mod_settings) end
 
 function ModSettingsGui(gui, in_main_menu) mod_settings_gui(mod_id, mod_settings, gui, in_main_menu) end

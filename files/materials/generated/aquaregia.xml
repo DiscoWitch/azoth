@@ -1,113 +1,113 @@
 <Materials>
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_tree"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_static"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_static_wet"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_burns_forever"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_static_vertical"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_static_gas"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_player"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_player_b2"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_player_b2_vertical"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_trailer"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_wall"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_prop"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_prop_noplayerhit"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_prop_durable"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 
     <Reaction probability="20"
         fast_reaction="1"
-        input_cell1="aqua_regia"
+        input_cell1="azoth_aqua_regia"
         input_cell2="wood_loose"
-        output_cell1="aqua_regia"
-        output_cell2="vapor_regia" />
+        output_cell1="azoth_aqua_regia"
+        output_cell2="azoth_vapor_regia" />
 </Materials>

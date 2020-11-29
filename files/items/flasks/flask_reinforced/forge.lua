@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 function MoveMaterials(from, to)
     local mats = from.MaterialInventoryComponent.count_per_material_type
@@ -24,8 +24,8 @@ function CanConvert(fdata)
     return HasMaterial(item, {
         "magic_liquid_teleportation",
         "magic_liquid_unstable_teleportation",
-        "magic_liquid_elsewhere"
-    }, 500) or HasMaterial(item, {"magic_liquid_chaos"}, 500)
+        "azoth_oil_elsewhere"
+    }, 500) or HasMaterial(item, {"azoth_spirit_chaos"}, 500)
 end
 
 function Convert(fdata)
@@ -35,10 +35,10 @@ function Convert(fdata)
     if HasMaterial(item, {
         "magic_liquid_teleportation",
         "magic_liquid_unstable_teleportation",
-        "magic_liquid_elsewhere"
+        "azoth_oil_elsewhere"
     }, 500) then
         EntityLoad("mods/azoth/files/items/flasks/flask_vacuum.xml", x, y)
-    elseif HasMaterial(item, {"magic_liquid_chaos"}, 500) then
+    elseif HasMaterial(item, {"azoth_spirit_chaos"}, 500) then
         -- Create a bag of holding
         EntityLoad("mods/azoth/files/items/bag_holding/bag.xml", x, y)
     else

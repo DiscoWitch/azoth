@@ -28,7 +28,7 @@
     <LuaComponent _enabled="1"
         execute_every_n_frame="-1"
         execute_on_removed="1"
-        script_source_file="mods/azoth/files/items/flasks/flask_vacuum_projectile.lua" />
+        script_source_file="mods/azoth/files/items/flasks/flask_vacuum/projectile.lua" />
 
     <MaterialSuckerComponent barrel_size="100"
         num_cells_sucked_per_frame="5"

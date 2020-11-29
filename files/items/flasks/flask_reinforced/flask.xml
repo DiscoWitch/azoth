@@ -1,4 +1,4 @@
-<Entity name="flask_vacuum"
+<Entity name="flask_reinforced"
     tags="hittable,teleportable_NOT,item_physics">
 
     <!-- physical presence -->
@@ -33,21 +33,16 @@
     <LuaComponent remove_after_executed="1"
         script_item_picked_up="data/scripts/items/potion_effect.lua"></LuaComponent>
 
-    <LuaComponent _tags="enabled_in_hand"
-        execute_every_n_frame="1"
-        script_source_file="mods/azoth/files/items/flasks/flask_vacuum.lua" />
-
     <PotionComponent _tags="enabled_in_hand,enabled_in_world"
-        spray_velocity_coeff="100"
-        spray_velocity_normalized_min="1"
-        throw_how_many="100"></PotionComponent>
+        spray_velocity_coeff="75"
+        spray_velocity_normalized_min="1"></PotionComponent>
 
     <MaterialSuckerComponent _tags="enabled_in_world,enabled_in_hand"
         barrel_size="2000"
-        num_cells_sucked_per_frame="5"
-        material_type="1"></MaterialSuckerComponent>
+        num_cells_sucked_per_frame="5"></MaterialSuckerComponent>
 
     <MaterialInventoryComponent _tags="enabled_in_world,enabled_in_hand"
+        drop_as_item="0"
         on_death_spill="1"
         leak_pressure_min="0.07"
         leak_pressure_min="0.1"
@@ -108,26 +103,65 @@
         _enabled="0"
         offset_x="4"
         offset_y="4"
-        image_file="data/items_gfx/potion.png" />
+        image_file="data/items_gfx/potion.png"></SpriteComponent>
 
     <ItemComponent _tags="enabled_in_world"
-        item_name="Vacuum Flask"
+        item_name="flask"
         max_child_items="0"
         is_pickable="1"
         is_equipable_forced="1"
         ui_sprite="data/ui_gfx/items/potion.png"
-        ui_description="A durable, teleportatium-infused flask.
-Suck in loose materials with right click."
-        preferred_inventory="QUICK" />
+        ui_description="A durable flask that doesn't break on impacts."
+        preferred_inventory="QUICK"></ItemComponent>
 
     <AbilityComponent ui_name="$item_potion_with_material"
-        click_to_use="0">
+        throw_as_item="1">
         <gun_config deck_capacity="0"></gun_config>
     </AbilityComponent>
 
     <UIInfoComponent _tags="enabled_in_world"
         name="">
     </UIInfoComponent>
+
+    <SpriteParticleEmitterComponent sprite_file="data/particles/ray.xml"
+        delay="0"
+        lifetime="1.5"
+        color.r="1"
+        color.g="0.5"
+        color.b="1"
+        color.a="1.0"
+        color_change.r="0"
+        color_change.g="0"
+        color_change.b="0"
+        color_change.a="-3.5"
+        velocity.x="0"
+        velocity.y="0"
+        gravity.x="0"
+        gravity.y="0"
+        velocity_slowdown="0"
+        rotation="0"
+        angular_velocity="0"
+        scale.x="1"
+        scale.y="0"
+        scale_velocity.x="-0.3"
+        scale_velocity.y="3"
+        emission_interval_min_frames="3"
+        emission_interval_max_frames="6"
+        emissive="1"
+        additive="1"
+        count_min="1"
+        count_max="1"
+        use_velocity_as_rotation="1"
+        randomize_position.min_x="-2"
+        randomize_position.max_x="2"
+        randomize_position.min_y="-2"
+        randomize_position.max_y="2"
+        randomize_velocity.min_x="-30"
+        randomize_velocity.max_x="30"
+        randomize_velocity.min_y="-30"
+        randomize_velocity.max_y="30"
+        velocity_always_away_from_center="1">
+    </SpriteParticleEmitterComponent>
 
     <AudioLoopComponent _tags="sound_spray,enabled_in_world,enabled_in_hand"
         file="data/audio/Desktop/materials.bank"
@@ -140,5 +174,17 @@ Suck in loose materials with right click."
         event_root="collision/glass_potion"
         set_latest_event_position="1">
     </AudioComponent>
+
+    <Entity name="azoth_forge_data"
+        tags="forgeable">
+        <InheritTransformComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory" />
+        <VariableStorageComponent name="forge"
+            value_string="mods/azoth/files/items/flasks/flask_reinforced/forge.lua" />
+
+        <LuaComponent _tags="enabled_in_world,enabled_in_hand,enabled_in_inventory"
+            vm_type="ONE_PER_COMPONENT_INSTANCE"
+            script_enabled_changed="mods/azoth/files/lib/enable_world.lua"
+            script_source_file="mods/azoth/files/lib/enable_world.lua" />
+    </Entity>
 
 </Entity>

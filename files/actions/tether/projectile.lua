@@ -1,4 +1,4 @@
-dofile_once("mods/azoth/files/lib/disco_util.lua")
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 
@@ -9,12 +9,17 @@ function SetAnchor(x, y, angle)
     local anchor = Entity(EntityLoad("mods/azoth/files/actions/tether/tether_anchor.xml",
                                      x - 2 * joint_dist * math.cos(angle),
                                      y - 2 * joint_dist * math.sin(angle)))
-    anchor:addComponent("PhysicsJoint2Component",
-                        {type = "REVOLUTE_JOINT_ATTACH_TO_NEARBY_SURFACE", break_force = 10000,
-                         break_distance = 500, break_on_body_modified = false, offset_x = 0,
-                         offset_y = (math.sin(angle) < 0 and -4) or 4, body1_id = 0,
-                         ray_x = 4 * joint_dist * math.cos(angle),
-                         ray_y = 4 * joint_dist * math.sin(angle)})
+    anchor:addComponent("PhysicsJoint2Component", {
+        type = "REVOLUTE_JOINT_ATTACH_TO_NEARBY_SURFACE",
+        break_force = 10000,
+        break_distance = 500,
+        break_on_body_modified = false,
+        offset_x = 0,
+        offset_y = (math.sin(angle) < 0 and -4) or 4,
+        body1_id = 0,
+        ray_x = 4 * joint_dist * math.cos(angle),
+        ray_y = 4 * joint_dist * math.sin(angle)
+    })
 end
 
 function GetClosest(x, y, tags)
@@ -58,9 +63,10 @@ if vel.x ^ 2 + vel.y ^ 2 < 1 then
         if effect then
             effect.var_bool.can_connect = true
             effect.ParticleEmitterComponent:setEnabled(true)
-            effect:addComponent("LuaComponent",
-                                {script_source_file = "mods/azoth/files/actions/tether/tether_connect.lua",
-                                 remove_after_executed = true})
+            effect:addComponent("LuaComponent", {
+                script_source_file = "mods/azoth/files/actions/tether/tether_connect.lua",
+                remove_after_executed = true
+            })
         else
             target:addGameEffect("mods/azoth/files/actions/tether/tether_knot.xml")
         end
@@ -76,8 +82,9 @@ else
     if effect then
         effect.var_bool.can_connect = true
         effect.ParticleEmitterComponent:setEnabled(true)
-        effect:addComponent("LuaComponent",
-                            {script_source_file = "mods/azoth/files/actions/tether/tether_connect.lua",
-                             remove_after_executed = true})
+        effect:addComponent("LuaComponent", {
+            script_source_file = "mods/azoth/files/actions/tether/tether_connect.lua",
+            remove_after_executed = true
+        })
     end
 end
