@@ -39,13 +39,6 @@ mod_settings = {
                 scope = MOD_SETTING_SCOPE_NEW_GAME
             },
             {
-                id = "bag_holding.ewe",
-                ui_name = "Start with Edit Wands Everywhere passive",
-                ui_description = "Adds the Edit Wands Everywhere passive to the bag at the start instead of as an upgrade.",
-                value_default = false,
-                scope = MOD_SETTING_SCOPE_NEW_GAME
-            },
-            {
                 id = "bag_holding.bottomless",
                 ui_name = "Start with Bottomless upgrade",
                 ui_description = "Makes the bag bottomless at the start instead of as an upgrade.",

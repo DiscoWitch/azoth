@@ -110,22 +110,45 @@ async_loop(function()
     -- Create stow icons
     if current_size < capacity then
         for k, item in inventory:children():ipairs() do
+            local ic = item.ItemComponent
+            local ac = item.AbilityComponent
+            -- Get the current x position for the bag icon
+            local slot = ic.inventory_slot
+            local is_wand = ac and ac.use_gun_script
+            if not is_wand then slot.x = slot.x + 4 end
+            free_slots[slot.x + 1] = false
             if item == self then
-                -- Don't allow putting a bg in itself
+                -- Don't allow putting a bag in itself
             else
-                local ic = item.ItemComponent
-                local ac = item.AbilityComponent
-
                 -- Disable any wands while using the bag gui
                 if ac and ac.gun_config.deck_capacity > 0 then
                     item.var_int.deck_capacity = ac.gun_config.deck_capacity
                     ac.gun_config.deck_capacity = 0
+                    local has_script = false
+                    local script = "mods/azoth/files/items/bag_holding/throw_wand.lua"
+                    if item.LuaComponent then
+                        for _, v in item.LuaComponent:ipairs() do
+                            if v.script_throw_item == script then
+                                has_script = true
+                                break
+                            end
+                        end
+                    end
+                    if not has_script then
+                        item:addComponent("LuaComponent", {
+                            _tags = "enabled_in_inventory,enabled_in_hand,enabled_in_world",
+                            script_throw_item = script,
+                            remove_after_executed = true,
+                            execute_every_n_frame = -1
+                        })
+                    end
                 end
+
                 -- Get the current x position for the bag icon
                 local slot = ic.inventory_slot
                 local is_wand = ac and ac.use_gun_script
-                free_slots[slot.x + (is_wand and 0 or 4) + 1] = false
                 if not is_wand then slot.x = slot.x + 4 end
+                free_slots[slot.x + 1] = false
                 -- Draw the bag icon
                 local sprite = "mods/azoth/files/items/bag_holding/bag_ui.png"
                 local width, height = GuiGetImageDimensions(gui, sprite, 1)
