@@ -28,4 +28,4 @@ ModLuaFileAppend("data/scripts/gun/gun_extra_modifiers.lua",
 ModLuaFileAppend("data/scripts/buildings/forge_item_convert.lua",
                  "mods/azoth/files/items/append_forge_convert.lua")
 ModLuaFileAppend("data/scripts/biomes/lavalake.lua",
-                 "mods/azoth/files/items/bag_holding/spawn_bag.lua")
+                 "mods/azoth/files/items/containers/bag_holding/spawn_bag.lua")

@@ -33,7 +33,7 @@ function Convert(fdata)
         EntityLoad("mods/azoth/files/items/flasks/flask_vacuum.xml", x, y)
     elseif HasMaterial(item, {"azoth_spirit_chaos"}, 500) then
         -- Create a bag of holding
-        EntityLoad("mods/azoth/files/items/bag_holding/bag.xml", x, y)
+        EntityLoad("mods/azoth/files/items/containers/bag_holding/bag.xml", x, y)
     else
         -- Otherwise, just reinforce the flask
         local new_flask = Entity(EntityLoad(

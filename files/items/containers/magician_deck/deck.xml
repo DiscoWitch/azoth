@@ -1,0 +1,38 @@
+<Entity tags="hittable,teleportable_NOT,item_physics">
+
+    <Base file="mods/azoth/files/items/containers/base.xml"
+        include_children="1">
+        <PhysicsImageShapeComponent image_file="mods/azoth/files/items/containers/magician_deck/body.png" />
+        <SpriteComponent image_file="mods/azoth/files/items/containers/magician_deck/body.png" />
+        <ItemComponent item_name="Bag of holding"
+            always_use_item_name_in_ui="1"
+            uses_remaining="0"
+            max_child_items="-1"
+            ui_sprite="mods/azoth/files/items/containers/magician_deck/icon.png"
+            ui_description="A magical bag which can hold other items." />
+
+        <AbilityComponent ui_name="Bag of Holding"
+            sprite_file="mods/azoth/files/items/containers/magician_deck/icon.png" />
+
+        <UIInfoComponent name="bag" />
+    </Base>
+
+    <LuaComponent _enabled="0"
+        _tags="enabled_in_hand"
+        script_source_file="mods/azoth/files/items/containers/magician_deck/gui.lua"
+        vm_type="ONE_PER_COMPONENT_INSTANCE"
+        enable_coroutines="1"
+        execute_on_added="1"
+        execute_every_n_frame="-1"
+        execute_times="1" />
+
+    <LuaComponent _tags="enabled_in_hand"
+        script_enabled_changed="mods/azoth/files/items/containers/magician_deck/on_equip.lua" />
+
+    <LuaComponent _tags="enabled_in_hand"
+        script_source_file="mods/azoth/files/items/containers/magician_deck/init.lua"
+        execute_on_added="1"
+        remove_after_executed="1" />
+    <LuaComponent _tags="enabled_in_inventory,enabled_in_hand"
+        script_source_file="mods/azoth/files/items/containers/magician_deck/autostow.lua" />
+</Entity>

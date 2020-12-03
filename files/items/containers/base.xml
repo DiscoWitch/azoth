@@ -1,7 +1,9 @@
 <Entity tags="hittable,teleportable_NOT,item_physics">
 
     <!-- For keeping items in -->
-    <Entity name="storage" />
+    <Entity name="item_storage" />
+    <Entity name="spell_storage" />
+    <Entity name="material_storage" />
 
     <PhysicsBodyComponent _tags="enabled_in_world"
         uid="1"
@@ -12,11 +14,11 @@
         linear_damping="0"
         auto_clean="0"
         on_death_leave_physics_body="1"
-        hax_fix_going_through_ground="1"></PhysicsBodyComponent>
+        hax_fix_going_through_ground="1" />
 
     <PhysicsImageShapeComponent body_id="1"
         centered="1"
-        image_file="mods/azoth/files/items/bag_holding/bag.png"
+        image_file="mods/azoth/files/items/containers/bag_holding/body.png"
         material="item_box2d" />
 
     <PhysicsThrowableComponent max_throw_speed="180"
@@ -28,22 +30,10 @@
 
     <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
 
-    <LuaComponent _tags="enabled_in_world,enabled_in_inventory,enabled_in_hand"
-        execute_on_added="1"
-        remove_after_executed="1"
-        script_source_file="mods/azoth/files/items/bag_holding/init.lua" />
-
     <LuaComponent _tags="enabled_in_hand"
-        script_enabled_changed="mods/azoth/files/items/bag_holding/hide_wands.lua" />
-
-    <LuaComponent _enabled="0"
-        _tags="enabled_in_hand"
-        script_source_file="mods/azoth/files/items/bag_holding/gui.lua"
-        vm_type="ONE_PER_COMPONENT_INSTANCE"
-        enable_coroutines="1"
-        execute_on_added="1"
-        execute_every_n_frame="-1"
-        execute_times="1" />
+        script_source_file="mods/azoth/files/items/containers/hide_wands.lua" />
+    <LuaComponent _tags="enabled_in_hand"
+        script_enabled_changed="mods/azoth/files/items/containers/show_wands.lua" />
 
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
@@ -67,7 +57,7 @@
         _enabled="0"
         offset_x="4"
         offset_y="4"
-        image_file="mods/azoth/files/items/bag_holding/bag.png"></SpriteComponent>
+        image_file="mods/azoth/files/items/containers/bag_holding/body.png" />
 
     <ItemComponent _tags="enabled_in_world"
         item_name="Bag of holding"
@@ -77,19 +67,18 @@
         uses_remaining="0"
         max_child_items="5"
         collect_nondefault_actions="1"
-        ui_sprite="mods/azoth/files/items/bag_holding/bag_ui.png"
+        ui_sprite="mods/azoth/files/items/containers/bag_holding/icon.png"
         ui_description="A magical bag which can hold other items."
-        preferred_inventory="QUICK"></ItemComponent>
+        preferred_inventory="QUICK" />
 
     <AbilityComponent ui_name="Bag of Holding"
-        sprite_file="mods/azoth/files/items/bag_holding/bag_ui.png"
+        sprite_file="mods/azoth/files/items/containers/bag_holding/icon.png"
         throw_as_item="0">
         <gun_config deck_capacity="0" />
     </AbilityComponent>
 
     <UIInfoComponent _tags="enabled_in_world"
-        name="bag">
-    </UIInfoComponent>
+        name="container" />
 
     <SpriteParticleEmitterComponent sprite_file="data/particles/ray.xml"
         delay="0"
