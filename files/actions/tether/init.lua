@@ -2,6 +2,7 @@ table.insert(actions, {
     id = "AZOTH_TETHER",
     name = "tether",
     description = "Links things together",
+    author = "Disco Witch",
     sprite = "mods/azoth/files/actions/tether/icon.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {"mods/azoth/files/actions/tether/projectile.xml"},

@@ -12,7 +12,7 @@
         auto_clean="0"
         on_death_leave_physics_body="1"
         hax_fix_going_through_ground="1"
-        kills_entity="0" />
+        kills_entity="1" />
 
     <PhysicsImageShapeComponent _tags="enabled_in_world"
         body_id="1"

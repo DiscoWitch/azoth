@@ -17,6 +17,7 @@ else
         id = "AZOTH_NECROMANCY",
         name = "Greater Necromancy",
         description = "Causes killed enemies to reanimate and fight for you",
+        author = "Disco Witch",
         spawn_requires_flag = "card_unlocked_necromancy",
         sprite = "mods/azoth/files/actions/necromancy/icon.png",
         sprite_unidentified = "data/ui_gfx/gun_actions/explosive_projectile_unidentified.png",

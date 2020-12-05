@@ -1,0 +1,146 @@
+<Entity tags="card_action,energy_shield">
+    <ItemComponent _tags="enabled_in_world"
+        play_spinning_animation="0"
+        preferred_inventory="FULL"></ItemComponent>
+
+    <HitboxComponent _tags="enabled_in_world"
+        aabb_min_x="-4"
+        aabb_max_x="4"
+        aabb_min_y="-3"
+        aabb_max_y="3"></HitboxComponent>
+
+    <SimplePhysicsComponent _tags="enabled_in_world"></SimplePhysicsComponent>
+
+    <VelocityComponent _tags="enabled_in_world"></VelocityComponent>
+
+    <SpriteComponent _enabled="1"
+        _tags="enabled_in_world,item_identified"
+        image_file="data/ui_gfx/gun_actions/energy_shield.png"
+        offset_x="8"
+        offset_y="17"
+        z_index="-1.51">
+    </SpriteComponent>
+
+    <SpriteComponent _enabled="0"
+        _tags="enabled_in_world,item_unidentified"
+        image_file="data/ui_gfx/gun_actions/unidentified.png"
+        offset_x="8"
+        offset_y="17"
+        z_index="-1.51">
+    </SpriteComponent>
+
+    <SpriteComponent _enabled="0"
+        _tags="enabled_in_world,item_bg"
+        image_file="data/ui_gfx/inventory/item_bg_projectile.png"
+        offset_x="10"
+        offset_y="19"
+        z_index="-1.5"></SpriteComponent>
+
+    <SpriteOffsetAnimatorComponent _tags="enabled_in_world"
+        y_amount="1"
+        y_speed="2.5"
+        sprite_id="0">
+    </SpriteOffsetAnimatorComponent>
+
+    <SpriteOffsetAnimatorComponent _tags="enabled_in_world"
+        y_amount="1"
+        y_speed="2.5"
+        sprite_id="1">
+    </SpriteOffsetAnimatorComponent>
+
+    <SpriteOffsetAnimatorComponent _tags="enabled_in_world"
+        y_amount="1"
+        y_speed="2.5"
+        sprite_id="2">
+    </SpriteOffsetAnimatorComponent>
+
+    <SpriteOffsetAnimatorComponent _tags="enabled_in_world"
+        y_amount="1"
+        y_speed="2.5"
+        sprite_id="3">
+    </SpriteOffsetAnimatorComponent>
+
+    <ItemActionComponent _tags="enabled_in_world"
+        action_id="AZOTH_TEST">
+    </ItemActionComponent>
+
+    <MaterialSuckerComponent _tags="enabled_in_world,enabled_in_hand"
+        barrel_size="1000"
+        num_cells_sucked_per_frame="5"></MaterialSuckerComponent>
+
+    <MaterialInventoryComponent _tags="enabled_in_world,enabled_in_hand"
+        drop_as_item="0"
+        on_death_spill="1"
+        leak_pressure_min="0.07"
+        leak_pressure_min="0.1"
+        leak_on_damage_percent="1"
+        min_damage_to_leak="0.0"
+        death_throw_particle_velocity_coeff="0.5">
+        <count_per_material_type>
+        </count_per_material_type>
+    </MaterialInventoryComponent>
+
+    <InheritTransformComponent _tags="enabled_in_hand"
+        parent_hotspot_tag="shoot_pos">
+        <Transform position.x="0"
+            position.y="0">
+        </Transform>
+    </InheritTransformComponent>
+
+    <ParticleEmitterComponent _tags="character,enabled_in_hand,laser"
+        _enabled="1"
+        is_emitting="1"
+        emitted_material_name="spark_red_bright"
+        count_min="10"
+        count_max="20"
+        lifetime_min="0.02"
+        lifetime_max="0.05"
+        render_on_grid="1"
+        emit_cosmetic_particles="1"
+        gravity.y="0"
+        x_vel_min="-5"
+        x_vel_max="5"
+        x_pos_offset_min="0"
+        y_pos_offset_min="-1"
+        x_pos_offset_max="0"
+        y_pos_offset_max="1"
+        draw_as_long="0"
+        fade_based_on_lifetime="0"
+        is_trail="1"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1" />
+
+    <ParticleEmitterComponent _tags="character,enabled_in_hand,cone_fill"
+        _enabled="1"
+        is_emitting="1"
+        emitted_material_name="spark_red"
+        count_min="10"
+        count_max="20"
+        lifetime_min="0.02"
+        lifetime_max="0.05"
+        emit_cosmetic_particles="1"
+        gravity.y="0"
+        render_back="1"
+        fade_based_on_lifetime="0"
+        area_circle_radius.min="0"
+        area_circle_radius.max="20"
+        area_circle_sector_degrees="170"
+        emission_interval_min_frames="1"
+        emission_interval_max_frames="1" />
+
+    <LightComponent _tags="enabled_in_hand,item_identified"
+        _enabled="1"
+        radius="80"
+        fade_out_time="1.5"
+        r="150"
+        g="190"
+        b="230">
+    </LightComponent>
+
+    <AudioComponent _tags="enabled_in_hand,item_identified"
+        file="data/audio/Desktop/projectiles.bank"
+        event_root="player_projectiles/shield"
+        set_latest_event_position="1">
+    </AudioComponent>
+
+</Entity>

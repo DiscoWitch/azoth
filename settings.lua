@@ -31,6 +31,15 @@ mod_settings = {
         ui_description = "Settings for the bag of holding",
         settings = {
             {
+                id = "bag_holding.always_open",
+                ui_name = "Always open while held",
+                ui_description = "The bag GUI will be open even with the inventory closed. \n"
+                    .. "This is on by default because the inventory blocks left clicks \n"
+                    .. "when \"Allow firing of wands while inventory is open\" is turned off.",
+                value_default = true,
+                scope = MOD_SETTING_SCOPE_RUNTIME_RESTART
+            },
+            {
                 id = "bag_holding.size",
                 ui_name = "Starting Size",
                 ui_description = "Sets the starting size of the bag of holding",
@@ -41,7 +50,63 @@ mod_settings = {
             {
                 id = "bag_holding.bottomless",
                 ui_name = "Start with Bottomless upgrade",
-                ui_description = "Makes the bag bottomless at the start instead of as an upgrade.",
+                ui_description = "Makes the bag bottomless.",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "magician_deck.edit_wands",
+                ui_name = "Magician's Deck wand editing upgrade",
+                ui_description = "Allows the magician's deck to edit the spells on wands.",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            }
+        }
+    },
+    {
+        category_id = "start_items",
+        ui_name = "Starting Items",
+        ui_description = "Choose items to start with",
+        settings = {
+            {
+                id = "start_items.bag_holding",
+                ui_name = "Bag of Holding",
+                ui_description = "",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "start_items.magician_deck",
+                ui_name = "Magician's Deck",
+                ui_description = "",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "start_items.lodestone",
+                ui_name = "Lodestone",
+                ui_description = "",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "start_items.palestone",
+                ui_name = "Pale Stone",
+                ui_description = "",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "start_items.flask_vacuum",
+                ui_name = "Vacuum flask",
+                ui_description = "",
+                value_default = false,
+                scope = MOD_SETTING_SCOPE_NEW_GAME
+            },
+            {
+                id = "start_items.flask_black_hole",
+                ui_name = "Black Hole Flask",
+                ui_description = "",
                 value_default = false,
                 scope = MOD_SETTING_SCOPE_NEW_GAME
             }

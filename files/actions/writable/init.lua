@@ -3,7 +3,8 @@ dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 table.insert(actions, {
     id = "AZOTH_WRITABLE",
     name = "Variable Spell",
-    description = "Variable Spell",
+    description = "Variable Spell (used for polymorph)",
+    author = "Disco Witch",
     sprite = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {},

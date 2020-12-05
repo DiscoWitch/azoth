@@ -120,6 +120,7 @@ end
 
 UpdateStorage()
 
+local always_open = ModSettingGet("azoth.bag_holding.always_open")
 async_loop(function()
     if not gui.handle then
         wait(0)
@@ -129,7 +130,7 @@ async_loop(function()
     holder = bag_item:root()
     gui.player = holder
     local invgui = holder.InventoryGuiComponent
-    if not invgui or not invgui.mActive then
+    if not invgui or not (always_open or invgui.mActive) then
         wait(0)
         return
     end

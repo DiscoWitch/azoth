@@ -35,8 +35,7 @@
     <LuaComponent script_source_file="mods/azoth/files/items/flasks/flask_black_hole/float.lua"></LuaComponent>
     <LuaComponent _tags="enabled_in_world"
         execute_every_n_frame="-1"
-        execute_on_removed="1"
-        script_source_file="mods/azoth/files/items/flasks/flask_black_hole/flask_die.lua" />
+        script_damage_received="mods/azoth/files/items/flasks/flask_black_hole/flask_die.lua" />
 
     <PotionComponent _tags="enabled_in_hand,enabled_in_world"
         spray_velocity_coeff="800"

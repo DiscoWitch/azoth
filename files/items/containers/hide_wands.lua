@@ -3,6 +3,9 @@ dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 local self = Entity.Current()
 local inventory = self:parent()
 local items = inventory and inventory:children()
+holder = self:root()
+local invgui = holder.InventoryGuiComponent
+if not invgui or not invgui.mActive then return end
 if not items then return end
 for k, item in items:ipairs() do
     local ac = item.AbilityComponent

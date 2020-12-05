@@ -4,6 +4,7 @@ table.insert(actions, {
     id = "AZOTH_SIGHT",
     name = "laser sight",
     description = "Projects a laser sight from the tip of your wand",
+    author = "Disco Witch",
     sprite = "mods/azoth/files/actions/sight/icon.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {},

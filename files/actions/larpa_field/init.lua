@@ -2,6 +2,7 @@ table.insert(actions, {
     id = "AZOTH_LARPA_FIELD",
     name = "Larpa Lens",
     description = "Creates a field that duplicates projectiles passing through it",
+    author = "Disco Witch",
     sprite = "mods/azoth/files/actions/larpa_field/icon.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {"mods/azoth/files/actions/larpa_field/field.xml"},

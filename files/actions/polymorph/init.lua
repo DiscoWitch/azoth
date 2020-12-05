@@ -5,6 +5,7 @@ table.insert(actions, {
     id = "AZOTH_POLYSELF",
     name = "Polymorph Self",
     description = "Polymorphs you into a creature of your choice",
+    author = "Disco Witch",
     sprite = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {},

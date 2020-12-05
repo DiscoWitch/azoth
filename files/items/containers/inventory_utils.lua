@@ -19,19 +19,14 @@ function DetachStorage()
 end
 function ReattachStorage()
     local self = Entity.Current()
-    local item_storage = Entity(self.var_int.item_storage)
-    if not item_storage then
-        item_storage = self:children():search(function(ent)
-            return ent:name() == "item_storage"
-        end)
-    end
+    local item_storage = self:children():search(
+                             function(ent) return ent:name() == "item_storage" end)
+    if not item_storage then item_storage = Entity(self.var_int.item_storage) end
     if item_storage:parent() ~= self then item_storage:setParent(self) end
-    local spell_storage = Entity(self.var_int.spell_storage)
-    if not spell_storage then
-        spell_storage = self:children():search(function(ent)
-            return ent:name() == "spell_storage"
-        end)
-    end
+    local spell_storage = self:children():search(function(ent)
+        return ent:name() == "spell_storage"
+    end)
+    if not spell_storage then spell_storage = Entity(self.var_int.spell_storage) end
     if spell_storage:parent() ~= self then spell_storage:setParent(self) end
     return item_storage, spell_storage
 end

@@ -1,3 +1,4 @@
+dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 dofile_once("mods/azoth/files/lib/polytools/polytools_init.lua").init(
     "mods/azoth/files/lib/polytools/")
 
@@ -10,10 +11,27 @@ function OnModInit()
 end
 
 function OnPlayerSpawned(player_entity) -- This runs when player entity has been created
-    EntityAddComponent2(player_entity, "LuaComponent", {
+    local player = Entity(player_entity)
+    -- Only do this init once per player
+    if player.var_bool.azoth_init then return end
+    player:addComponent("LuaComponent", {
         script_source_file = "mods/azoth/files/items/held_item_components.lua",
         execute_every_n_frame = 120
     })
+    local start_items = {
+        bag_holding = "mods/azoth/files/items/containers/bag_holding/bag.xml",
+        magician_deck = "mods/azoth/files/items/containers/magician_deck/deck.xml",
+        lodestone = "mods/azoth/files/items/lodestone/lodestone.xml",
+        palestone = "mods/azoth/files/items/palestone/palestone.xml",
+        flask_vacuum = "mods/azoth/files/items/flasks/flask_vacuum/flask.xml",
+        flask_black_hole = "mods/azoth/files/items/flasks/flask_black_hole/flask.xml"
+    }
+    local x, y = EntityGetTransform(player_entity)
+    for k, v in pairs(start_items) do
+        x = x - 10
+        if ModSettingGet("azoth.start_items." .. k) then EntityLoad(v, x, y - 20) end
+    end
+    player.var_bool.azoth_init = true
 end
 
 ModMaterialsFileAdd("mods/azoth/files/materials/materials_append.xml")

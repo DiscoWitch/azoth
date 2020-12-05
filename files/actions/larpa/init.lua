@@ -4,6 +4,7 @@ table.insert(actions, {
     id = "AZOTH_LARPA",
     name = "Eternal Larpa",
     description = "Causes a spell to cast a perfect copy of itself on death",
+    author = "Disco Witch",
     sprite = "mods/azoth/files/actions/larpa/icon.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/light_bullet_unidentified.png",
     related_projectiles = {},

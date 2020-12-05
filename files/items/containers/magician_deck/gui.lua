@@ -129,7 +129,8 @@ local wslot = deck.wand_grid:InventorySlot(0, 0)
 function deck.wand_grid:update()
     if selected_wand then
         wslot.inventory = selected_wand
-        self.count = selected_wand.var_int.deck_capacity or 0
+        self.count = selected_wand.var_int.deck_capacity
+                         or selected_wand.AbilityComponent.gun_config.deck_capacity
     else
         wslot.inventory = inventory
         self.count = 16
@@ -222,6 +223,7 @@ function deck_slot:update_inventory() UpdateStorage() end
 function deck_slot:on_click()
     if selected_wand then
         local slots = selected_wand.var_int.deck_capacity
+                          or selected_wand.AbilityComponent.gun_config.deck_capacity
         for i = 1, slots do
             if not cur_wand_spells[i] then
                 local item = self.item
@@ -310,6 +312,7 @@ end
 UpdateWands()
 UpdateStorage()
 
+local always_open = ModSettingGet("azoth.bag_holding.always_open")
 async_loop(function()
     if not gui.handle then
         wait(0)
@@ -319,7 +322,7 @@ async_loop(function()
     holder = deck_item:root()
     gui.player = holder
     local invgui = holder.InventoryGuiComponent
-    if not invgui or not invgui.mActive then
+    if not invgui or not (always_open or invgui.mActive) then
         wait(0)
         return
     end

@@ -4,6 +4,7 @@ table.insert(actions, {
     id = "AZOTH_TETHERBALL",
     name = "Tetherball",
     description = "Causes your spells to tether nearby objects",
+    author = "Disco Witch",
     sprite = "mods/azoth/files/actions/tetherball/icon.png",
     sprite_unidentified = "data/ui_gfx/gun_actions/explosive_projectile_unidentified.png",
     type = ACTION_TYPE_MODIFIER,
