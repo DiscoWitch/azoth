@@ -1,7 +1,6 @@
 dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
-print("connecting leash")
 -- Create the leash between the knot and the shooter
 local x, y = self:transform()
 
@@ -13,7 +12,6 @@ local handle = Entity.GetInRadius(x, y, max_length):search(
 
 if not handle then
     -- Nothing to connect to
-    print("couldn't find handle")
     self:kill()
     return
 end

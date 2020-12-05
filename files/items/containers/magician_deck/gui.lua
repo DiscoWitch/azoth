@@ -8,13 +8,9 @@ GUIInitInventory()
 local deck_item = Entity.Current()
 local holder = deck_item:root()
 local inventory = holder:children():search(function(ent) return ent:name() == "inventory_full" end)
-local storage = deck_item:children():search(function(ent) return ent:name() == "spell_storage" end)
+local _, storage = ReattachStorage()
 local capacity = deck_item.ItemComponent.max_child_items
 local current_size = deck_item.ItemComponent.uses_remaining
-if capacity == -1 then
-    -- Bottomless deck: Capacity is infinite
-    capacity = current_size + 1
-end
 
 local spellbar = {}
 local stored_spells = nil
@@ -24,9 +20,6 @@ local cur_wand_spells = {}
 local box_width = 8
 
 local gui = dgui.Create()
-
--- Buttons to add spells from the spell bar
-local stow_icons = gui:GUIContainer(200, 50)
 
 -- The whole deck window draws inside this
 local draggable = gui:DragContainer(100, 100)
@@ -46,9 +39,15 @@ stow_all:Image(0, 0, "data/ui_gfx/inventory/quick_inventory_box.png").z = 0
 local stow_btn =
     stow_all:ImageButton(0, 0, "mods/azoth/files/items/containers/bag_holding/icon.png")
 function stow_btn:on_click()
-    for i = 1, 16 do if spellbar[i] then spellbar[i]:setParent(storage) end end
-    UpdateDeck()
-    UpdateCurrentWand()
+    if selected_wand then
+        local spells = selected_wand:children()
+        if spells then for _, v in spells:ipairs() do v:setParent(storage) end end
+        UpdateWands()
+    else
+        for i = 1, 16 do if spellbar[i] then spellbar[i]:setParent(storage) end end
+        spellbar = {}
+    end
+    UpdateStorage()
 end
 local ttbox = stow_btn:Tooltip(20, 0):AutoBox(0, 0)
 ttbox.margins = {5, 5, 5, 5}
@@ -111,7 +110,7 @@ for i = 1, 4 do
     deck.wand_buttons[i].z = -0.5
     deck.wand_buttons[i].on_click = function(self)
         selected_wand = wands[i]
-        UpdateCurrentWand()
+        UpdateWands()
     end
     deck.wand_buttons[i].update = function(self)
         if wands[i] then
@@ -136,6 +135,26 @@ function deck.wand_grid:update()
         self.count = 16
     end
 end
+function wslot:putItem(item, dry_run)
+    if not item then
+        print_error("Invalid drag item")
+        return
+    end
+    if self.inventory then
+        if dry_run then return self.item end
+        -- Remove it from the inventory for one frame to make the slot change stick
+        async(function()
+            item:setParent(nil)
+            wait(0)
+            item.ItemComponent.inventory_slot = self.slot or {x = 0, y = 0}
+            item:setParent(self.inventory)
+        end)
+        local return_item = self.item
+        self:update_inventory()
+        self:setItem(item)
+        return return_item
+    end
+end
 function wslot:init()
     local i = self.instance_index
     self.slot = {x = i - 1, y = 0}
@@ -145,25 +164,47 @@ function wslot:init()
         self:setItem(spellbar[i])
     end
 end
+function wslot:update()
+    local i = self.instance_index
+    local item = nil
+    if selected_wand then
+        item = cur_wand_spells[i]
+    else
+        item = spellbar[i]
+    end
+    if item ~= self.item then self:setItem(item) end
+end
 function wslot:on_click()
     local item = self.item
+    if not item then return end
     item:setParent(storage)
-    UpdateCurrentWand()
-    UpdateDeck()
+    if selected_wand then
+        cur_wand_spells[self.instance_index] = nil
+    else
+        spellbar[self.instance_index] = nil
+    end
+    UpdateStorage()
 end
 function wslot:on_right_click()
+    if not selected_wand then return end
+    local item = self.item
+    if not item then return end
     for i = 1, 16 do
         if not spellbar[i] then
-            local item = self.item
             item.ItemComponent.inventory_slot = {x = i - 1, y = 0}
             item:setParent(inventory)
-            UpdateCurrentWand()
+            cur_wand_spells[self.instance_index] = nil
             break
         end
     end
 end
-
-function wslot:update_inventory() UpdateCurrentWand() end
+function wslot:update_inventory()
+    if selected_wand then
+        cur_wand_spells[self.instance_index] = self.item
+    else
+        spellbar[self.instance_index] = self.item
+    end
+end
 
 -- The spells in the deck
 deck.spells = deck.root:ScrollContainer(0, 0, {-10, 20 * box_width - 10, -10, 20 * box_width - 10})
@@ -171,15 +212,14 @@ deck.spells.id = 1
 deck.spells.cull_margin = {x = -10, y = -10}
 
 deck.spell_grid = deck.spells:GridBoxInstanced(0, 0, 1, false, 20 * box_width)
-local spell = deck.spell_grid:InventorySlot(0, 0)
-spell.inventory = storage
-
-function spell:init()
+local deck_slot = deck.spell_grid:InventorySlot(0, 0)
+function deck_slot:init()
     local i = self.instance_index
+    self.inventory = storage
     if stored_spells then self:setItem(stored_spells[i]) end
 end
-function spell:update_inventory() UpdateDeck() end
-function spell:on_click()
+function deck_slot:update_inventory() UpdateStorage() end
+function deck_slot:on_click()
     if selected_wand then
         local slots = selected_wand.var_int.deck_capacity
         for i = 1, slots do
@@ -187,8 +227,12 @@ function spell:on_click()
                 local item = self.item
                 item.ItemComponent.inventory_slot = {x = i - 1, y = 0}
                 item:setParent(selected_wand)
-                UpdateDeck()
-                UpdateCurrentWand()
+                if selected_wand then
+                    cur_wand_spells[i] = item
+                else
+                    spellbar[i] = item
+                end
+                UpdateStorage()
                 break
             end
         end
@@ -198,28 +242,39 @@ function spell:on_click()
                 local item = self.item
                 item.ItemComponent.inventory_slot = {x = i - 1, y = 0}
                 item:setParent(inventory)
-                UpdateDeck()
-                UpdateCurrentWand()
+                UpdateStorage()
                 break
             end
         end
     end
 end
-function spell:on_right_click()
+function deck_slot:on_right_click()
     for i = 1, 16 do
         if not spellbar[i] then
             local item = self.item
             item.ItemComponent.inventory_slot = {x = i - 1, y = 0}
             item:setParent(inventory)
-            UpdateDeck()
-            UpdateCurrentWand()
+            UpdateStorage()
             break
         end
     end
 end
+function deck_slot:putItem(item, dry_run)
+    if not item then
+        print_error("Invalid drag item")
+        return
+    end
+    if dry_run then return nil end
+    -- Put it in the linked inventory
+    item:setParent(nil)
+    item.ItemComponent.inventory_slot = self.slot or {x = 0, y = 0}
+    item:setParent(self.inventory)
+    if self.update_inventory then self:update_inventory() end
+    return nil
+end
 
-function UpdateDeck()
-    storage = deck_item:children():search(function(ent) return ent:name() == "spell_storage" end)
+function UpdateStorage()
+    _, storage = ReattachStorage()
     capacity = deck_item.ItemComponent.max_child_items
     stored_spells = storage:children()
     if stored_spells then
@@ -237,23 +292,23 @@ function UpdateDeck()
     deck.spell_grid.update_children = true
 end
 
-function UpdateCurrentWand()
+function UpdateWands()
     cur_wand_spells = {}
+    local cur_spells = nil
     if selected_wand then
-        local wand_spells = selected_wand:children()
-        if wand_spells then
-            for _, v in wand_spells:ipairs() do
+        cur_spells = selected_wand:children()
+        if cur_spells then
+            for _, v in cur_spells:ipairs() do
                 local slot = v.ItemComponent.inventory_slot
                 cur_wand_spells[slot.x + 1] = v
             end
         end
     end
-    deck.wand_grid.update_children = true
     holder.Inventory2Component.mForceRefresh = true
 end
 
-UpdateCurrentWand()
-UpdateDeck()
+UpdateWands()
+UpdateStorage()
 
 async_loop(function()
     if not gui.handle then
@@ -287,11 +342,11 @@ async_loop(function()
         end
     end
     if deck_item.var_bool.update_wands then
-        UpdateCurrentWand()
+        UpdateWands()
         deck_item.var_bool.update_wands = false
     end
     if deck_item.var_bool.update_deck then
-        UpdateDeck()
+        UpdateStorage()
         deck_item.var_bool.update_deck = false
     end
     gui:render()

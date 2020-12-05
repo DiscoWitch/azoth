@@ -2,7 +2,8 @@ dofile_once("mods/azoth/files/lib/disco_util/disco_util.lua")
 
 local self = Entity.Current()
 local inventory = self:parent()
-local items = inventory:children()
+local items = inventory and inventory:children()
+if not items then return end
 for k, item in items:ipairs() do
     local ac = item.AbilityComponent
     if ac and ac.gun_config.deck_capacity > 0 then

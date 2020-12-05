@@ -1,6 +1,5 @@
 <Entity tags="hittable,teleportable_NOT,item_physics">
 
-    <!-- For keeping items in -->
     <Entity name="item_storage" />
     <Entity name="spell_storage" />
     <Entity name="material_storage" />
@@ -34,6 +33,14 @@
         script_source_file="mods/azoth/files/items/containers/hide_wands.lua" />
     <LuaComponent _tags="enabled_in_hand"
         script_enabled_changed="mods/azoth/files/items/containers/show_wands.lua" />
+    <LuaComponent _tags="enabled_in_hand"
+        script_enabled_changed="mods/azoth/files/items/containers/hide_contents.lua" />
+
+    <AudioComponent _tags="enabled_in_hand"
+        file="data/audio/Desktop/ui.bank"
+        event_root="ui">
+    </AudioComponent>
+
 
     <DamageModelComponent _tags="enabled_in_world"
         air_needed="0"
