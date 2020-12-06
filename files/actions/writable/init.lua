@@ -16,11 +16,8 @@ table.insert(actions, {
     max_uses = -1,
     custom_xml_file = "mods/azoth/files/actions/writable/card.xml",
     action = function()
+        if reflecting then return end
         local shooter = Entity.Current()
-        if not shooter or not shooter.Inventory2Component then
-            -- Don't do reflection stuff during the metadata scraping
-            return
-        end
         local wand = Entity(shooter.Inventory2Component.mActiveItem)
         if not wand then return end
         local cards = GetSpells(wand)

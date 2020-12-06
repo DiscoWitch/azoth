@@ -11,6 +11,11 @@
         </HitboxComponent>
     </Entity>
 
+    <CameraBoundComponent max_count="5"
+        distance="500"
+        freeze_on_distance_kill="0"
+        freeze_on_max_count_kill="0" />
+
     <Base file="data/entities/base_projectile.xml">
         <VelocityComponent gravity_y="0"
             air_friction="0"
@@ -24,12 +29,12 @@
         speed_min="1"
         speed_max="1"
         friction="0"
-        damage_every_x_frames="600"
+        damage_every_x_frames="1800"
         on_death_explode="0"
         on_death_gfx_leave_sprite="0"
         on_lifetime_out_explode="0"
         on_collision_die="0"
-        lifetime="600"
+        lifetime="-1"
         penetrate_world="1"
         penetrate_world_velocity_coeff="0"
         damage="0"

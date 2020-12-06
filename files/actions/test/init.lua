@@ -17,11 +17,8 @@ table.insert(actions, {
     ai_never_uses = true,
     max_uses = -1,
     action = function()
+        if reflecting then return end
         local shooter = Entity.Current()
-        if not shooter or not shooter.ControlsComponent then
-            -- Don't do reflection stuff during the metadata scraping
-            return
-        end
         -- local x, y, angle = shooter:transform()
         -- shooter:setTransform(x, y, angle + math.pi / 4, 1, 1)
         -- do return end
@@ -29,21 +26,41 @@ table.insert(actions, {
 
         local mpos = controls.mMousePosition
 
-        if shooter.var_str.spawndata then
-            polytools.spawn(mpos.x, mpos.y, shooter.var_str.spawndata)
-        else
-            local target = Entity.GetInRadius(mpos.x, mpos.y, 10)
-            if target then
-                polytools.polymorph(shooter, "data/entities/player.xml", -1, true, nil, true)
-                -- local effect = polytools.hide(shooter, -1)
-                -- shooter = effect:parent()
-                -- shooter:addComponent("InheritTransformComponent")
-                -- shooter:setParent(target)
+        -- print(tostring(mana))
 
-                -- shooter.var_str.spawndata = polytools.save(target)
-                -- print(polytools.getPath(target))
+        -- draw_actions(1, true)
 
-            end
-        end
+        -- local power = mana
+        -- mana = 1
+
+        BeginProjectile("mods/azoth/files/actions/test/projectile.xml")
+        BeginTriggerHitWorld()
+        local shot = create_shot(1)
+        -- apply modifiers to shot.state
+        shot.state.testvar = "testvar"
+        shot.state.extra_entities = shot.state.extra_entities
+                                        .. "mods/azoth/files/actions/test/mod.xml,"
+        draw_shot(shot, true)
+        EndTrigger()
+        EndProjectile()
+        -- c.damage_critical_chance = c.damage_critical_chance + power
+        -- c.damage_critical_multiplier = c.damage_critical_multiplier + power
+
+        -- if shooter.var_str.spawndata then
+        --     polytools.spawn(mpos.x, mpos.y, shooter.var_str.spawndata)
+        -- else
+        --     local target = Entity.GetInRadius(mpos.x, mpos.y, 10)
+        --     if target then
+        -- polytools.polymorph(shooter, "data/entities/player.xml", -1, true, nil, true)
+        -- local effect = polytools.hide(shooter, -1)
+        -- shooter = effect:parent()
+        -- shooter:addComponent("InheritTransformComponent")
+        -- shooter:setParent(target)
+
+        -- shooter.var_str.spawndata = polytools.save(target)
+        -- print(polytools.getPath(target))
+
+        -- end
+        -- end
     end
 })

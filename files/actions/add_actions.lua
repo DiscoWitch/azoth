@@ -1,13 +1,18 @@
-dofile_once("mods/azoth/files/actions/blink_cast/init.lua")
-dofile_once("mods/azoth/files/actions/sight/init.lua")
-dofile_once("mods/azoth/files/actions/tether/init.lua")
-dofile_once("mods/azoth/files/actions/leash/init.lua")
-dofile_once("mods/azoth/files/actions/turret/init.lua")
-dofile_once("mods/azoth/files/actions/writable/init.lua")
-dofile_once("mods/azoth/files/actions/larpa/init.lua")
-dofile_once("mods/azoth/files/actions/larpa_field/init.lua")
-dofile_once("mods/azoth/files/actions/necromancy/init.lua")
-dofile_once("mods/azoth/files/actions/polymorph/init.lua")
+local azoth_spells = {
+    "blink_cast",
+    "sight",
+    "tether",
+    "leash",
+    "turret",
+    "writable",
+    "larpa",
+    "larpa_field",
+    "necromancy",
+    "polymorph",
+    "mana_detonate"
+    -- "mana_empower"
+}
+for _, v in ipairs(azoth_spells) do dofile_once("mods/azoth/files/actions/" .. v .. "/init.lua") end
 
 -- Only add the test spell when debugging
 if DebugGetIsDevBuild and DebugGetIsDevBuild() then

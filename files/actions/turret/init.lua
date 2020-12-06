@@ -18,12 +18,9 @@ table.insert(actions, {
     action = function()
         add_projectile("mods/azoth/files/actions/turret/turret.xml")
         c.fire_rate_wait = c.fire_rate_wait + 60
+        if reflecting then return end
         -- Returns the entity shooting the wand
         local shooter = Entity.Current()
-        if not shooter or not shooter.Inventory2Component then
-            -- Don't do reflection stuff during the metadata scraping
-            return
-        end
         local wand = Entity(shooter.Inventory2Component.mActiveItem)
         if not wand then return end
 

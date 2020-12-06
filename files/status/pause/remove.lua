@@ -6,4 +6,3 @@ local parent = Entity(EntityGetParent(self))
 if not parent then return end
 -- Return incoming damage multiplier to normal
 parent.ControlsComponent.enabled = true
-print("removed pause")
